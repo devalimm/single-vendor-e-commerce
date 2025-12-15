@@ -12,31 +12,26 @@ import productRoutes from './routes/products.js';
 import categoryRoutes from './routes/categories.js';
 import orderRoutes from './routes/orders.js';
 
-// Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load environment variables
 dotenv.config();
 
-// Initialize Express app
 const app = express();
 
-// Connect to MongoDB
 connectDB();
 
 // Middleware
 app.use(cors({
-   origin: 'http://localhost:5173', // Vite default port
+   origin: 'http://localhost:5173',
    credentials: true
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files (uploaded images)
+// Serve static files
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Basic route for testing
 app.get('/api', (req, res) => {
    res.json({
       message: 'Asiye Özel E-commerce API',
@@ -85,5 +80,4 @@ app.listen(PORT, '0.0.0.0', () => {
    console.log(`Server running on port ${PORT}`);
    console.log(`Environment: ${process.env.NODE_ENV}`);
    console.log(`API available at http://localhost:${PORT}/api`);
-   console.log(`Static files served from /uploads`);
 });

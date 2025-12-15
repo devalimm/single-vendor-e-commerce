@@ -1,10 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import { useState } from 'react';
 import { ShoppingCart, Package, Settings, LogOut, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
    const { user, isAuthenticated, isAdmin, logout } = useAuth();
+   const { cart } = useCart();
    const navigate = useNavigate();
    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -36,14 +38,9 @@ const Navbar = () => {
                   <Link to="/products" className="nav-link">Ürünler</Link>
 
                   {isAuthenticated && (
-                     <>
-                        <Link to="/cart" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                           <ShoppingCart size={18} /> Sepet
-                        </Link>
-                        <Link to="/orders" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                           <Package size={18} /> Siparişlerim
-                        </Link>
-                     </>
+                     <Link to="/orders" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <Package size={18} /> Siparişlerim
+                     </Link>
                   )}
 
                   {isAdmin() && (
@@ -53,8 +50,33 @@ const Navbar = () => {
                   )}
                </div>
 
-               {/* Auth Buttons */}
-               <div className="navbar-auth desktop-only">
+               {/* Auth Buttons & Cart */}
+               <div className="navbar-auth desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  {/* Cart Icon */}
+                  <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                     <ShoppingCart size={24} style={{ color: 'var(--color-text-primary)' }} />
+                     {cart.totalItems > 0 && (
+                        <span style={{
+                           position: 'absolute',
+                           top: '-8px',
+                           right: '-8px',
+                           background: 'var(--color-primary)',
+                           color: 'white',
+                           borderRadius: '50%',
+                           width: '20px',
+                           height: '20px',
+                           display: 'flex',
+                           alignItems: 'center',
+                           justifyContent: 'center',
+                           fontSize: '0.75rem',
+                           fontWeight: 'var(--font-weight-bold)'
+                        }}>
+                           {cart.totalItems}
+                        </span>
+                     )}
+                  </Link>
+
+                  {/* Auth Buttons */}
                   {isAuthenticated ? (
                      <div className="user-menu">
                         <span className="user-name">Merhaba, {user?.name}</span>

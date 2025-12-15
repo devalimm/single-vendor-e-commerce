@@ -3,11 +3,13 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../utils/api';
 import { ShoppingCart, Home, ChevronRight } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
+import { useCart } from '../context/CartContext';
 
 const ProductDetail = () => {
    const { id } = useParams();
    const navigate = useNavigate();
    const { showToast } = useToast();
+   const { addToCart } = useCart();
 
    const [product, setProduct] = useState(null);
    const [loading, setLoading] = useState(true);
@@ -87,7 +89,14 @@ const ProductDetail = () => {
          return;
       }
 
-      // TODO: Add to cart (will implement with CartContext)
+      // Add to cart
+      addToCart(product, {
+         selectedSize,
+         selectedLength,
+         selectedOptions,
+         quantity
+      });
+
       showToast('Ürün sepete eklendi!', 'success');
    };
 

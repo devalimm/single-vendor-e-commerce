@@ -130,7 +130,8 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family-primary);
+  /* Changed from heading to primary (Inter) */
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);
@@ -1407,13 +1408,20 @@ button {
 
 .variant-btn:hover:not(.disabled) {
   border-color: var(--color-primary);
-  background: var(--color-primary-light);
+  background: hsl(340, 82%, 97%);
+  /* Açık, şeffaf pembe - yeşil fiyat badge ile uyumlu */
 }
 
 .variant-btn.active {
   border-color: var(--color-primary);
   background: var(--color-primary);
   color: white;
+}
+
+.variant-btn.active:hover {
+  background: var(--color-primary-dark);
+  /* Daha koyu pembe - seçili buton hover */
+  border-color: var(--color-primary-dark);
 }
 
 .variant-btn.disabled {
