@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
@@ -6,11 +6,16 @@ import { ShoppingCart, Package, Settings, LogOut, Menu, X } from 'lucide-react';
 
 const Navbar = () => {
    const { user, isAuthenticated, isAdmin, logout } = useAuth();
-   const { cart } = useCart();
+   const { cart, clearCart } = useCart();
    const navigate = useNavigate();
+   const location = useLocation();
    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+   // Hide cart on auth pages
+   const isAuthPage = ['/login', '/register', '/forgot-password', '/reset-password'].includes(location.pathname);
+
    const handleLogout = () => {
+      clearCart(); // Clear cart before logout
       logout();
       navigate('/');
       setMobileMenuOpen(false);
@@ -51,49 +56,53 @@ const Navbar = () => {
                </div>
 
                {/* Auth Buttons & Cart */}
-               <div className="navbar-auth desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  {/* Cart Icon */}
-                  <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                     <ShoppingCart size={24} style={{ color: 'var(--color-text-primary)' }} />
-                     {cart.totalItems > 0 && (
-                        <span style={{
-                           position: 'absolute',
-                           top: '-8px',
-                           right: '-8px',
-                           background: 'var(--color-primary)',
-                           color: 'white',
-                           borderRadius: '50%',
-                           width: '20px',
-                           height: '20px',
-                           display: 'flex',
-                           alignItems: 'center',
-                           justifyContent: 'center',
-                           fontSize: '0.75rem',
-                           fontWeight: 'var(--font-weight-bold)'
-                        }}>
-                           {cart.totalItems}
-                        </span>
-                     )}
-                  </Link>
-
-                  {/* Auth Buttons */}
-                  {isAuthenticated ? (
-                     <div className="user-menu">
-                        <span className="user-name">Merhaba, {user?.name}</span>
-                        <button onClick={handleLogout} className="btn btn-outline btn-sm">
-                           Çıkış
-                        </button>
-                     </div>
-                  ) : (
-                     <div style={{ display: 'flex', gap: '0.5rem' }}>
-                        <Link to="/login" className="btn btn-outline btn-sm">
-                           Giriş
-                        </Link>
-                        <Link to="/register" className="btn btn-primary btn-sm">
-                           Kayıt Ol
-                        </Link>
-                     </div>
+               <div className="navbar-auth" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  {/* Cart Icon - Hidden on auth pages */}
+                  {!isAuthPage && (
+                     <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                        <ShoppingCart size={24} style={{ color: 'var(--color-text-primary)' }} />
+                        {cart.totalItems > 0 && (
+                           <span style={{
+                              position: 'absolute',
+                              top: '-8px',
+                              right: '-8px',
+                              background: 'var(--color-primary)',
+                              color: 'white',
+                              borderRadius: '50%',
+                              width: '20px',
+                              height: '20px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              fontSize: '0.75rem',
+                              fontWeight: 'var(--font-weight-bold)'
+                           }}>
+                              {cart.totalItems}
+                           </span>
+                        )}
+                     </Link>
                   )}
+
+                  {/* Auth Buttons - Desktop only */}
+                  <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                     {isAuthenticated ? (
+                        <div className="user-menu">
+                           <span className="user-name">Merhaba, {user?.name}</span>
+                           <button onClick={handleLogout} className="btn btn-outline btn-sm">
+                              Çıkış
+                           </button>
+                        </div>
+                     ) : (
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                           <Link to="/login" className="btn btn-outline btn-sm">
+                              Giriş
+                           </Link>
+                           <Link to="/register" className="btn btn-primary btn-sm">
+                              Kayıt Ol
+                           </Link>
+                        </div>
+                     )}
+                  </div>
                </div>
 
                {/* Mobile Menu Button */}

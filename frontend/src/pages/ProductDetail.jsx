@@ -4,12 +4,14 @@ import api from '../utils/api';
 import { ShoppingCart, Home, ChevronRight } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 
 const ProductDetail = () => {
    const { id } = useParams();
    const navigate = useNavigate();
    const { showToast } = useToast();
    const { addToCart } = useCart();
+   const { isAuthenticated } = useAuth();
 
    const [product, setProduct] = useState(null);
    const [loading, setLoading] = useState(true);
@@ -78,6 +80,13 @@ const ProductDetail = () => {
    };
 
    const handleAddToCart = () => {
+      // Check authentication
+      if (!isAuthenticated) {
+         showToast('Sepete ürün eklemek için giriş yapmalısınız.', 'error');
+         navigate('/login');
+         return;
+      }
+
       // Validation
       if (product.sizes?.length > 0 && !selectedSize) {
          showToast('Lütfen bir beden seçin.', 'error');

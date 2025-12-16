@@ -40,7 +40,7 @@ const Cart = () => {
       <div className="container" style={{ padding: '2rem 0' }}>
          <h1 style={{ marginBottom: '2rem' }}>Sepetim</h1>
 
-         <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem', alignItems: 'start' }}>
+         <div className="cart-layout">
             {/* Cart Items */}
             <div>
                {cart.items.map((item, index) => {
