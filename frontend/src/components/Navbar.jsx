@@ -58,37 +58,38 @@ const Navbar = () => {
                {/* Auth Buttons & Cart */}
                <div className="navbar-auth" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   {/* Cart Icon - Hidden on auth pages */}
-                  {!isAuthPage && (
-                     <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-                        <ShoppingCart size={24} style={{ color: 'var(--color-text-primary)' }} />
-                        {cart.totalItems > 0 && (
-                           <span style={{
-                              position: 'absolute',
-                              top: '-8px',
-                              right: '-8px',
-                              background: 'var(--color-primary)',
-                              color: 'white',
-                              borderRadius: '50%',
-                              width: '20px',
-                              height: '20px',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              fontSize: '0.75rem',
-                              fontWeight: 'var(--font-weight-bold)'
-                           }}>
-                              {cart.totalItems}
-                           </span>
-                        )}
-                     </Link>
-                  )}
-                  <button
-                     className="mobile-menu-btn mobile-only"
-                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  >
-                     {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                  </button>
-
+                  <div className="navbar-actions">
+                     {!isAuthPage && (
+                        <Link to="/cart" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                           <ShoppingCart size={26} style={{ color: 'var(--color-text-primary)' }} />
+                           {cart.totalItems > 0 && (
+                              <span style={{
+                                 position: 'absolute',
+                                 top: '-7px',
+                                 right: '-8px',
+                                 background: 'var(--color-primary)',
+                                 color: 'white',
+                                 borderRadius: '50%',
+                                 width: '20px',
+                                 height: '20px',
+                                 display: 'flex',
+                                 alignItems: 'center',
+                                 justifyContent: 'center',
+                                 fontSize: '0.75rem',
+                                 fontWeight: 'var(--font-weight-bold)'
+                              }}>
+                                 {cart.totalItems}
+                              </span>
+                           )}
+                        </Link>
+                     )}
+                     <button
+                        className="mobile-menu-btn mobile-only"
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                     >
+                        {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                     </button>
+                  </div>
                   {/* Auth Buttons - Desktop only */}
                   <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                      {isAuthenticated ? (
