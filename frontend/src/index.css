@@ -452,6 +452,12 @@ button {
   align-items: center;
 }
 
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
 .user-menu {
   display: flex;
   gap: var(--spacing-md);

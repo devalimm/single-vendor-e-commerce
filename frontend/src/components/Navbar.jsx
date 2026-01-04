@@ -82,6 +82,12 @@ const Navbar = () => {
                         )}
                      </Link>
                   )}
+                  <button
+                     className="mobile-menu-btn mobile-only"
+                     onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  >
+                     {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                  </button>
 
                   {/* Auth Buttons - Desktop only */}
                   <div className="desktop-only" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
@@ -105,13 +111,7 @@ const Navbar = () => {
                   </div>
                </div>
 
-               {/* Mobile Menu Button */}
-               <button
-                  className="mobile-menu-btn mobile-only"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-               >
-                  {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-               </button>
+
             </div>
 
             {/* Mobile Menu */}
