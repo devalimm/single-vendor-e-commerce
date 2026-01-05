@@ -3,6 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { CartProvider } from './context/CartContext';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminRoute from './components/AdminRoute';
 
@@ -17,6 +18,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
 import MesafeliSatisSozlesmesi from './pages/MesafeliSatisSozlesmesi';
+import KVKK from './pages/KVKK';
 
 // Admin Pages
 import AdminLayout from './pages/admin/AdminLayout';
@@ -49,6 +51,7 @@ function App() {
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/order-success" element={<OrderSuccess />} />
                   <Route path="/mesafeli-satis-sozlesmesi" element={<MesafeliSatisSozlesmesi />} />
+                  <Route path="/kvkk" element={<KVKK />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
@@ -69,6 +72,7 @@ function App() {
                   } />
                 </Routes>
               </main>
+              <Footer />
             </div>
           </Router>
         </CartProvider>
@@ -78,5 +82,3 @@ function App() {
 }
 
 export default App;
-
-
