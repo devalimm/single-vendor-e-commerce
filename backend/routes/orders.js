@@ -6,15 +6,18 @@ import {
    getOrder,
    getAllOrders,
    updateOrderStatus,
-   updatePaymentStatus
+   updatePaymentStatus,
+   trackOrders
 } from '../controllers/orderController.js';
 import { protect } from '../middleware/auth.js';
 import { adminOnly } from '../middleware/admin.js';
 
 const router = express.Router();
 
-// Public route (guest checkout)
+// Public routes
 router.post('/guest', createGuestOrder);
+router.get('/track', trackOrders);
+router.get('/all', getAllOrders); // Public: list all orders
 
 // Admin routes - MUST come before /:id to prevent "admin" being matched as an ID
 router.get('/admin/all', protect, adminOnly, getAllOrders);

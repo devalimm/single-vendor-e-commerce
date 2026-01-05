@@ -478,3 +478,44 @@ export const updatePaymentStatus = async (req, res) => {
       });
    }
 };
+
+// @desc    Track orders by email or orderId (public)
+// @route   GET /api/orders/track
+// @access  Public
+export const trackOrders = async (req, res) => {
+   try {
+      const { email, orderId } = req.query;
+
+      if (!email && !orderId) {
+         return res.status(400).json({
+            success: false,
+            message: 'E-posta veya sipariş numarası gereklidir.'
+         });
+      }
+
+      let query = {};
+
+      if (orderId) {
+         // Search by order ID
+         query._id = orderId;
+      } else if (email) {
+         // Search by email in shippingAddress
+         query['shippingAddress.email'] = email.toLowerCase();
+      }
+
+      const orders = await Order.find(query)
+         .populate('items.product', 'name images')
+         .sort({ createdAt: -1 });
+
+      res.json({
+         success: true,
+         data: orders
+      });
+   } catch (error) {
+      console.error('Track orders error:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Siparişler sorgulanırken hata oluştu.'
+      });
+   }
+};

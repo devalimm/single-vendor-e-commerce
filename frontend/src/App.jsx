@@ -18,6 +18,7 @@ import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
+import Orders from './pages/Orders';
 import MesafeliSatisSozlesmesi from './pages/MesafeliSatisSozlesmesi';
 import KVKK from './pages/KVKK';
 
@@ -52,6 +53,7 @@ function App() {
                   <Route path="/cart" element={<Cart />} />
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/order-success" element={<OrderSuccess />} />
+                  <Route path="/orders" element={<Orders />} />
                   <Route path="/mesafeli-satis-sozlesmesi" element={<MesafeliSatisSozlesmesi />} />
                   <Route path="/kvkk" element={<KVKK />} />
 

@@ -46,6 +46,16 @@ const Footer = () => {
                         </Link>
                      </li>
                      <li style={{ marginBottom: '0.5rem' }}>
+                        <Link to="/products" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.9rem' }}>
+                           Ürünler
+                        </Link>
+                     </li>
+                     <li style={{ marginBottom: '0.5rem' }}>
+                        <Link to="/orders" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.9rem' }}>
+                           Sipariş Takibi
+                        </Link>
+                     </li>
+                     <li style={{ marginBottom: '0.5rem' }}>
                         <Link to="/cart" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.9rem' }}>
                            Sepetim
                         </Link>
