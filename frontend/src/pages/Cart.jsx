@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 import { useCart } from '../context/CartContext';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 
@@ -20,6 +21,31 @@ const Cart = () => {
 
       return price;
    };
+
+   // Calculate VAT breakdown
+   const { subtotal, totalVat, grandTotal } = useMemo(() => {
+      let subtotal = 0;
+      let totalVat = 0;
+
+      cart.items.forEach(item => {
+         const itemPrice = calculateItemPrice(item);
+         const itemTotal = itemPrice * item.quantity;
+         const vatRate = item.vatRate || 20;
+
+         // subtotal is price before VAT
+         const priceWithoutVat = itemTotal / (1 + vatRate / 100);
+         const vatAmount = itemTotal - priceWithoutVat;
+
+         subtotal += priceWithoutVat;
+         totalVat += vatAmount;
+      });
+
+      return {
+         subtotal,
+         totalVat,
+         grandTotal: subtotal + totalVat
+      };
+   }, [cart.items]);
 
    if (cart.items.length === 0) {
       return (
@@ -131,15 +157,19 @@ const Cart = () => {
                      <span>Ürün Sayısı:</span>
                      <strong>{cart.totalItems} adet</strong>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                      <span>Ara Toplam:</span>
-                     <strong>{cart.totalPrice.toFixed(2)} ₺</strong>
+                     <span>{subtotal.toFixed(2)} ₺</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-text-secondary)' }}>
+                     <span>KDV:</span>
+                     <span>{totalVat.toFixed(2)} ₺</span>
                   </div>
                </div>
 
                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 'var(--font-weight-bold)', marginBottom: '1.5rem' }}>
                   <span>Toplam:</span>
-                  <span style={{ color: 'var(--color-primary)' }}>{cart.totalPrice.toFixed(2)} ₺</span>
+                  <span style={{ color: 'var(--color-primary)' }}>{grandTotal.toFixed(2)} ₺</span>
                </div>
 
                <Link to="/checkout" className="btn btn-primary btn-block" style={{ marginBottom: '0.75rem' }}>
@@ -155,3 +185,4 @@ const Cart = () => {
 };
 
 export default Cart;
+

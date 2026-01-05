@@ -15,6 +15,12 @@ const productSchema = new mongoose.Schema({
       required: [true, 'Fiyat gereklidir'],
       min: [0, 'Fiyat negatif olamaz']
    },
+   vatRate: {
+      type: Number,
+      default: 20, // Default 20% KDV for Turkey
+      min: [0, 'KDV oranı negatif olamaz'],
+      max: [100, 'KDV oranı 100\'den büyük olamaz']
+   },
    images: [{
       type: String // Array of image paths
    }],

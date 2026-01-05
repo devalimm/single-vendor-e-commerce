@@ -175,6 +175,33 @@ const Checkout = () => {
       }
    };
 
+   // Calculate VAT breakdown
+   const { subtotal, totalVat, grandTotal } = useMemo(() => {
+      let subtotal = 0;
+      let totalVat = 0;
+
+      cart.items.forEach(item => {
+         const itemPrice = calculateItemPrice(item);
+         const itemTotal = itemPrice * item.quantity;
+         const vatRate = item.vatRate || 20;
+
+         const priceWithoutVat = itemTotal / (1 + vatRate / 100);
+         const vatAmount = itemTotal - priceWithoutVat;
+
+         subtotal += priceWithoutVat;
+         totalVat += vatAmount;
+      });
+
+      return {
+         subtotal,
+         totalVat,
+         grandTotal: subtotal + totalVat
+      };
+   }, [cart.items]);
+
+   const shippingCost = grandTotal > 500 ? 0 : 30;
+   const finalTotal = grandTotal + shippingCost;
+
    // Redirect if cart is empty
    if (cart.items.length === 0) {
       return (
@@ -514,12 +541,16 @@ const Checkout = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                      <span>Ara Toplam:</span>
-                     <strong>{cart.totalPrice.toFixed(2)} ₺</strong>
+                     <span>{subtotal.toFixed(2)} ₺</span>
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-text-secondary)' }}>
+                     <span>KDV:</span>
+                     <span>{totalVat.toFixed(2)} ₺</span>
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                      <span>Kargo:</span>
-                     <strong style={{ color: cart.totalPrice > 500 ? 'var(--color-success)' : 'inherit' }}>
-                        {cart.totalPrice > 500 ? 'Ücretsiz' : '30.00 ₺'}
+                     <strong style={{ color: shippingCost === 0 ? 'var(--color-success)' : 'inherit' }}>
+                        {shippingCost === 0 ? 'Ücretsiz' : '30.00 ₺'}
                      </strong>
                   </div>
                </div>
@@ -527,11 +558,11 @@ const Checkout = () => {
                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 'var(--font-weight-bold)' }}>
                   <span>Toplam:</span>
                   <span style={{ color: 'var(--color-primary)' }}>
-                     {(cart.totalPrice + (cart.totalPrice > 500 ? 0 : 30)).toFixed(2)} ₺
+                     {finalTotal.toFixed(2)} ₺
                   </span>
                </div>
 
-               {cart.totalPrice <= 500 && (
+               {grandTotal <= 500 && (
                   <div style={{
                      marginTop: '1rem',
                      padding: '0.75rem',

@@ -17,6 +17,7 @@ const AdminProductForm = () => {
       name: '',
       description: '',
       basePrice: '',
+      vatRate: 20,
       category: '',
       sku: '',
       sizes: [],
@@ -56,6 +57,7 @@ const AdminProductForm = () => {
             name: product.name,
             description: product.description,
             basePrice: product.basePrice,
+            vatRate: product.vatRate || 20,
             category: product.category._id,
             sizes: product.sizes.length > 0 ? product.sizes : [{ name: 'S', stock: 0 }],
             lengths: product.lengths.length > 0 ? product.lengths : [{ name: '125cm', priceAdjustment: 0 }],
@@ -86,6 +88,7 @@ const AdminProductForm = () => {
          const productData = {
             ...formData,
             basePrice: parseFloat(formData.basePrice) || 0,
+            vatRate: parseFloat(formData.vatRate) || 20,
             sizes: formData.sizes.map(s => ({
                name: s.name,
                stock: parseInt(s.stock) || 0
@@ -296,6 +299,20 @@ const AdminProductForm = () => {
                         min="0"
                         placeholder="0"
                      />
+                  </div>
+
+                  <div className="form-group">
+                     <label>KDV Oranı (%)</label>
+                     <input
+                        type="number"
+                        className="form-input"
+                        value={formData.vatRate}
+                        onChange={(e) => setFormData({ ...formData, vatRate: e.target.value })}
+                        min="0"
+                        max="100"
+                        placeholder="20"
+                     />
+                     <small className="text-muted">Varsayılan: %20 KDV</small>
                   </div>
 
                   <div className="form-group">

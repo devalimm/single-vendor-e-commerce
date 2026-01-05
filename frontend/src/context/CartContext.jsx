@@ -79,6 +79,7 @@ export const CartProvider = ({ children }) => {
                name: product.name,
                image: product.images?.[0] || null,
                basePrice: product.basePrice,
+               vatRate: product.vatRate || 20,
                selectedSize,
                selectedLength,
                selectedOptions: selectedOptions || [],
