@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../../context/ToastContext';
-import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw } from 'lucide-react';
+import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw, Search } from 'lucide-react';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -26,18 +26,34 @@ const AdminOrders = () => {
    const [loading, setLoading] = useState(true);
    const [expandedOrder, setExpandedOrder] = useState(null);
    const [filter, setFilter] = useState('all');
+   const [searchQuery, setSearchQuery] = useState('');
    const [updatingOrder, setUpdatingOrder] = useState(null);
+
+   // Filter orders based on search query
+   const filteredOrders = useMemo(() => {
+      if (!searchQuery.trim()) return orders;
+
+      const query = searchQuery.toLowerCase().trim();
+      return orders.filter(order => {
+         const fullName = order.shippingAddress?.fullName?.toLowerCase() || '';
+         const email = order.shippingAddress?.email?.toLowerCase() || '';
+         const phone = order.shippingAddress?.phone?.toLowerCase() || '';
+         const orderId = order._id.toLowerCase();
+
+         return fullName.includes(query) ||
+            email.includes(query) ||
+            phone.includes(query) ||
+            orderId.includes(query);
+      });
+   }, [orders, searchQuery]);
 
    const fetchOrders = async () => {
       try {
          const token = localStorage.getItem('token');
-         console.log('Fetching orders, token exists:', !!token);
 
          const url = filter === 'all'
             ? `${API_URL}/orders/admin/all`
             : `${API_URL}/orders/admin/all?status=${filter}`;
-
-         console.log('Fetching from:', url);
 
          const response = await fetch(url, {
             headers: {
@@ -47,7 +63,6 @@ const AdminOrders = () => {
 
          console.log('Response status:', response.status);
          const data = await response.json();
-         console.log('Response data:', data);
 
          if (data.success) {
             setOrders(data.data);
@@ -129,34 +144,64 @@ const AdminOrders = () => {
          </div>
 
          {/* Filters */}
-         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-            <button
-               onClick={() => setFilter('all')}
-               className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-secondary'}`}
-               style={{ fontSize: '0.875rem' }}
-            >
-               Tümü
-            </button>
-            {Object.entries(statusConfig).map(([key, config]) => (
+         <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* Search Input */}
+            <div style={{ position: 'relative', flex: '1', minWidth: '200px', maxWidth: '350px' }}>
+               <Search size={18} style={{
+                  position: 'absolute',
+                  left: '0.75rem',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: 'var(--color-text-muted)'
+               }} />
+               <input
+                  type="text"
+                  placeholder="Müşteri adı, e-posta, telefon veya sipariş no ara..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{
+                     width: '100%',
+                     padding: '0.625rem 0.75rem 0.625rem 2.5rem',
+                     border: '1px solid var(--color-border)',
+                     borderRadius: 'var(--radius-md)',
+                     fontSize: '0.875rem',
+                     background: 'var(--color-bg-primary)',
+                     color: 'var(--color-text-primary)'
+                  }}
+               />
+            </div>
+
+            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                <button
-                  key={key}
-                  onClick={() => setFilter(key)}
-                  className={`btn ${filter === key ? 'btn-primary' : 'btn-secondary'}`}
+                  onClick={() => setFilter('all')}
+                  className={`btn ${filter === 'all' ? 'btn-primary' : 'btn-secondary'}`}
                   style={{ fontSize: '0.875rem' }}
                >
-                  {config.label}
+                  Tümü
                </button>
-            ))}
+               {Object.entries(statusConfig).map(([key, config]) => (
+                  <button
+                     key={key}
+                     onClick={() => setFilter(key)}
+                     className={`btn ${filter === key ? 'btn-primary' : 'btn-secondary'}`}
+                     style={{ fontSize: '0.875rem' }}
+                  >
+                     {config.label}
+                  </button>
+               ))}
+            </div>
          </div>
 
-         {orders.length === 0 ? (
+         {filteredOrders.length === 0 ? (
             <div className="card" style={{ textAlign: 'center', padding: '3rem' }}>
                <Package size={48} style={{ color: 'var(--color-text-muted)', marginBottom: '1rem' }} />
-               <p style={{ color: 'var(--color-text-secondary)' }}>Henüz sipariş bulunmuyor</p>
+               <p style={{ color: 'var(--color-text-secondary)' }}>
+                  {searchQuery ? 'Arama sonucu bulunamadı' : 'Henüz sipariş bulunmuyor'}
+               </p>
             </div>
          ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-               {orders.map(order => {
+               {filteredOrders.map(order => {
                   const isExpanded = expandedOrder === order._id;
                   const StatusIcon = statusConfig[order.status]?.icon || Clock;
 
