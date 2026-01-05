@@ -1,6 +1,153 @@
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 
+// @desc    Create guest order (no login required)
+// @route   POST /api/orders/guest
+// @access  Public
+export const createGuestOrder = async (req, res) => {
+   try {
+      const {
+         items,
+         shippingAddress,
+         paymentMethod,
+         customerNote
+      } = req.body;
+
+      if (!items || items.length === 0) {
+         return res.status(400).json({
+            success: false,
+            message: 'Sipariş boş olamaz.'
+         });
+      }
+
+      if (!shippingAddress) {
+         return res.status(400).json({
+            success: false,
+            message: 'Teslimat bilgileri gereklidir.'
+         });
+      }
+
+      // Validate required shipping fields
+      const requiredFields = ['fullName', 'tcKimlik', 'email', 'phone', 'city', 'district', 'neighborhood', 'address'];
+      for (const field of requiredFields) {
+         if (!shippingAddress[field]) {
+            return res.status(400).json({
+               success: false,
+               message: `${field} alanı gereklidir.`
+            });
+         }
+      }
+
+      // Validate TC Kimlik (11 digits)
+      if (!/^\d{11}$/.test(shippingAddress.tcKimlik)) {
+         return res.status(400).json({
+            success: false,
+            message: 'TC Kimlik numarası 11 haneli olmalıdır.'
+         });
+      }
+
+      // Validate email
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(shippingAddress.email)) {
+         return res.status(400).json({
+            success: false,
+            message: 'Geçerli bir e-posta adresi giriniz.'
+         });
+      }
+
+      // Calculate totals and validate products
+      let subtotal = 0;
+      const orderItems = [];
+
+      for (const item of items) {
+         const product = await Product.findById(item.product);
+
+         if (!product) {
+            return res.status(404).json({
+               success: false,
+               message: `Ürün bulunamadı: ${item.product}`
+            });
+         }
+
+         if (!product.isActive) {
+            return res.status(400).json({
+               success: false,
+               message: `Ürün aktif değil: ${product.name}`
+            });
+         }
+
+         // Calculate item total
+         let itemTotal = product.basePrice;
+         let lengthAdjustment = 0;
+         let optionsTotal = 0;
+
+         // Add length adjustment
+         if (item.length) {
+            const lengthOption = product.lengths.find(l => l.name === item.length);
+            if (lengthOption) {
+               lengthAdjustment = lengthOption.priceAdjustment;
+               itemTotal += lengthAdjustment;
+            }
+         }
+
+         // Add options
+         if (item.selectedOptions && item.selectedOptions.length > 0) {
+            item.selectedOptions.forEach(selectedOpt => {
+               const productOption = product.options.find(o => o.name === selectedOpt.name);
+               if (productOption) {
+                  optionsTotal += productOption.price;
+                  itemTotal += productOption.price;
+               }
+            });
+         }
+
+         itemTotal *= item.quantity;
+         subtotal += itemTotal;
+
+         orderItems.push({
+            product: product._id,
+            productName: product.name,
+            productImage: product.images[0] || '',
+            quantity: item.quantity,
+            size: item.size,
+            length: item.length,
+            selectedOptions: item.selectedOptions || [],
+            basePrice: product.basePrice,
+            lengthAdjustment,
+            optionsTotal,
+            itemTotal
+         });
+      }
+
+      // Calculate shipping (free over 500 TL)
+      const shippingCost = subtotal > 500 ? 0 : 30;
+      const tax = 0;
+      const total = subtotal + shippingCost + tax;
+
+      const order = await Order.create({
+         items: orderItems,
+         shippingAddress,
+         subtotal,
+         shippingCost,
+         tax,
+         total,
+         paymentMethod: paymentMethod || 'cash_on_delivery',
+         customerNote
+      });
+
+      res.status(201).json({
+         success: true,
+         data: order
+      });
+   } catch (error) {
+      console.error('Create guest order error:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Sipariş oluşturulurken hata oluştu.',
+         error: error.message
+      });
+   }
+};
+
 // @desc    Create new order
 // @route   POST /api/orders
 // @access  Private

@@ -1,22 +1,22 @@
 import multer from 'multer';
+import sharp from 'sharp';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Configure storage
-const storage = multer.diskStorage({
-   destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, '../uploads/products'));
-   },
-   filename: function (req, file, cb) {
-      // Generate unique filename
-      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-      cb(null, 'product-' + uniqueSuffix + path.extname(file.originalname));
-   }
-});
+const uploadsDir = path.join(__dirname, '../uploads/products');
+
+// Ensure uploads directory exists
+if (!fs.existsSync(uploadsDir)) {
+   fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Use memory storage - we'll process with Sharp before saving
+const storage = multer.memoryStorage();
 
 // File filter - only images
 const fileFilter = (req, file, cb) => {
@@ -36,9 +36,51 @@ export const upload = multer({
    storage: storage,
    fileFilter: fileFilter,
    limits: {
-      fileSize: 5 * 1024 * 1024 // 5MB max file size
+      fileSize: 10 * 1024 * 1024 // 10MB max (before optimization)
    }
 });
+
+// Process and optimize images with Sharp
+export const processImages = async (req, res, next) => {
+   try {
+      if (!req.files || req.files.length === 0) {
+         return next();
+      }
+
+      const processedFiles = [];
+
+      for (const file of req.files) {
+         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+         const filename = `product-${uniqueSuffix}.webp`;
+         const filepath = path.join(uploadsDir, filename);
+
+         // Process image with Sharp
+         await sharp(file.buffer)
+            .resize(1920, 1920, {
+               fit: 'inside',
+               withoutEnlargement: true
+            })
+            .webp({ quality: 80 })
+            .toFile(filepath);
+
+         processedFiles.push({
+            filename: filename,
+            path: `/uploads/products/${filename}`,
+            mimetype: 'image/webp'
+         });
+      }
+
+      // Replace req.files with processed file info
+      req.processedFiles = processedFiles;
+      next();
+   } catch (error) {
+      console.error('Image processing error:', error);
+      return res.status(500).json({
+         success: false,
+         message: 'Görsel işlenirken hata oluştu.'
+      });
+   }
+};
 
 // Error handling middleware for multer
 export const handleUploadError = (err, req, res, next) => {
@@ -46,7 +88,7 @@ export const handleUploadError = (err, req, res, next) => {
       if (err.code === 'LIMIT_FILE_SIZE') {
          return res.status(400).json({
             success: false,
-            message: 'Dosya boyutu çok büyük. Maksimum 5MB olmalıdır.'
+            message: 'Dosya boyutu çok büyük. Maksimum 10MB olmalıdır.'
          });
       }
       return res.status(400).json({

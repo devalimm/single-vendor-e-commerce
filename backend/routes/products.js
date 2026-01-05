@@ -13,7 +13,7 @@ import {
 } from '../controllers/productController.js';
 import { protect } from '../middleware/auth.js';
 import { adminOnly } from '../middleware/admin.js';
-import { upload, handleUploadError } from '../middleware/upload.js';
+import { upload, handleUploadError, processImages } from '../middleware/upload.js';
 
 const router = express.Router();
 
@@ -36,6 +36,7 @@ router.post(
    adminOnly,
    upload.array('images', 10), // Max 10 images
    handleUploadError,
+   processImages,
    uploadImages
 );
 

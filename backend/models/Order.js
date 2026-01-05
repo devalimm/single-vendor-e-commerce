@@ -4,7 +4,7 @@ const orderSchema = new mongoose.Schema({
    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: true
+      required: false // Optional for guest checkout
    },
 
    items: [{
@@ -49,9 +49,17 @@ const orderSchema = new mongoose.Schema({
       }
    }],
 
-   // Shipping information
+   // Customer & Shipping information (Turkey)
    shippingAddress: {
-      name: {
+      fullName: {
+         type: String,
+         required: true
+      },
+      tcKimlik: {
+         type: String,
+         required: true
+      },
+      email: {
          type: String,
          required: true
       },
@@ -59,22 +67,21 @@ const orderSchema = new mongoose.Schema({
          type: String,
          required: true
       },
-      street: {
-         type: String,
-         required: true
-      },
       city: {
          type: String,
          required: true
       },
-      state: String,
-      zipCode: {
+      district: {
          type: String,
          required: true
       },
-      country: {
+      neighborhood: {
          type: String,
-         default: 'Türkiye'
+         required: true
+      },
+      address: {
+         type: String,
+         required: true
       }
    },
 

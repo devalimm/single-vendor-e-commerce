@@ -1,0 +1,221 @@
+{
+  "provinces": [
+    {
+      "name": "Adana",
+      "districts": [
+        {
+          "name": "Seyhan",
+          "neighborhoods": ["Reşatbey", "Çınarlı", "Gürselpaşa", "Yeşilyurt", "Döşeme"]
+        },
+        {
+          "name": "Çukurova",
+          "neighborhoods": ["Beyazevler", "Güzelyalı", "Mahfesığmaz", "Toros", "Yurt"]
+        },
+        {
+          "name": "Yüreğir",
+          "neighborhoods": ["Kışla", "Köprüköy", "PTT Evleri", "Serinevler", "Yakapınar"]
+        }
+      ]
+    },
+    {
+      "name": "Ankara",
+      "districts": [
+        {
+          "name": "Çankaya",
+          "neighborhoods": ["Bahçelievler", "Kavaklıdere", "Çukurambar", "Ümitköy", "Bilkent"]
+        },
+        {
+          "name": "Keçiören",
+          "neighborhoods": ["Etlik", "Aktepe", "Bağlum", "Esertepe", "Kalaba"]
+        },
+        {
+          "name": "Yenimahalle",
+          "neighborhoods": ["Batıkent", "Demetevler", "Ostim", "Şentepe", "Yuva"]
+        },
+        {
+          "name": "Mamak",
+          "neighborhoods": ["Abidinpaşa", "Boğaziçi", "Demirlibahçe", "Kutlu", "Şahintepe"]
+        },
+        {
+          "name": "Etimesgut",
+          "neighborhoods": ["Bağlıca", "Eryaman", "Elvankent", "Yapracık", "Süvari"]
+        }
+      ]
+    },
+    {
+      "name": "Antalya",
+      "districts": [
+        {
+          "name": "Muratpaşa",
+          "neighborhoods": ["Lara", "Konyaaltı Sahili", "Şirinyalı", "Güzeloba", "Fener"]
+        },
+        {
+          "name": "Konyaaltı",
+          "neighborhoods": ["Hurma", "Liman", "Siteler", "Uncalı", "Altınkum"]
+        },
+        {
+          "name": "Kepez",
+          "neighborhoods": ["Varsak", "Fabrikalar", "Şafak", "Teomanpaşa", "Düdenbaşı"]
+        }
+      ]
+    },
+    {
+      "name": "Bursa",
+      "districts": [
+        {
+          "name": "Osmangazi",
+          "neighborhoods": ["Kükürtlü", "Çekirge", "Setbaşı", "Heykel", "Altıparmak"]
+        },
+        {
+          "name": "Nilüfer",
+          "neighborhoods": ["Beşevler", "Görükle", "İhsaniye", "Özlüce", "Ataevler"]
+        },
+        {
+          "name": "Yıldırım",
+          "neighborhoods": ["Esenevler", "Millet", "Arabayatağı", "Namazgah", "Siteler"]
+        }
+      ]
+    },
+    {
+      "name": "İstanbul",
+      "districts": [
+        {
+          "name": "Kadıköy",
+          "neighborhoods": ["Caferağa", "Moda", "Fenerbahçe", "Koşuyolu", "Acıbadem"]
+        },
+        {
+          "name": "Beşiktaş",
+          "neighborhoods": ["Etiler", "Levent", "Bebek", "Ortaköy", "Arnavutköy"]
+        },
+        {
+          "name": "Şişli",
+          "neighborhoods": ["Mecidiyeköy", "Nişantaşı", "Fulya", "Osmanbey", "Bomonti"]
+        },
+        {
+          "name": "Üsküdar",
+          "neighborhoods": ["Acıbadem", "Altunizade", "Çengelköy", "Kuzguncuk", "Beylerbeyi"]
+        },
+        {
+          "name": "Beyoğlu",
+          "neighborhoods": ["Cihangir", "Galata", "Karaköy", "Kasımpaşa", "Taksim"]
+        },
+        {
+          "name": "Fatih",
+          "neighborhoods": ["Sultanahmet", "Eminönü", "Aksaray", "Beyazıt", "Kumkapı"]
+        },
+        {
+          "name": "Bakırköy",
+          "neighborhoods": ["Ataköy", "Yeşilköy", "Florya", "Şenlik", "Zuhuratbaba"]
+        },
+        {
+          "name": "Sarıyer",
+          "neighborhoods": ["Maslak", "İstinye", "Tarabya", "Emirgan", "Rumeli Hisarı"]
+        },
+        {
+          "name": "Maltepe",
+          "neighborhoods": ["Altayçeşme", "Cevizli", "İdealtepe", "Küçükyalı", "Yalı"]
+        },
+        {
+          "name": "Kartal",
+          "neighborhoods": ["Cevizli", "Soğanlık", "Uğur Mumcu", "Yakacık", "Hürriyet"]
+        },
+        {
+          "name": "Pendik",
+          "neighborhoods": ["Kaynarca", "Kurtköy", "Çamçeşme", "Yenişehir", "Güzelyalı"]
+        },
+        {
+          "name": "Ataşehir",
+          "neighborhoods": ["Atatürk", "Barbaros", "Ferhatpaşa", "İçerenköy", "Yenisahra"]
+        },
+        {
+          "name": "Ümraniye",
+          "neighborhoods": ["Çakmak", "Ihlamurkuyu", "Namık Kemal", "Site", "Tantavi"]
+        },
+        {
+          "name": "Bahçelievler",
+          "neighborhoods": ["Bahçelievler", "Çobançeşme", "Şirinevler", "Yenibosna", "Zafer"]
+        },
+        {
+          "name": "Bağcılar",
+          "neighborhoods": ["Güneşli", "İnönü", "Mahmutbey", "Yavuz Selim", "Kirazlı"]
+        },
+        {
+          "name": "Beylikdüzü",
+          "neighborhoods": ["Adnan Kahveci", "Barış", "Büyükşehir", "Yakuplu", "Cumhuriyet"]
+        },
+        {
+          "name": "Esenyurt",
+          "neighborhoods": ["Ardıçlı", "Fatih", "İncirtepe", "Saadetdere", "Yeşilkent"]
+        }
+      ]
+    },
+    {
+      "name": "İzmir",
+      "districts": [
+        {
+          "name": "Konak",
+          "neighborhoods": ["Alsancak", "Basmane", "Çankaya", "Göztepe", "Hatay"]
+        },
+        {
+          "name": "Karşıyaka",
+          "neighborhoods": ["Bostanlı", "Çarşı", "Mavişehir", "Nergiz", "Tersane"]
+        },
+        {
+          "name": "Bornova",
+          "neighborhoods": ["Altındağ", "Erzene", "Kazım Dirik", "Kemalpaşa", "Yeşilova"]
+        },
+        {
+          "name": "Buca",
+          "neighborhoods": ["Adatepe", "Kozağaç", "Şirinyer", "Tınaztepe", "Yıldız"]
+        }
+      ]
+    },
+    {
+      "name": "Kocaeli",
+      "districts": [
+        {
+          "name": "İzmit",
+          "neighborhoods": ["Cedit", "Ömerağa", "Yenidoğan", "Kozlu", "Gündoğdu"]
+        },
+        {
+          "name": "Gebze",
+          "neighborhoods": ["Güzeller", "Osman Yılmaz", "Sultan Orhan", "Köşklüçeşme", "Mevlana"]
+        },
+        {
+          "name": "Darıca",
+          "neighborhoods": ["Bayramoğlu", "Emek", "Osmangazi", "Piri Reis", "Nenehatun"]
+        }
+      ]
+    },
+    {
+      "name": "Konya",
+      "districts": [
+        {
+          "name": "Selçuklu",
+          "neighborhoods": ["Bosna Hersek", "Yazır", "Sille", "Parsana", "Tepekent"]
+        },
+        {
+          "name": "Meram",
+          "neighborhoods": ["Alavardı", "Havzan", "Karadiğin", "Yaka", "Gödene"]
+        },
+        {
+          "name": "Karatay",
+          "neighborhoods": ["Akabe", "Fevzi Çakmak", "Hacıveyiszade", "Melikşah", "Şems"]
+        }
+      ]
+    },
+    {
+      "name": "Trabzon",
+      "districts": [
+        {
+          "name": "Ortahisar",
+          "neighborhoods": ["Boztepe", "Çömlekçi", "Kemerkaya", "Pazarkapı", "Yalıncak"]
+        },
+        {
+          "name": "Akçaabat",
+          "neighborhoods": ["Dürbinar", "Merkez", "Ortamahalle", "Söğütlü", "Yıldızlı"]
+        }
+      ]
+    }
+  ]
+}

@@ -373,15 +373,15 @@ export const uploadImages = async (req, res) => {
          });
       }
 
-      if (!req.files || req.files.length === 0) {
+      if (!req.processedFiles || req.processedFiles.length === 0) {
          return res.status(400).json({
             success: false,
             message: 'Lütfen en az bir resim yükleyin.'
          });
       }
 
-      // Add new images to product
-      const imagePaths = req.files.map(file => `/uploads/products/${file.filename}`);
+      // Add new optimized images to product
+      const imagePaths = req.processedFiles.map(file => file.path);
       product.images.push(...imagePaths);
 
       await product.save();

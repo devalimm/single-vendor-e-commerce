@@ -142,9 +142,9 @@ const Cart = () => {
                   <span style={{ color: 'var(--color-primary)' }}>{cart.totalPrice.toFixed(2)} ₺</span>
                </div>
 
-               <button className="btn btn-primary btn-block" style={{ marginBottom: '0.75rem' }}>
+               <Link to="/checkout" className="btn btn-primary btn-block" style={{ marginBottom: '0.75rem' }}>
                   Sipariş Ver
-               </button>
+               </Link>
                <Link to="/" className="btn btn-secondary btn-block">
                   Alışverişe Devam Et
                </Link>

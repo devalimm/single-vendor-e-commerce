@@ -14,6 +14,8 @@ import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderSuccess from './pages/OrderSuccess';
 
 // Admin Pages
 import AdminLayout from './pages/admin/AdminLayout';
@@ -21,6 +23,7 @@ import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminCategories from './pages/admin/AdminCategories';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
+import AdminOrders from './pages/admin/AdminOrders';
 
 import './index.css';
 
@@ -42,10 +45,8 @@ function App() {
                   <Route path="/reset-password/:token" element={<ResetPassword />} />
                   <Route path="/products/:id" element={<ProductDetail />} />
                   <Route path="/cart" element={<Cart />} />
-
-                  {/* Protected Routes - Coming Soon */}
-                  {/* <Route path="/cart" element={<ProtectedRoute><Cart /></ProtectedRoute>} /> */}
-                  {/* <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} /> */}
+                  <Route path="/checkout" element={<Checkout />} />
+                  <Route path="/order-success" element={<OrderSuccess />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
@@ -54,7 +55,7 @@ function App() {
                     <Route path="products" element={<AdminProducts />} />
                     <Route path="products/new" element={<AdminProductForm />} />
                     <Route path="products/edit/:id" element={<AdminProductForm />} />
-                    {/* <Route path="orders" element={<AdminOrders />} /> */}
+                    <Route path="orders" element={<AdminOrders />} />
                   </Route>
 
                   {/* 404 */}
@@ -75,4 +76,5 @@ function App() {
 }
 
 export default App;
+
 
