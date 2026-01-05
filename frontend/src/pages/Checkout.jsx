@@ -29,6 +29,7 @@ const Checkout = () => {
    });
 
    const [errors, setErrors] = useState({});
+   const [agreementAccepted, setAgreementAccepted] = useState(false);
 
    // Get districts based on selected city
    const districts = useMemo(() => {
@@ -511,6 +512,34 @@ const Checkout = () => {
                         })}
                      </div>
 
+                     {/* Agreement Checkbox */}
+                     <div style={{
+                        marginBottom: '1.5rem',
+                        padding: '1rem',
+                        background: 'var(--color-bg-secondary)',
+                        borderRadius: 'var(--radius-md)'
+                     }}>
+                        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', cursor: 'pointer' }}>
+                           <input
+                              type="checkbox"
+                              checked={agreementAccepted}
+                              onChange={(e) => setAgreementAccepted(e.target.checked)}
+                              style={{ marginTop: '0.25rem', width: '18px', height: '18px', cursor: 'pointer' }}
+                           />
+                           <span style={{ fontSize: '0.9rem', lineHeight: '1.5' }}>
+                              <a
+                                 href="/mesafeli-satis-sozlesmesi"
+                                 target="_blank"
+                                 rel="noopener noreferrer"
+                                 style={{ color: 'var(--color-primary)', textDecoration: 'underline' }}
+                              >
+                                 Mesafeli Satış Sözleşmesi
+                              </a>
+                              'ni okudum ve kabul ediyorum.
+                           </span>
+                        </label>
+                     </div>
+
                      <div style={{ display: 'flex', gap: '1rem' }}>
                         <button onClick={prevStep} className="btn btn-secondary" style={{ flex: 1 }}>
                            <ArrowLeft size={18} />
@@ -520,7 +549,7 @@ const Checkout = () => {
                            onClick={handleSubmit}
                            className="btn btn-primary"
                            style={{ flex: 2 }}
-                           disabled={isSubmitting}
+                           disabled={isSubmitting || !agreementAccepted}
                         >
                            {isSubmitting ? 'İşleniyor...' : 'Siparişi Onayla'}
                            <Check size={18} />
