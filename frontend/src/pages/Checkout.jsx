@@ -5,7 +5,6 @@ import { useToast } from '../context/ToastContext';
 import { ShoppingBag, User, MapPin, FileText, Check, ChevronRight, ArrowLeft } from 'lucide-react';
 import turkeyAddresses from '../data/turkeyAddresses.json';
 
-const API_URL = 'http://localhost:5000/api';
 
 const Checkout = () => {
    const navigate = useNavigate();
@@ -151,7 +150,7 @@ const Checkout = () => {
             paymentMethod: 'cash_on_delivery'
          };
 
-         const response = await fetch(`${API_URL}/orders/guest`, {
+         const response = await fetch(`${VITE_API_URL}/orders/guest`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json'

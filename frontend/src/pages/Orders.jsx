@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Clock, CheckCircle, Truck, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api';
-
 const Orders = () => {
    const [orders, setOrders] = useState([]);
    const [loading, setLoading] = useState(true);
@@ -17,7 +15,7 @@ const Orders = () => {
    const fetchOrders = async () => {
       try {
          setLoading(true);
-         const response = await fetch(`${API_URL}/orders/all`);
+         const response = await fetch(`${VITE_API_URL}/orders/all`);
          const data = await response.json();
 
          if (data.success) {

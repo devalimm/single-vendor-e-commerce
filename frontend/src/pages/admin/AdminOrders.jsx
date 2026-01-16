@@ -2,7 +2,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../../context/ToastContext';
 import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw, Search } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api';
 
 const statusConfig = {
    pending: { label: 'Beklemede', color: '#f59e0b', icon: Clock },
@@ -52,8 +51,8 @@ const AdminOrders = () => {
          const token = localStorage.getItem('token');
 
          const url = filter === 'all'
-            ? `${API_URL}/orders/admin/all`
-            : `${API_URL}/orders/admin/all?status=${filter}`;
+            ? `${VITE_API_URL}/orders/admin/all`
+            : `${VITE_API_URL}/orders/admin/all?status=${filter}`;
 
          const response = await fetch(url, {
             headers: {
@@ -86,7 +85,7 @@ const AdminOrders = () => {
       setUpdatingOrder(orderId);
       try {
          const token = localStorage.getItem('token');
-         const response = await fetch(`${API_URL}/orders/${orderId}/status`, {
+         const response = await fetch(`${VITEAPI_URL}/orders/${orderId}/status`, {
             method: 'PUT',
             headers: {
                'Content-Type': 'application/json',
