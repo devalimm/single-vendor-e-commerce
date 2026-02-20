@@ -1861,3 +1861,456 @@ button {
     gap: 1.5rem;
   }
 }
+
+/* ─── Discount Admin Page ─────────────────────────────── */
+.discount-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.discount-form-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.discount-detail-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 1rem;
+}
+
+.discount-section-title {
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.discount-field-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+
+.discount-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Toggle switch */
+.discount-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.discount-toggle-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  min-width: 40px;
+}
+
+.discount-toggle {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.discount-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.discount-toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-border);
+  border-radius: 24px;
+  transition: background var(--transition-base);
+}
+
+.discount-toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform var(--transition-base);
+  box-shadow: var(--shadow-sm);
+}
+
+.discount-toggle input:checked+.discount-toggle-slider {
+  background: var(--color-success);
+}
+
+.discount-toggle input:checked+.discount-toggle-slider::before {
+  transform: translateX(20px);
+}
+
+/* Actions */
+.discount-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-light);
+}
+
+.discount-submit-btn {
+  background: hsl(164, 80%, 38%);
+  color: white;
+  font-weight: var(--font-weight-bold);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  padding: 0.6rem 1.5rem;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
+}
+
+.discount-submit-btn:hover {
+  background: hsl(164, 80%, 30%);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Detail card */
+.discount-detail-title {
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.discount-detail-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.discount-detail-list li {
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+  font-size: var(--font-size-sm);
+}
+
+.detail-key {
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.detail-value {
+  color: var(--color-text-primary);
+}
+
+.detail-bold {
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+.discount-note {
+  margin-top: 1.25rem;
+  font-size: 0.7rem;
+  color: hsl(164, 80%, 35%);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Status badges for discount */
+.discount-status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.badge-active {
+  background: hsl(142, 71%, 90%);
+  color: hsl(142, 71%, 30%);
+}
+
+.badge-passive {
+  background: hsl(0, 0%, 90%);
+  color: hsl(0, 0%, 45%);
+}
+
+.badge-success {
+  background: hsl(142, 71%, 90%);
+  color: hsl(142, 71%, 30%);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.badge-inactive {
+  background: hsl(0, 0%, 90%);
+  color: hsl(0, 0%, 45%);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.68rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 900px) {
+  .discount-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .discount-detail-card {
+    position: static;
+  }
+
+  .discount-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Checklist (kategori / ürün seçimi) */
+.discount-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-background);
+}
+
+.discount-check-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  padding: 0.2rem 0;
+  transition: color var(--transition-fast);
+}
+
+.discount-check-item:hover {
+  color: var(--color-primary);
+}
+
+.discount-check-item input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--color-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════
+   İndirim Fiyat Gösterimi
+   ═══════════════════════════════════════ */
+
+/* Product Card — indirim badge */
+.product-badge.badge-discount {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  color: #fff;
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Product Card — fiyat grubu */
+.product-price-group {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.product-price-original {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.product-price-discount {
+  font-size: 1.05rem;
+  font-weight: var(--font-weight-bold);
+  color: #e53e3e;
+}
+
+/* Product Detail — büyük fiyat alanı */
+.product-price-section {
+  margin: 1rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.product-price-original-lg {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  text-decoration: line-through;
+}
+
+.product-price-discount-lg {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: #e53e3e;
+}
+
+.product-discount-info {
+  display: inline-block;
+  width: 100%;
+  font-size: 0.85rem;
+  color: #e53e3e;
+  font-weight: var(--font-weight-medium);
+  background: rgba(229, 62, 62, 0.08);
+  padding: 0.3rem 0.6rem;
+  border-radius: var(--radius-sm);
+  margin-top: 0.25rem;
+}
+
+/* === Variation Tags === */
+.variation-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.variation-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.4rem 0.75rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-medium);
+}
+
+.variation-tag-remove {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.variation-tag-remove:hover {
+  color: #fff;
+}
+
+.variation-tags-sm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.variation-tag-sm {
+  display: inline-block;
+  background: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  border: 1px solid var(--color-border);
+}
+
+/* === Variation Stock Table (Product Form) === */
+.variation-stock-section {
+  margin-top: 1rem;
+}
+
+.variation-stock-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.variation-stock-table th {
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  font-size: 0.8rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.variation-stock-table td {
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.variation-stock-table tr:last-child td {
+  border-bottom: none;
+}
+
+.variation-stock-table .form-input {
+  margin: 0;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+.variation-option-name {
+  font-weight: var(--font-weight-medium);
+  font-size: 0.95rem;
+}
+
+.variation-stock-checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--color-primary);
+}

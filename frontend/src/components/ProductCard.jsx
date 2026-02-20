@@ -8,6 +8,8 @@ const ProductCard = ({ product }) => {
       ? `http://localhost:5000${product.images[0]}`
       : placeholderImage;
 
+   const hasDiscount = product.discount && product.discount.discountedPrice < product.basePrice;
+
    return (
       <Link to={`/products/${product._id}`} className="product-card">
          <div className="product-image-wrapper">
@@ -28,6 +30,11 @@ const ProductCard = ({ product }) => {
             {product.totalStock === 0 && (
                <span className="product-badge badge-out-of-stock">Tükendi</span>
             )}
+            {hasDiscount && (
+               <span className="product-badge badge-discount">
+                  %{product.discount.discountPercentage} İndirim
+               </span>
+            )}
          </div>
 
          <div className="product-info">
@@ -36,7 +43,14 @@ const ProductCard = ({ product }) => {
                <p className="product-category">{product.category.name}</p>
             )}
             <div className="product-footer">
-               <span className="product-price">{product.basePrice.toFixed(2)} ₺</span>
+               {hasDiscount ? (
+                  <div className="product-price-group">
+                     <span className="product-price-original">{product.basePrice.toFixed(2)} ₺</span>
+                     <span className="product-price-discount">{product.discount.discountedPrice.toFixed(2)} ₺</span>
+                  </div>
+               ) : (
+                  <span className="product-price">{product.basePrice.toFixed(2)} ₺</span>
+               )}
                {product.salesCount > 0 && (
                   <span className="product-sales">
                      {product.salesCount} satış

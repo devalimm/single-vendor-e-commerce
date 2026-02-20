@@ -6,7 +6,7 @@ import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 const Cart = () => {
    const { cart, removeFromCart, updateQuantity } = useCart();
 
-   const calculateItemPrice = (item) => {
+   const calculateItemBasePrice = (item) => {
       let price = item.basePrice;
 
       if (item.selectedLength?.priceAdjustment) {
@@ -22,15 +22,33 @@ const Cart = () => {
       return price;
    };
 
+   const calculateItemFinalPrice = (item) => {
+      let price = calculateItemBasePrice(item);
+
+      if (item.discount) {
+         if (item.discount.type === 'percentage') {
+            price = price * (1 - item.discount.value / 100);
+         } else {
+            price = Math.max(0, price - item.discount.value);
+         }
+      }
+
+      return price;
+   };
+
    // Calculate VAT breakdown
-   const { subtotal, totalVat, grandTotal } = useMemo(() => {
+   const { subtotal, totalVat, grandTotal, totalDiscount } = useMemo(() => {
       let subtotal = 0;
       let totalVat = 0;
+      let totalDiscount = 0;
 
       cart.items.forEach(item => {
-         const itemPrice = calculateItemPrice(item);
-         const itemTotal = itemPrice * item.quantity;
+         const basePrice = calculateItemBasePrice(item);
+         const finalPrice = calculateItemFinalPrice(item);
+         const itemTotal = finalPrice * item.quantity;
          const vatRate = item.vatRate || 20;
+
+         totalDiscount += (basePrice - finalPrice) * item.quantity;
 
          // subtotal is price before VAT
          const priceWithoutVat = itemTotal / (1 + vatRate / 100);
@@ -43,7 +61,8 @@ const Cart = () => {
       return {
          subtotal,
          totalVat,
-         grandTotal: subtotal + totalVat
+         grandTotal: subtotal + totalVat,
+         totalDiscount
       };
    }, [cart.items]);
 
@@ -70,8 +89,10 @@ const Cart = () => {
             {/* Cart Items */}
             <div>
                {cart.items.map((item, index) => {
-                  const itemPrice = calculateItemPrice(item);
-                  const itemTotal = itemPrice * item.quantity;
+                  const basePrice = calculateItemBasePrice(item);
+                  const finalPrice = calculateItemFinalPrice(item);
+                  const hasDiscount = item.discount && finalPrice < basePrice;
+                  const itemTotal = finalPrice * item.quantity;
 
                   return (
                      <div key={index} className="card" style={{ marginBottom: '1rem', padding: '1.5rem' }}>
@@ -87,7 +108,7 @@ const Cart = () => {
                            <div style={{ flex: 1 }}>
                               <h3 style={{ marginBottom: '0.5rem' }}>{item.name}</h3>
 
-                              <div style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)', marginBottom: '1rem' }}>
+                              <div style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
                                  {item.selectedSize && (
                                     <p>Beden: <strong>{item.selectedSize.name}</strong></p>
                                  )}
@@ -100,6 +121,23 @@ const Cart = () => {
                                     <p>Opsiyonlar: {item.selectedOptions.map(opt => `${opt.name} (+${opt.price.toFixed(2)} ₺)`).join(', ')}</p>
                                  )}
                               </div>
+
+                              {hasDiscount && (
+                                 <div style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    background: 'var(--color-danger-light, #fff0f0)',
+                                    padding: '0.25rem 0.6rem',
+                                    borderRadius: 'var(--radius-sm)',
+                                    fontSize: '0.8rem',
+                                    marginBottom: '0.5rem'
+                                 }}>
+                                    <span style={{ color: 'var(--color-danger)', fontWeight: 'var(--font-weight-semibold)' }}>
+                                       %{item.discount.discountPercentage} İndirim
+                                    </span>
+                                 </div>
+                              )}
 
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                  {/* Quantity Controls */}
@@ -125,9 +163,20 @@ const Cart = () => {
                                  {/* Price & Remove */}
                                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                     <div style={{ textAlign: 'right' }}>
-                                       <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-                                          {itemPrice.toFixed(2)} ₺ x {item.quantity}
-                                       </p>
+                                       {hasDiscount ? (
+                                          <>
+                                             <p style={{ fontSize: '0.8rem', color: 'var(--color-text-muted)', textDecoration: 'line-through' }}>
+                                                {basePrice.toFixed(2)} ₺ x {item.quantity}
+                                             </p>
+                                             <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+                                                {finalPrice.toFixed(2)} ₺ x {item.quantity}
+                                             </p>
+                                          </>
+                                       ) : (
+                                          <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
+                                             {finalPrice.toFixed(2)} ₺ x {item.quantity}
+                                          </p>
+                                       )}
                                        <p style={{ fontSize: '1.25rem', fontWeight: 'var(--font-weight-bold)', color: 'var(--color-primary)' }}>
                                           {itemTotal.toFixed(2)} ₺
                                        </p>
@@ -161,6 +210,12 @@ const Cart = () => {
                      <span>Ara Toplam:</span>
                      <span>{subtotal.toFixed(2)} ₺</span>
                   </div>
+                  {totalDiscount > 0 && (
+                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-danger)' }}>
+                        <span>İndirim:</span>
+                        <span>-{totalDiscount.toFixed(2)} ₺</span>
+                     </div>
+                  )}
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-text-secondary)' }}>
                      <span>KDV:</span>
                      <span>{totalVat.toFixed(2)} ₺</span>
@@ -185,4 +240,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

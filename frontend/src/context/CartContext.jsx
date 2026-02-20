@@ -45,6 +45,15 @@ export const CartProvider = ({ children }) => {
          });
       }
 
+      // İndirim uygula
+      if (item.discount) {
+         if (item.discount.type === 'percentage') {
+            price = price * (1 - item.discount.value / 100);
+         } else {
+            price = Math.max(0, price - item.discount.value);
+         }
+      }
+
       return price * item.quantity;
    };
 
@@ -56,9 +65,6 @@ export const CartProvider = ({ children }) => {
 
    const addToCart = (product, selections) => {
       const { selectedSize, selectedLength, selectedOptions, quantity } = selections;
-
-      // Create unique key for cart item
-      const itemKey = `${product._id}-${selectedSize?.name || 'nosize'}-${selectedLength?.name || 'nolength'}`;
 
       setCart(prevCart => {
          const existingItemIndex = prevCart.items.findIndex(item =>
@@ -72,6 +78,10 @@ export const CartProvider = ({ children }) => {
             // Update existing item quantity
             newItems = [...prevCart.items];
             newItems[existingItemIndex].quantity += quantity;
+            // Discount bilgisini de güncelle
+            if (product.discount) {
+               newItems[existingItemIndex].discount = product.discount;
+            }
          } else {
             // Add new item
             const newItem = {
@@ -80,6 +90,7 @@ export const CartProvider = ({ children }) => {
                image: product.images?.[0] || null,
                basePrice: product.basePrice,
                vatRate: product.vatRate || 20,
+               discount: product.discount || null,
                selectedSize,
                selectedLength,
                selectedOptions: selectedOptions || [],

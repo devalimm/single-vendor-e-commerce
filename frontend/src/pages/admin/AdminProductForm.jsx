@@ -9,9 +9,14 @@ const AdminProductForm = () => {
    const isEditMode = !!id;
 
    const [categories, setCategories] = useState([]);
+   const [variations, setVariations] = useState([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
+
+   // Variation selection state
+   const [selectedVariationId, setSelectedVariationId] = useState('');
+   const [variationOptions, setVariationOptions] = useState([]); // [{name, enabled, stock}]
 
    const [formData, setFormData] = useState({
       name: '',
@@ -33,6 +38,7 @@ const AdminProductForm = () => {
 
    useEffect(() => {
       fetchCategories();
+      fetchVariations();
       if (isEditMode) {
          fetchProduct();
       }
@@ -44,6 +50,15 @@ const AdminProductForm = () => {
          setCategories(response.data.data);
       } catch (error) {
          console.error('Error fetching categories:', error);
+      }
+   };
+
+   const fetchVariations = async () => {
+      try {
+         const response = await api.get('/variations');
+         setVariations(response.data.data.filter(v => v.isActive));
+      } catch (error) {
+         console.error('Error fetching variations:', error);
       }
    };
 
@@ -59,7 +74,7 @@ const AdminProductForm = () => {
             basePrice: product.basePrice,
             vatRate: product.vatRate || 20,
             category: product.category._id,
-            sizes: product.sizes.length > 0 ? product.sizes : [{ name: 'S', stock: 0 }],
+            sizes: product.sizes || [],
             lengths: product.lengths.length > 0 ? product.lengths : [{ name: '125cm', priceAdjustment: 0 }],
             options: product.options || [],
             tags: product.tags || [],
@@ -68,11 +83,83 @@ const AdminProductForm = () => {
          });
 
          setExistingImages(product.images || []);
+
+         // Try to auto-detect matching variation from existing sizes
+         // We'll do this after variations are loaded
+         if (product.sizes && product.sizes.length > 0) {
+            setTimeout(() => {
+               autoMatchVariation(product.sizes);
+            }, 500);
+         }
       } catch (error) {
          setError('Ürün yüklenirken hata oluştu.');
       } finally {
          setLoading(false);
       }
+   };
+
+   // Try to match existing product sizes to a variation
+   const autoMatchVariation = (productSizes) => {
+      const sizeNames = productSizes.map(s => s.name);
+      // Find a variation whose options contain all the product size names
+      const matchedVar = variations.find(v =>
+         sizeNames.every(sn => v.options.includes(sn))
+      );
+
+      if (matchedVar) {
+         setSelectedVariationId(matchedVar._id);
+         setVariationOptions(
+            matchedVar.options.map(opt => {
+               const existingSize = productSizes.find(s => s.name === opt);
+               return {
+                  name: opt,
+                  enabled: !!existingSize,
+                  stock: existingSize ? existingSize.stock : 0
+               };
+            })
+         );
+      }
+   };
+
+   // When variation selection changes from dropdown
+   const handleVariationChange = (variationId) => {
+      setSelectedVariationId(variationId);
+
+      if (!variationId) {
+         setVariationOptions([]);
+         return;
+      }
+
+      const variation = variations.find(v => v._id === variationId);
+      if (variation) {
+         // Check if we have existing sizes that match some options
+         const existingSizes = formData.sizes || [];
+         setVariationOptions(
+            variation.options.map(opt => {
+               const existing = existingSizes.find(s => s.name === opt);
+               return {
+                  name: opt,
+                  enabled: existing ? true : false,
+                  stock: existing ? existing.stock : 0
+               };
+            })
+         );
+      }
+   };
+
+   const toggleVariationOption = (index) => {
+      const newOptions = [...variationOptions];
+      newOptions[index].enabled = !newOptions[index].enabled;
+      if (!newOptions[index].enabled) {
+         newOptions[index].stock = 0;
+      }
+      setVariationOptions(newOptions);
+   };
+
+   const updateVariationStock = (index, value) => {
+      const newOptions = [...variationOptions];
+      newOptions[index].stock = parseInt(value) || 0;
+      setVariationOptions(newOptions);
    };
 
    const handleSubmit = async (e) => {
@@ -84,12 +171,17 @@ const AdminProductForm = () => {
       try {
          let productId = id;
 
+         // Build sizes from variation options
+         const sizesFromVariation = variationOptions
+            .filter(opt => opt.enabled)
+            .map(opt => ({ name: opt.name, stock: parseInt(opt.stock) || 0 }));
+
          // Prepare data with proper types
          const productData = {
             ...formData,
             basePrice: parseFloat(formData.basePrice) || 0,
             vatRate: parseFloat(formData.vatRate) || 20,
-            sizes: formData.sizes.map(s => ({
+            sizes: sizesFromVariation.length > 0 ? sizesFromVariation : formData.sizes.map(s => ({
                name: s.name,
                stock: parseInt(s.stock) || 0
             })),
@@ -156,27 +248,6 @@ const AdminProductForm = () => {
       }
    };
 
-   // Size management
-   const addSize = () => {
-      setFormData({
-         ...formData,
-         sizes: [...formData.sizes, { name: '', stock: 0 }]
-      });
-   };
-
-   const updateSize = (index, field, value) => {
-      const newSizes = [...formData.sizes];
-      newSizes[index][field] = field === 'stock' ? parseInt(value) || 0 : value;
-      setFormData({ ...formData, sizes: newSizes });
-   };
-
-   const removeSize = (index) => {
-      setFormData({
-         ...formData,
-         sizes: formData.sizes.filter((_, i) => i !== index)
-      });
-   };
-
    // Length management
    const addLength = () => {
       setFormData({
@@ -188,7 +259,6 @@ const AdminProductForm = () => {
    const updateLength = (index, field, value) => {
       const newLengths = [...formData.lengths];
       if (field === 'priceAdjustment') {
-         // Parse as float, default to 0 if invalid
          newLengths[index][field] = value === '' ? 0 : parseFloat(value) || 0;
       } else {
          newLengths[index][field] = value;
@@ -403,53 +473,74 @@ const AdminProductForm = () => {
                </div>
             </div>
 
-            {/* Sizes */}
+            {/* Variation & Stock Selection — Shopier style */}
             <div className="card">
-               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3>Bedenler ve Stok</h3>
-                  <button type="button" onClick={addSize} className="btn btn-secondary btn-sm">
-                     + Beden Ekle
-                  </button>
+               <h3>Varyasyon & Stok Seçimi</h3>
+               <p className="text-muted" style={{ marginBottom: '1rem' }}>
+                  Bu üründe sunmak istediğiniz varyasyonu seçtikten sonra her seçenek için stok bilgisi girebilirsiniz.
+               </p>
+
+               <div className="form-group">
+                  <label>Varyasyon Seçin</label>
+                  <select
+                     className="form-select"
+                     value={selectedVariationId}
+                     onChange={(e) => handleVariationChange(e.target.value)}
+                  >
+                     <option value="">Varyasyon Seçin (opsiyonel)</option>
+                     {variations.map(v => (
+                        <option key={v._id} value={v._id}>{v.name}</option>
+                     ))}
+                  </select>
+                  {variations.length === 0 && (
+                     <small className="text-muted">
+                        Henüz varyasyon tanımlanmamış.{' '}
+                        <a href="/admin/variations" style={{ color: 'var(--color-primary)' }}>Varyasyon tanımla →</a>
+                     </small>
+                  )}
                </div>
 
-               <div className="variant-items-grid">
-                  {formData.sizes.map((size, index) => (
-                     <div key={index} className="variant-item-compact">
-                        <button
-                           type="button"
-                           onClick={() => removeSize(index)}
-                           className="variant-item-remove"
-                           disabled={formData.sizes.length === 1}
-                           title="Sil"
-                        >
-                           <X size={14} />
-                        </button>
-                        <div className="form-group">
-                           <label>Beden Adı</label>
-                           <input
-                              type="text"
-                              className="form-input"
-                              value={size.name}
-                              onChange={(e) => updateSize(index, 'name', e.target.value)}
-                              placeholder="Örn: S, M, L"
-                              required
-                           />
-                        </div>
-                        <div className="form-group">
-                           <label>Stok Adedi</label>
-                           <input
-                              type="number"
-                              className="form-input"
-                              value={size.stock === 0 ? '' : size.stock}
-                              onChange={(e) => updateSize(index, 'stock', e.target.value)}
-                              min="0"
-                              placeholder="Stok"
-                              required
-                           />
-                        </div>
-                     </div>
-                  ))}
-               </div>
+               {variationOptions.length > 0 && (
+                  <div className="variation-stock-section">
+                     <table className="variation-stock-table">
+                        <thead>
+                           <tr>
+                              <th style={{ width: '50px' }}>Aktif</th>
+                              <th>Varyasyon</th>
+                              <th style={{ width: '150px' }}>Stok</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           {variationOptions.map((opt, index) => (
+                              <tr key={index} style={{ opacity: opt.enabled ? 1 : 0.5 }}>
+                                 <td>
+                                    <input
+                                       type="checkbox"
+                                       className="variation-stock-checkbox"
+                                       checked={opt.enabled}
+                                       onChange={() => toggleVariationOption(index)}
+                                    />
+                                 </td>
+                                 <td>
+                                    <span className="variation-option-name">{opt.name}</span>
+                                 </td>
+                                 <td>
+                                    <input
+                                       type="number"
+                                       className="form-input"
+                                       value={opt.stock === 0 ? '' : opt.stock}
+                                       onChange={(e) => updateVariationStock(index, e.target.value)}
+                                       min="0"
+                                       placeholder="0"
+                                       disabled={!opt.enabled}
+                                    />
+                                 </td>
+                              </tr>
+                           ))}
+                        </tbody>
+                     </table>
+                  </div>
+               )}
             </div>
 
             {/* Lengths */}

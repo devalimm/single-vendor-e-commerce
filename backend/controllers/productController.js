@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { applyDiscountsToProducts, applyDiscountToProduct } from '../utils/discountHelper.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -61,13 +62,16 @@ export const getAllProducts = async (req, res) => {
 
       const total = await Product.countDocuments(query);
 
+      // İndirim bilgisi ekle
+      const productsWithDiscount = await applyDiscountsToProducts(products);
+
       res.json({
          success: true,
-         count: products.length,
+         count: productsWithDiscount.length,
          total,
          page,
          pages: Math.ceil(total / limit),
-         data: products
+         data: productsWithDiscount
       });
    } catch (error) {
       console.error('Get products error:', error);
@@ -90,10 +94,12 @@ export const getNewProducts = async (req, res) => {
          .sort({ createdAt: -1 })
          .limit(limit);
 
+      const productsWithDiscount = await applyDiscountsToProducts(products);
+
       res.json({
          success: true,
-         count: products.length,
-         data: products
+         count: productsWithDiscount.length,
+         data: productsWithDiscount
       });
    } catch (error) {
       console.error('Get new products error:', error);
@@ -116,10 +122,12 @@ export const getBestSelling = async (req, res) => {
          .sort({ salesCount: -1 })
          .limit(limit);
 
+      const productsWithDiscount = await applyDiscountsToProducts(products);
+
       res.json({
          success: true,
-         count: products.length,
-         data: products
+         count: productsWithDiscount.length,
+         data: productsWithDiscount
       });
    } catch (error) {
       console.error('Get bestselling products error:', error);
@@ -153,13 +161,15 @@ export const getByCategory = async (req, res) => {
          isActive: true
       });
 
+      const productsWithDiscount = await applyDiscountsToProducts(products);
+
       res.json({
          success: true,
-         count: products.length,
+         count: productsWithDiscount.length,
          total,
          page,
          pages: Math.ceil(total / limit),
-         data: products
+         data: productsWithDiscount
       });
    } catch (error) {
       console.error('Get products by category error:', error);
@@ -189,9 +199,12 @@ export const getProduct = async (req, res) => {
       product.viewCount += 1;
       await product.save();
 
+      // İndirim bilgisi ekle
+      const productWithDiscount = await applyDiscountToProduct(product);
+
       res.json({
          success: true,
-         data: product
+         data: productWithDiscount
       });
    } catch (error) {
       console.error('Get product error:', error);

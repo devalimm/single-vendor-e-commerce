@@ -51,8 +51,8 @@ const ProductDetail = () => {
       }
    };
 
-   // Calculate total price based on selections
-   const calculatePrice = () => {
+   // Calculate total price based on selections (without discount)
+   const calculateBasePrice = () => {
       if (!product) return 0;
 
       let price = product.basePrice;
@@ -68,6 +68,21 @@ const ProductDetail = () => {
       });
 
       return price;
+   };
+
+   // Calculate discounted price
+   const calculateDiscountedPrice = () => {
+      if (!product || !product.discount) return null;
+
+      const baseTotal = calculateBasePrice();
+      const discount = product.discount;
+
+      if (discount.type === 'percentage') {
+         return baseTotal * (1 - discount.value / 100);
+      } else {
+         // fixed_amount — sabit indirim basePrice üzerinden
+         return Math.max(0, baseTotal - discount.value);
+      }
    };
 
    const handleOptionToggle = (option) => {
@@ -129,7 +144,11 @@ const ProductDetail = () => {
       );
    }
 
-   const currentPrice = calculatePrice();
+   const originalPrice = calculateBasePrice();
+   const discountedPrice = calculateDiscountedPrice();
+   const hasDiscount = discountedPrice !== null && discountedPrice < originalPrice;
+   const displayPrice = hasDiscount ? discountedPrice : originalPrice;
+
    const mainImage = product.images?.[selectedImage]
       ? `http://localhost:5000${product.images[selectedImage]}`
       : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="800"%3E%3Crect fill="%23f0f0f0" width="600" height="800"/%3E%3Ctext fill="%23999" font-family="Arial" font-size="24" x="50%25" y="50%25" text-anchor="middle"%3EResim Yok%3C/text%3E%3C/svg%3E';
@@ -159,6 +178,11 @@ const ProductDetail = () => {
                <div className="product-gallery">
                   <div className="main-image">
                      <img src={mainImage} alt={product.name} />
+                     {hasDiscount && (
+                        <span className="product-badge badge-discount" style={{ position: 'absolute', top: '1rem', left: '1rem', fontSize: '0.9rem', padding: '0.4rem 0.8rem' }}>
+                           %{product.discount.discountPercentage} İndirim
+                        </span>
+                     )}
                   </div>
                   {product.images?.length > 1 && (
                      <div className="image-thumbnails">
@@ -187,8 +211,21 @@ const ProductDetail = () => {
                      <p className="product-sku">Stok Kodu: {product.sku}</p>
                   )}
 
-                  <div className="product-price">
-                     {currentPrice.toFixed(2)} ₺
+                  {/* Price Section */}
+                  <div className="product-price-section">
+                     {hasDiscount ? (
+                        <>
+                           <span className="product-price-original-lg">{originalPrice.toFixed(2)} ₺</span>
+                           <span className="product-price-discount-lg">{discountedPrice.toFixed(2)} ₺</span>
+                           <span className="product-discount-info">
+                              {product.discount.name} — %{product.discount.discountPercentage} indirim
+                           </span>
+                        </>
+                     ) : (
+                        <div className="product-price">
+                           {originalPrice.toFixed(2)} ₺
+                        </div>
+                     )}
                   </div>
 
                   {product.description && (
@@ -300,7 +337,7 @@ const ProductDetail = () => {
                         style={{ marginTop: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }}
                      >
                         <ShoppingCart size={20} />
-                        Sepete Ekle - {(currentPrice * quantity).toFixed(2)} ₺
+                        Sepete Ekle - {(displayPrice * quantity).toFixed(2)} ₺
                      </button>
                   )}
                </div>
