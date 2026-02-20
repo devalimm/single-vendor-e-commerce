@@ -27,13 +27,13 @@ const createAdminUser = async () => {
       // Create admin user
       const admin = await User.create({
          name: 'Admin',
-         email: 'admin@asiyeozel.com',
+         phone: '05555555555',
          password: 'admin123',
          role: 'admin'
       });
 
       console.log('✅ Admin user created successfully');
-      console.log('📧 Email: admin@asiyeozel.com');
+      console.log('📧 Phone: 05555555555');
       console.log('🔑 Password: admin123');
       console.log('⚠️  Please change the password after first login!');
 

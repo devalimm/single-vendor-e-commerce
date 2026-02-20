@@ -7,13 +7,11 @@ const userSchema = new mongoose.Schema({
       required: [true, 'İsim gereklidir'],
       trim: true
    },
-   email: {
+   phone: {
       type: String,
-      required: [true, 'Email gereklidir'],
+      required: [true, 'Telefon numarası gereklidir'],
       unique: true,
-      lowercase: true,
-      trim: true,
-      match: [/^\S+@\S+\.\S+$/, 'Geçerli bir email adresi giriniz']
+      trim: true
    },
    password: {
       type: String,
@@ -26,9 +24,11 @@ const userSchema = new mongoose.Schema({
       enum: ['customer', 'admin'],
       default: 'customer'
    },
-   phone: {
+   email: {
       type: String,
-      trim: true
+      lowercase: true,
+      trim: true,
+      sparse: true
    },
    address: {
       street: String,

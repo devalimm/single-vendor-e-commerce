@@ -14,9 +14,12 @@ const AdminProductForm = () => {
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
 
-   // Variation selection state
-   const [selectedVariationId, setSelectedVariationId] = useState('');
+   // Variation selection state — supports up to 2 variations
+   const [selectedVariationId1, setSelectedVariationId1] = useState('');
+   const [selectedVariationId2, setSelectedVariationId2] = useState('');
    const [variationOptions, setVariationOptions] = useState([]); // [{name, enabled, stock}]
+   const [groupBy, setGroupBy] = useState('var2'); // 'var1' or 'var2'
+   const [expandedGroups, setExpandedGroups] = useState(new Set());
 
    const [formData, setFormData] = useState({
       name: '',
@@ -84,11 +87,10 @@ const AdminProductForm = () => {
 
          setExistingImages(product.images || []);
 
-         // Try to auto-detect matching variation from existing sizes
-         // We'll do this after variations are loaded
-         if (product.sizes && product.sizes.length > 0) {
+         // Auto-restore variation selections from saved product
+         if (product.selectedVariations && product.selectedVariations.length > 0) {
             setTimeout(() => {
-               autoMatchVariation(product.sizes);
+               autoRestoreVariations(product.selectedVariations, product.sizes || []);
             }, 500);
          }
       } catch (error) {
@@ -98,53 +100,87 @@ const AdminProductForm = () => {
       }
    };
 
-   // Try to match existing product sizes to a variation
-   const autoMatchVariation = (productSizes) => {
-      const sizeNames = productSizes.map(s => s.name);
-      // Find a variation whose options contain all the product size names
-      const matchedVar = variations.find(v =>
-         sizeNames.every(sn => v.options.includes(sn))
-      );
+   // Restore variation dropdowns and stock from saved product
+   const autoRestoreVariations = (savedVarNames, productSizes) => {
+      const var1 = variations.find(v => v.name === savedVarNames[0]);
+      const var2 = savedVarNames.length > 1 ? variations.find(v => v.name === savedVarNames[1]) : null;
 
-      if (matchedVar) {
-         setSelectedVariationId(matchedVar._id);
-         setVariationOptions(
-            matchedVar.options.map(opt => {
-               const existingSize = productSizes.find(s => s.name === opt);
-               return {
-                  name: opt,
-                  enabled: !!existingSize,
-                  stock: existingSize ? existingSize.stock : 0
-               };
-            })
-         );
-      }
+      if (var1) setSelectedVariationId1(var1._id);
+      if (var2) setSelectedVariationId2(var2._id);
+
+      // Build combination matrix with existing stock
+      const combos = buildCombinationMatrix(
+         var1 ? var1.options : [],
+         var2 ? var2.options : [],
+         productSizes
+      );
+      setVariationOptions(combos);
    };
 
-   // When variation selection changes from dropdown
-   const handleVariationChange = (variationId) => {
-      setSelectedVariationId(variationId);
+   // Generate combination matrix from 1 or 2 variation option arrays
+   const buildCombinationMatrix = (opts1, opts2, existingSizes = []) => {
+      const combos = [];
 
-      if (!variationId) {
+      if (opts2.length === 0) {
+         // Single variation
+         for (const o1 of opts1) {
+            const existing = existingSizes.find(s => s.name === o1);
+            combos.push({
+               name: o1,
+               enabled: existing ? true : false,
+               stock: existing ? existing.stock : 0
+            });
+         }
+      } else {
+         // Dual variation — cartesian product
+         for (const o1 of opts1) {
+            for (const o2 of opts2) {
+               const comboName = `${o1} | ${o2}`;
+               const existing = existingSizes.find(s => s.name === comboName);
+               combos.push({
+                  name: comboName,
+                  enabled: existing ? true : false,
+                  stock: existing ? existing.stock : 0
+               });
+            }
+         }
+      }
+
+      return combos;
+   };
+
+   // Rebuild matrix whenever a variation dropdown changes
+   const rebuildMatrix = (varId1, varId2) => {
+      const var1 = variations.find(v => v._id === varId1);
+      const var2 = varId2 ? variations.find(v => v._id === varId2) : null;
+
+      if (!var1) {
          setVariationOptions([]);
          return;
       }
 
-      const variation = variations.find(v => v._id === variationId);
-      if (variation) {
-         // Check if we have existing sizes that match some options
-         const existingSizes = formData.sizes || [];
-         setVariationOptions(
-            variation.options.map(opt => {
-               const existing = existingSizes.find(s => s.name === opt);
-               return {
-                  name: opt,
-                  enabled: existing ? true : false,
-                  stock: existing ? existing.stock : 0
-               };
-            })
-         );
+      const combos = buildCombinationMatrix(
+         var1.options,
+         var2 ? var2.options : [],
+         formData.sizes || []
+      );
+      setVariationOptions(combos);
+   };
+
+   const handleVariation1Change = (variationId) => {
+      setSelectedVariationId1(variationId);
+      // If clearing var1, also clear var2
+      if (!variationId) {
+         setSelectedVariationId2('');
+         setVariationOptions([]);
+         return;
       }
+      rebuildMatrix(variationId, selectedVariationId2);
+   };
+
+   const handleVariation2Change = (variationId) => {
+      setSelectedVariationId2(variationId);
+      rebuildMatrix(selectedVariationId1, variationId);
    };
 
    const toggleVariationOption = (index) => {
@@ -176,19 +212,24 @@ const AdminProductForm = () => {
             .filter(opt => opt.enabled)
             .map(opt => ({ name: opt.name, stock: parseInt(opt.stock) || 0 }));
 
+         // Build selectedVariations names
+         const selectedVariationNames = [];
+         const var1 = variations.find(v => v._id === selectedVariationId1);
+         const var2 = variations.find(v => v._id === selectedVariationId2);
+         if (var1) selectedVariationNames.push(var1.name);
+         if (var2) selectedVariationNames.push(var2.name);
+
          // Prepare data with proper types
          const productData = {
             ...formData,
             basePrice: parseFloat(formData.basePrice) || 0,
             vatRate: parseFloat(formData.vatRate) || 20,
+            selectedVariations: selectedVariationNames,
             sizes: sizesFromVariation.length > 0 ? sizesFromVariation : formData.sizes.map(s => ({
                name: s.name,
                stock: parseInt(s.stock) || 0
             })),
-            lengths: formData.lengths.map(l => ({
-               name: l.name,
-               priceAdjustment: parseFloat(l.priceAdjustment) || 0
-            })),
+            lengths: [],
             options: formData.options.map(o => ({
                name: o.name,
                price: parseFloat(o.price) || 0,
@@ -248,30 +289,7 @@ const AdminProductForm = () => {
       }
    };
 
-   // Length management
-   const addLength = () => {
-      setFormData({
-         ...formData,
-         lengths: [...formData.lengths, { name: '', priceAdjustment: 0 }]
-      });
-   };
 
-   const updateLength = (index, field, value) => {
-      const newLengths = [...formData.lengths];
-      if (field === 'priceAdjustment') {
-         newLengths[index][field] = value === '' ? 0 : parseFloat(value) || 0;
-      } else {
-         newLengths[index][field] = value;
-      }
-      setFormData({ ...formData, lengths: newLengths });
-   };
-
-   const removeLength = (index) => {
-      setFormData({
-         ...formData,
-         lengths: formData.lengths.filter((_, i) => i !== index)
-      });
-   };
 
    // Option management
    const addOption = () => {
@@ -477,118 +495,235 @@ const AdminProductForm = () => {
             <div className="card">
                <h3>Varyasyon & Stok Seçimi</h3>
                <p className="text-muted" style={{ marginBottom: '1rem' }}>
-                  Bu üründe sunmak istediğiniz varyasyonu seçtikten sonra her seçenek için stok bilgisi girebilirsiniz.
+                  Bu üründe en fazla 2 varyasyon seçebilirsiniz. Örneğin: Beden + Renk.
+                  Her kombinasyon için ayrı stok girebilirsiniz.
                </p>
 
-               <div className="form-group">
-                  <label>Varyasyon Seçin</label>
-                  <select
-                     className="form-select"
-                     value={selectedVariationId}
-                     onChange={(e) => handleVariationChange(e.target.value)}
-                  >
-                     <option value="">Varyasyon Seçin (opsiyonel)</option>
-                     {variations.map(v => (
-                        <option key={v._id} value={v._id}>{v.name}</option>
-                     ))}
-                  </select>
-                  {variations.length === 0 && (
-                     <small className="text-muted">
-                        Henüz varyasyon tanımlanmamış.{' '}
-                        <a href="/admin/variations" style={{ color: 'var(--color-primary)' }}>Varyasyon tanımla →</a>
-                     </small>
+               <div className="form-row" style={{ gap: '1rem' }}>
+                  <div className="form-group" style={{ flex: 1 }}>
+                     <label>Varyasyon 1</label>
+                     <select
+                        className="form-select"
+                        value={selectedVariationId1}
+                        onChange={(e) => handleVariation1Change(e.target.value)}
+                     >
+                        <option value="">Seçin (opsiyonel)</option>
+                        {variations.map(v => (
+                           <option key={v._id} value={v._id}>{v.name}</option>
+                        ))}
+                     </select>
+                  </div>
+
+                  {selectedVariationId1 && (
+                     <div className="form-group" style={{ flex: 1 }}>
+                        <label>Varyasyon 2 (opsiyonel)</label>
+                        <select
+                           className="form-select"
+                           value={selectedVariationId2}
+                           onChange={(e) => handleVariation2Change(e.target.value)}
+                        >
+                           <option value="">Seçin (opsiyonel)</option>
+                           {variations
+                              .filter(v => v._id !== selectedVariationId1)
+                              .map(v => (
+                                 <option key={v._id} value={v._id}>{v.name}</option>
+                              ))}
+                        </select>
+                     </div>
                   )}
                </div>
 
-               {variationOptions.length > 0 && (
-                  <div className="variation-stock-section">
-                     <table className="variation-stock-table">
-                        <thead>
-                           <tr>
-                              <th style={{ width: '50px' }}>Aktif</th>
-                              <th>Varyasyon</th>
-                              <th style={{ width: '150px' }}>Stok</th>
-                           </tr>
-                        </thead>
-                        <tbody>
-                           {variationOptions.map((opt, index) => (
-                              <tr key={index} style={{ opacity: opt.enabled ? 1 : 0.5 }}>
-                                 <td>
-                                    <input
-                                       type="checkbox"
-                                       className="variation-stock-checkbox"
-                                       checked={opt.enabled}
-                                       onChange={() => toggleVariationOption(index)}
-                                    />
-                                 </td>
-                                 <td>
-                                    <span className="variation-option-name">{opt.name}</span>
-                                 </td>
-                                 <td>
-                                    <input
-                                       type="number"
-                                       className="form-input"
-                                       value={opt.stock === 0 ? '' : opt.stock}
-                                       onChange={(e) => updateVariationStock(index, e.target.value)}
-                                       min="0"
-                                       placeholder="0"
-                                       disabled={!opt.enabled}
-                                    />
-                                 </td>
-                              </tr>
-                           ))}
-                        </tbody>
-                     </table>
-                  </div>
+               {variations.length === 0 && (
+                  <small className="text-muted">
+                     Henüz varyasyon tanımlanmamış.{' '}
+                     <a href="/admin/variations" style={{ color: 'var(--color-primary)' }}>Varyasyon tanımla →</a>
+                  </small>
                )}
-            </div>
 
-            {/* Lengths */}
-            <div className="card">
-               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3>Boy Seçenekleri</h3>
-                  <button type="button" onClick={addLength} className="btn btn-secondary btn-sm">
-                     + Boy Ekle
-                  </button>
-               </div>
+               {variationOptions.length > 0 && (() => {
+                  const var1 = variations.find(v => v._id === selectedVariationId1);
+                  const var2 = variations.find(v => v._id === selectedVariationId2);
+                  const isDual = !!var2;
 
-               <div className="variant-items-grid">
-                  {formData.lengths.map((length, index) => (
-                     <div key={index} className="variant-item-compact">
-                        <button
-                           type="button"
-                           onClick={() => removeLength(index)}
-                           className="variant-item-remove"
-                           disabled={formData.lengths.length === 1}
-                           title="Sil"
-                        >
-                           <X size={14} />
-                        </button>
-                        <div className="form-group">
-                           <label>Boy (cm)</label>
-                           <input
-                              type="text"
-                              className="form-input"
-                              value={length.name}
-                              onChange={(e) => updateLength(index, 'name', e.target.value)}
-                              placeholder="Örn: 125, 130"
-                              required
-                           />
-                        </div>
-                        <div className="form-group">
-                           <label>Fiyat Farkı (₺)</label>
-                           <input
-                              type="number"
-                              className="form-input"
-                              value={length.priceAdjustment === 0 ? '' : length.priceAdjustment}
-                              onChange={(e) => updateLength(index, 'priceAdjustment', e.target.value)}
-                              placeholder="Opsiyonel"
-                           />
-                        </div>
+                  // Build grouped structure for dual variation
+                  const buildGroups = () => {
+                     if (!isDual) return null;
+                     const groups = {};
+                     variationOptions.forEach((opt, index) => {
+                        const parts = opt.name.split(' | ');
+                        if (parts.length !== 2) return;
+                        const groupKey = groupBy === 'var1' ? parts[0] : parts[1];
+                        const subKey = groupBy === 'var1' ? parts[1] : parts[0];
+                        if (!groups[groupKey]) groups[groupKey] = [];
+                        groups[groupKey].push({ ...opt, subName: subKey, originalIndex: index });
+                     });
+                     return groups;
+                  };
+
+                  const toggleGroup = (groupName) => {
+                     setExpandedGroups(prev => {
+                        const next = new Set(prev);
+                        if (next.has(groupName)) next.delete(groupName);
+                        else next.add(groupName);
+                        return next;
+                     });
+                  };
+
+                  const toggleGroupCheckbox = (groupItems, checked) => {
+                     const newOptions = [...variationOptions];
+                     groupItems.forEach(item => {
+                        newOptions[item.originalIndex].enabled = checked;
+                        if (!checked) newOptions[item.originalIndex].stock = 0;
+                     });
+                     setVariationOptions(newOptions);
+                  };
+
+                  const groups = isDual ? buildGroups() : null;
+
+                  return (
+                     <div className="variation-stock-section">
+                        {/* Grupla dropdown — only for dual variation */}
+                        {isDual && (
+                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                              <span style={{ fontWeight: 500, fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>Grupla</span>
+                              <select
+                                 className="form-select"
+                                 style={{ width: 'auto', minWidth: '140px' }}
+                                 value={groupBy}
+                                 onChange={(e) => {
+                                    setGroupBy(e.target.value);
+                                    setExpandedGroups(new Set());
+                                 }}
+                              >
+                                 <option value="var2">{var2?.name || 'Varyasyon 2'}</option>
+                                 <option value="var1">{var1?.name || 'Varyasyon 1'}</option>
+                              </select>
+                           </div>
+                        )}
+
+                        <table className="variation-stock-table">
+                           <thead>
+                              <tr>
+                                 <th style={{ width: '50px' }}></th>
+                                 <th>Varyasyon</th>
+                                 <th style={{ width: '150px' }}>Fiyat</th>
+                                 <th style={{ width: '150px' }}>Stok</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              {isDual && groups ? (
+                                 Object.entries(groups).map(([groupName, items]) => {
+                                    const isExpanded = expandedGroups.has(groupName);
+                                    const allEnabled = items.every(i => i.enabled);
+                                    const someEnabled = items.some(i => i.enabled);
+                                    return (
+                                       <>
+                                          {/* Group header row */}
+                                          <tr key={`group-${groupName}`} className="variation-group-header" onClick={() => toggleGroup(groupName)}>
+                                             <td onClick={(e) => e.stopPropagation()}>
+                                                <input
+                                                   type="checkbox"
+                                                   className="variation-stock-checkbox"
+                                                   checked={allEnabled}
+                                                   ref={el => { if (el) el.indeterminate = someEnabled && !allEnabled; }}
+                                                   onChange={(e) => toggleGroupCheckbox(items, e.target.checked)}
+                                                />
+                                             </td>
+                                             <td colSpan="3">
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                   <span className="variation-group-name">{groupName}</span>
+                                                   <span className="variation-group-count">{items.length} kombinasyon</span>
+                                                   <span className="variation-group-chevron" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
+                                                </div>
+                                             </td>
+                                          </tr>
+
+                                          {/* Sub-rows — visible when expanded */}
+                                          {isExpanded && items.map((item) => (
+                                             <tr key={item.originalIndex} className="variation-sub-row" style={{ opacity: item.enabled ? 1 : 0.5 }}>
+                                                <td>
+                                                   <input
+                                                      type="checkbox"
+                                                      className="variation-stock-checkbox"
+                                                      checked={item.enabled}
+                                                      onChange={() => toggleVariationOption(item.originalIndex)}
+                                                   />
+                                                </td>
+                                                <td>
+                                                   <span className="variation-option-name" style={{ paddingLeft: '1.5rem' }}>{item.subName}</span>
+                                                </td>
+                                                <td>
+                                                   <input
+                                                      type="number"
+                                                      className="form-input"
+                                                      value={item.price || ''}
+                                                      placeholder="—"
+                                                      disabled
+                                                      style={{ opacity: 0.5 }}
+                                                   />
+                                                </td>
+                                                <td>
+                                                   <input
+                                                      type="number"
+                                                      className="form-input"
+                                                      value={item.stock === 0 ? '' : item.stock}
+                                                      onChange={(e) => updateVariationStock(item.originalIndex, e.target.value)}
+                                                      min="0"
+                                                      placeholder="0"
+                                                      disabled={!item.enabled}
+                                                   />
+                                                </td>
+                                             </tr>
+                                          ))}
+                                       </>
+                                    );
+                                 })
+                              ) : (
+                                 /* Single variation — flat rows */
+                                 variationOptions.map((opt, index) => (
+                                    <tr key={index} style={{ opacity: opt.enabled ? 1 : 0.5 }}>
+                                       <td>
+                                          <input
+                                             type="checkbox"
+                                             className="variation-stock-checkbox"
+                                             checked={opt.enabled}
+                                             onChange={() => toggleVariationOption(index)}
+                                          />
+                                       </td>
+                                       <td>
+                                          <span className="variation-option-name">{opt.name}</span>
+                                       </td>
+                                       <td>
+                                          <input
+                                             type="number"
+                                             className="form-input"
+                                             value=""
+                                             placeholder="—"
+                                             disabled
+                                             style={{ opacity: 0.5 }}
+                                          />
+                                       </td>
+                                       <td>
+                                          <input
+                                             type="number"
+                                             className="form-input"
+                                             value={opt.stock === 0 ? '' : opt.stock}
+                                             onChange={(e) => updateVariationStock(index, e.target.value)}
+                                             min="0"
+                                             placeholder="0"
+                                             disabled={!opt.enabled}
+                                          />
+                                       </td>
+                                    </tr>
+                                 ))
+                              )}
+                           </tbody>
+                        </table>
                      </div>
-                  ))}
-               </div>
+                  );
+               })()}
             </div>
+
 
             {/* Options (Shopier style) */}
             <div className="card">

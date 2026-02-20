@@ -8,12 +8,12 @@ const router = express.Router();
 // Validation rules
 const registerValidation = [
    body('name').trim().notEmpty().withMessage('İsim gereklidir'),
-   body('email').isEmail().withMessage('Geçerli bir email adresi giriniz'),
+   body('phone').trim().notEmpty().withMessage('Telefon numarası gereklidir'),
    body('password').isLength({ min: 6 }).withMessage('Şifre en az 6 karakter olmalıdır')
 ];
 
 const loginValidation = [
-   body('email').isEmail().withMessage('Geçerli bir email adresi giriniz'),
+   body('phone').trim().notEmpty().withMessage('Telefon numarası gereklidir'),
    body('password').notEmpty().withMessage('Şifre gereklidir')
 ];
 

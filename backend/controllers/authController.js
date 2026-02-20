@@ -15,21 +15,21 @@ export const register = async (req, res) => {
          });
       }
 
-      const { name, email, password } = req.body;
+      const { name, phone, password } = req.body;
 
       // Check if user already exists
-      const userExists = await User.findOne({ email });
+      const userExists = await User.findOne({ phone });
       if (userExists) {
          return res.status(400).json({
             success: false,
-            message: 'Bu email adresi zaten kullanılıyor.'
+            message: 'Bu telefon numarası zaten kullanılıyor.'
          });
       }
 
       // Create user
       const user = await User.create({
          name,
-         email,
+         phone,
          password
       });
 
@@ -39,7 +39,7 @@ export const register = async (req, res) => {
             data: {
                _id: user._id,
                name: user.name,
-               email: user.email,
+               phone: user.phone,
                role: user.role,
                token: generateToken(user._id)
             }
@@ -59,23 +59,23 @@ export const register = async (req, res) => {
 // @access  Public
 export const login = async (req, res) => {
    try {
-      const { email, password } = req.body;
+      const { phone, password } = req.body;
 
       // Validate input
-      if (!email || !password) {
+      if (!phone || !password) {
          return res.status(400).json({
             success: false,
-            message: 'Email ve şifre gereklidir.'
+            message: 'Telefon numarası ve şifre gereklidir.'
          });
       }
 
       // Find user and include password
-      const user = await User.findOne({ email }).select('+password');
+      const user = await User.findOne({ phone }).select('+password');
 
       if (!user) {
          return res.status(401).json({
             success: false,
-            message: 'Geçersiz email veya şifre.'
+            message: 'Geçersiz telefon numarası veya şifre.'
          });
       }
 
@@ -85,7 +85,7 @@ export const login = async (req, res) => {
       if (!isPasswordMatch) {
          return res.status(401).json({
             success: false,
-            message: 'Geçersiz email veya şifre.'
+            message: 'Geçersiz telefon numarası veya şifre.'
          });
       }
 
@@ -94,7 +94,7 @@ export const login = async (req, res) => {
          data: {
             _id: user._id,
             name: user.name,
-            email: user.email,
+            phone: user.phone,
             role: user.role,
             token: generateToken(user._id)
          }
@@ -162,9 +162,9 @@ export const updateProfile = async (req, res) => {
             data: {
                _id: updatedUser._id,
                name: updatedUser.name,
-               email: updatedUser.email,
-               role: updatedUser.role,
                phone: updatedUser.phone,
+               role: updatedUser.role,
+               email: updatedUser.email,
                address: updatedUser.address,
                token: generateToken(updatedUser._id)
             }
@@ -296,7 +296,7 @@ export const resetPassword = async (req, res) => {
          data: {
             _id: user._id,
             name: user.name,
-            email: user.email,
+            phone: user.phone,
             role: user.role,
             token: generateToken(user._id)
          }

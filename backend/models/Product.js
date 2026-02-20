@@ -35,7 +35,7 @@ const productSchema = new mongoose.Schema({
       default: ''
    },
 
-   // Sizes available for this product
+   // Sizes available for this product (also stores variation combinations via " | " separator)
    sizes: [{
       name: {
          type: String,
@@ -46,6 +46,13 @@ const productSchema = new mongoose.Schema({
          default: 0,
          min: 0
       }
+   }],
+
+   // Which variation types are used for this product (max 2)
+   // e.g. ["Beden"] or ["Beden", "Renk"]
+   selectedVariations: [{
+      type: String,
+      trim: true
    }],
 
    // Lengths available for this product

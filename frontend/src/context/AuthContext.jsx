@@ -36,11 +36,11 @@ export const AuthProvider = ({ children }) => {
       loadUser();
    }, []);
 
-   const register = async (name, email, password) => {
+   const register = async (name, phone, password) => {
       try {
          const response = await api.post('/auth/register', {
             name,
-            email,
+            phone,
             password
          });
 
@@ -59,10 +59,10 @@ export const AuthProvider = ({ children }) => {
       }
    };
 
-   const login = async (email, password) => {
+   const login = async (phone, password) => {
       try {
          const response = await api.post('/auth/login', {
-            email,
+            phone,
             password
          });
 

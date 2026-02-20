@@ -24,6 +24,12 @@ const ProductDetail = () => {
    const [selectedOptions, setSelectedOptions] = useState([]);
    const [quantity, setQuantity] = useState(1);
 
+   // Dual variation selection state
+   const [varSelection1, setVarSelection1] = useState('');
+   const [varSelection2, setVarSelection2] = useState('');
+
+   const isDualVariation = product?.selectedVariations?.length === 2;
+
    useEffect(() => {
       fetchProduct();
    }, [id]);
@@ -35,8 +41,11 @@ const ProductDetail = () => {
          const productData = response.data.data;
          setProduct(productData);
 
-         // Set default selections - only select sizes with stock
-         if (productData.sizes?.length > 0) {
+         // Set default selections
+         if (productData.selectedVariations?.length === 2) {
+            // Dual variation — don't auto-select, user picks both
+            setSelectedSize(null);
+         } else if (productData.sizes?.length > 0) {
             const firstInStockSize = productData.sizes.find(size => size.stock > 0);
             setSelectedSize(firstInStockSize || null);
          }
@@ -48,6 +57,66 @@ const ProductDetail = () => {
          setError('Ürün yüklenirken bir hata oluştu.');
       } finally {
          setLoading(false);
+      }
+   };
+
+   // --- Dual variation helpers ---
+   const getVariation1Options = () => {
+      if (!isDualVariation || !product?.sizes) return [];
+      const names = new Set();
+      product.sizes.forEach(s => {
+         const parts = s.name.split(' | ');
+         if (parts.length === 2) names.add(parts[0]);
+      });
+      return [...names];
+   };
+
+   const getVariation2Options = () => {
+      if (!isDualVariation || !product?.sizes) return [];
+      const names = new Set();
+      product.sizes.forEach(s => {
+         const parts = s.name.split(' | ');
+         if (parts.length === 2) {
+            // Only show options where var1 matches (if selected) and has stock
+            if (!varSelection1 || parts[0] === varSelection1) {
+               names.add(parts[1]);
+            }
+         }
+      });
+      return [...names];
+   };
+
+   const getDualVariationStock = (v1, v2) => {
+      if (!product?.sizes) return 0;
+      const combo = product.sizes.find(s => s.name === `${v1} | ${v2}`);
+      return combo ? combo.stock : 0;
+   };
+
+   const handleDualVariationSelect = (slot, value) => {
+      let newV1 = slot === 1 ? value : varSelection1;
+      let newV2 = slot === 2 ? value : varSelection2;
+
+      if (slot === 1) {
+         setVarSelection1(value);
+         // Reset var2 if the current var2 is not available with the new var1
+         if (newV2) {
+            const combo = product.sizes.find(s => s.name === `${value} | ${newV2}`);
+            if (!combo) {
+               newV2 = '';
+               setVarSelection2('');
+            }
+         }
+      } else {
+         setVarSelection2(value);
+      }
+
+      // If both selected, find the matching size entry
+      if (newV1 && newV2) {
+         const comboName = `${newV1} | ${newV2}`;
+         const sizeEntry = product.sizes.find(s => s.name === comboName);
+         setSelectedSize(sizeEntry && sizeEntry.stock > 0 ? sizeEntry : null);
+      } else {
+         setSelectedSize(null);
       }
    };
 
@@ -232,10 +301,62 @@ const ProductDetail = () => {
                      <p className="product-description">{product.description}</p>
                   )}
 
-                  {/* Size Selector */}
-                  {product.sizes?.length > 0 && (
+                  {/* Size / Variation Selector */}
+                  {isDualVariation ? (
+                     <>
+                        {/* Dual variation — 2 separate selectors */}
+                        <div className="variant-section">
+                           <label className="variant-label">{product.selectedVariations[0]} Seçin:</label>
+                           <div className="variant-options">
+                              {getVariation1Options().map((opt) => {
+                                 // Check if any combo with this opt has stock
+                                 const hasStock = product.sizes.some(s => s.name.startsWith(opt + ' | ') && s.stock > 0);
+                                 return (
+                                    <button
+                                       key={opt}
+                                       className={`variant-btn ${varSelection1 === opt ? 'active' : ''} ${!hasStock ? 'disabled' : ''}`}
+                                       onClick={() => hasStock && handleDualVariationSelect(1, opt)}
+                                       disabled={!hasStock}
+                                    >
+                                       {opt}
+                                       {!hasStock && <span className="out-of-stock-badge">Tükendi</span>}
+                                    </button>
+                                 );
+                              })}
+                           </div>
+                        </div>
+
+                        {varSelection1 && (
+                           <div className="variant-section">
+                              <label className="variant-label">{product.selectedVariations[1]} Seçin:</label>
+                              <div className="variant-options">
+                                 {getVariation2Options().map((opt) => {
+                                    const stock = getDualVariationStock(varSelection1, opt);
+                                    return (
+                                       <button
+                                          key={opt}
+                                          className={`variant-btn ${varSelection2 === opt ? 'active' : ''} ${stock === 0 ? 'disabled' : ''}`}
+                                          onClick={() => stock > 0 && handleDualVariationSelect(2, opt)}
+                                          disabled={stock === 0}
+                                       >
+                                          {opt}
+                                          {stock === 0 && <span className="out-of-stock-badge">Tükendi</span>}
+                                       </button>
+                                    );
+                                 })}
+                              </div>
+                           </div>
+                        )}
+
+                        {selectedSize && selectedSize.stock > 0 && (
+                           <p className="stock-info">Stok: {selectedSize.stock} adet</p>
+                        )}
+                     </>
+                  ) : product.sizes?.length > 0 && (
                      <div className="variant-section">
-                        <label className="variant-label">Beden Seçin:</label>
+                        <label className="variant-label">
+                           {product.selectedVariations?.[0] || 'Beden'} Seçin:
+                        </label>
                         <div className="variant-options">
                            {product.sizes.map((size) => (
                               <button

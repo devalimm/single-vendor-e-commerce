@@ -5,7 +5,7 @@ import { useAuth } from '../context/AuthContext';
 const Register = () => {
    const [formData, setFormData] = useState({
       name: '',
-      email: '',
+      phone: '',
       password: '',
       confirmPassword: ''
    });
@@ -39,7 +39,7 @@ const Register = () => {
 
       setLoading(true);
 
-      const result = await register(formData.name, formData.email, formData.password);
+      const result = await register(formData.name, formData.phone, formData.password);
 
       if (result.success) {
          navigate('/');
@@ -79,15 +79,15 @@ const Register = () => {
                   </div>
 
                   <div className="form-group">
-                     <label htmlFor="email">Email</label>
+                     <label htmlFor="phone">Telefon Numarası</label>
                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
                         onChange={handleChange}
                         required
-                        placeholder="ornek@email.com"
+                        placeholder="05XX XXX XX XX"
                         className="form-input"
                      />
                   </div>
@@ -146,4 +146,3 @@ const Register = () => {
 };
 
 export default Register;
-

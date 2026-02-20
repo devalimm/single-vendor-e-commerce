@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Login = () => {
-   const [email, setEmail] = useState('');
+   const [phone, setPhone] = useState('');
    const [password, setPassword] = useState('');
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(false);
@@ -19,7 +19,7 @@ const Login = () => {
       setError('');
       setLoading(true);
 
-      const result = await login(email, password);
+      const result = await login(phone, password);
 
       if (result.success) {
          navigate(from, { replace: true });
@@ -45,14 +45,14 @@ const Login = () => {
 
                <form onSubmit={handleSubmit} className="auth-form">
                   <div className="form-group">
-                     <label htmlFor="email">Email</label>
+                     <label htmlFor="phone">Telefon Numarası</label>
                      <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="tel"
+                        id="phone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
                         required
-                        placeholder="ornek@email.com"
+                        placeholder="05XX XXX XX XX"
                         className="form-input"
                      />
                   </div>
@@ -100,4 +100,3 @@ const Login = () => {
 };
 
 export default Login;
-
