@@ -1,6 +1,6 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Folder, ShoppingBag, Package, Home, LogOut, Percent, Layers } from 'lucide-react';
+import { LayoutDashboard, Folder, ShoppingBag, Package, Home, LogOut, Percent, Layers, Truck, Users } from 'lucide-react';
 
 const AdminLayout = () => {
    const { user, logout } = useAuth();
@@ -37,6 +37,12 @@ const AdminLayout = () => {
                </Link>
                <Link to="/admin/discounts" className="admin-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <Percent size={18} /> İndirimler
+               </Link>
+               <Link to="/admin/shipping" className="admin-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Truck size={18} /> Kargo Ayarları
+               </Link>
+               <Link to="/admin/customers" className="admin-nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Users size={18} /> Müşteriler
                </Link>
             </nav>
 

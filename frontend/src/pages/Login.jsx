@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
    const [phone, setPhone] = useState('');
    const [password, setPassword] = useState('');
+   const [showPassword, setShowPassword] = useState(false);
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(false);
 
@@ -59,16 +61,26 @@ const Login = () => {
 
                   <div className="form-group">
                      <label htmlFor="password">Şifre</label>
-                     <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                        placeholder="••••••••"
-                        className="form-input"
-                        minLength={6}
-                     />
+                     <div className="password-input-wrapper">
+                        <input
+                           type={showPassword ? 'text' : 'password'}
+                           id="password"
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
+                           required
+                           placeholder="••••••••"
+                           className="form-input"
+                           minLength={6}
+                        />
+                        <button
+                           type="button"
+                           className="password-toggle-btn"
+                           onClick={() => setShowPassword(!showPassword)}
+                           tabIndex={-1}
+                        >
+                           {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                     </div>
                      <div style={{ textAlign: 'right', marginTop: '0.5rem' }}>
                         <Link to="/forgot-password" className="auth-link" style={{ fontSize: '0.875rem' }}>
                            Şifremi Unuttum

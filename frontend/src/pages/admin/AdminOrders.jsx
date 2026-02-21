@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../../context/ToastContext';
 import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw, Search } from 'lucide-react';
-
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const statusConfig = {
    pending: { label: 'Beklemede', color: '#f59e0b', icon: Clock },

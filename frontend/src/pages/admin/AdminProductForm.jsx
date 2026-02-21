@@ -728,7 +728,7 @@ const AdminProductForm = () => {
             {/* Options (Shopier style) */}
             <div className="card">
                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3>Ek Opsiyonlar (Şal, Etek vb.)</h3>
+                  <h3>Opsiyonlar (Şal, Etek vb.)</h3>
                   <button type="button" onClick={addOption} className="btn btn-secondary btn-sm">
                      + Opsiyon Ekle
                   </button>

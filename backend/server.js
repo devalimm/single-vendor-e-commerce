@@ -13,6 +13,8 @@ import categoryRoutes from './routes/categories.js';
 import orderRoutes from './routes/orders.js';
 import discountRoutes from './routes/discounts.js';
 import variationRoutes from './routes/variations.js';
+import shippingRoutes from './routes/shipping.js';
+import customerRoutes from './routes/customers.js';
 
 // Import rate limiters
 import { apiLimiter, authLimiter } from './middleware/rateLimiter.js';
@@ -83,6 +85,8 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/discounts', discountRoutes);
 app.use('/api/variations', variationRoutes);
+app.use('/api/shipping-settings', shippingRoutes);
+app.use('/api/customers', customerRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

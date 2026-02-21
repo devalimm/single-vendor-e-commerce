@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Clock, CheckCircle, Truck, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Orders = () => {
    const [orders, setOrders] = useState([]);

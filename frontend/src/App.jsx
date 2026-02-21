@@ -31,6 +31,8 @@ import AdminProductForm from './pages/admin/AdminProductForm';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminDiscount from './pages/admin/AdminDiscount';
 import AdminVariations from './pages/admin/AdminVariations';
+import AdminShipping from './pages/admin/AdminShipping';
+import AdminCustomers from './pages/admin/AdminCustomers';
 
 import './index.css';
 
@@ -69,6 +71,8 @@ function App() {
                     <Route path="orders" element={<AdminOrders />} />
                     <Route path="discounts" element={<AdminDiscount />} />
                     <Route path="variations" element={<AdminVariations />} />
+                    <Route path="shipping" element={<AdminShipping />} />
+                    <Route path="customers" element={<AdminCustomers />} />
                   </Route>
 
                   {/* 404 */}

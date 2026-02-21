@@ -1,5 +1,34 @@
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
+import ShippingSettings from '../models/ShippingSettings.js';
+
+// Helper: calculate shipping cost based on admin settings
+async function calculateShippingCost(subtotal, itemCount) {
+   const settings = await ShippingSettings.getSettings();
+   const fee = settings.standardShippingFee;
+
+   // Check free shipping threshold first
+   if (settings.freeShippingEnabled && subtotal >= settings.freeShippingThreshold) {
+      return 0;
+   }
+
+   switch (settings.calculationMethod) {
+      case 'single':
+         return fee;
+      case 'sum_all':
+         return fee * itemCount;
+      case 'first_plus':
+         return fee + (Math.max(0, itemCount - 1) * (settings.perItemExtraFee || 0));
+      case 'threshold':
+         // threshold mode — fee applies if below threshold, 0 if above
+         return subtotal >= settings.freeShippingThreshold ? 0 : fee;
+      case 'delivery':
+         // For now use standard fee; delivery method selection can be added later
+         return fee;
+      default:
+         return fee;
+   }
+}
 
 // @desc    Create guest order (no login required)
 // @route   POST /api/orders/guest
@@ -118,8 +147,8 @@ export const createGuestOrder = async (req, res) => {
          });
       }
 
-      // Calculate shipping (free over 500 TL)
-      const shippingCost = subtotal > 500 ? 0 : 30;
+      // Calculate shipping from admin settings
+      const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
       const tax = 0;
       const total = subtotal + shippingCost + tax;
 
@@ -238,11 +267,11 @@ export const createOrder = async (req, res) => {
          });
       }
 
-      // Calculate shipping (you can customize this)
-      const shippingCost = subtotal > 500 ? 0 : 30; // Free shipping over 500 TL
+      // Calculate shipping from admin settings
+      const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
 
       // Calculate tax (KDV - you can customize this)
-      const tax = 0; // Or calculate based on your tax rules
+      const tax = 0;
 
       const total = subtotal + shippingCost + tax;
 

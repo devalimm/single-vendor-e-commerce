@@ -4,7 +4,7 @@ import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { ShoppingBag, User, MapPin, FileText, Check, ChevronRight, ArrowLeft } from 'lucide-react';
 import turkeyAddresses from '../data/turkeyAddresses.json';
-
+const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Checkout = () => {
    const navigate = useNavigate();
