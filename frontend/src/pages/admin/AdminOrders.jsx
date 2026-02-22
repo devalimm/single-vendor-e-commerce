@@ -85,7 +85,7 @@ const AdminOrders = () => {
       setUpdatingOrder(orderId);
       try {
          const token = localStorage.getItem('token');
-         const response = await fetch(`${VITEAPI_URL}/orders/${orderId}/status`, {
+         const response = await fetch(`${VITE_API_URL}/orders/${orderId}/status`, {
             method: 'PUT',
             headers: {
                'Content-Type': 'application/json',
