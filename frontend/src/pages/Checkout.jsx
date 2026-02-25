@@ -652,7 +652,7 @@ const Checkout = () => {
                   </span>
                </div>
 
-               {/* {grandTotal <= 500 && (
+               {shippingSettings && shippingSettings.freeShippingEnabled && grandTotal < shippingSettings.freeShippingThreshold && (
                   <div style={{
                      marginTop: '1rem',
                      padding: '0.75rem',
@@ -661,9 +661,13 @@ const Checkout = () => {
                      fontSize: '0.875rem',
                      textAlign: 'center'
                   }}>
-                     500 ₺ üzeri siparişlerde <strong>ücretsiz kargo!</strong>
+                     {shippingSettings.freeShippingThreshold.toFixed(0)} ₺ üzeri siparişlerde <strong>ücretsiz kargo!</strong>
+                     <br />
+                     <span style={{ color: 'var(--color-text-secondary)' }}>
+                        {(shippingSettings.freeShippingThreshold - grandTotal).toFixed(2)} ₺ daha ekleyin
+                     </span>
                   </div>
-               )} */}
+               )}
             </div>
          </div>
 
