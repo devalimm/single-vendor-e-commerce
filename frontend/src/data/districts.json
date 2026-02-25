@@ -1,0 +1,5840 @@
+[
+    {
+        "id": 1001,
+        "kargopaneliId": 1104,
+        "cityName": "Adana",
+        "districtName": "Seyhan"
+    },
+    {
+        "id": 1002,
+        "kargopaneliId": 1219,
+        "cityName": "Adana",
+        "districtName": "Ceyhan"
+    },
+    {
+        "id": 1003,
+        "kargopaneliId": 1329,
+        "cityName": "Adana",
+        "districtName": "Feke"
+    },
+    {
+        "id": 1004,
+        "kargopaneliId": 1437,
+        "cityName": "Adana",
+        "districtName": "Karaisalı"
+    },
+    {
+        "id": 1005,
+        "kargopaneliId": 1443,
+        "cityName": "Adana",
+        "districtName": "Karataş"
+    },
+    {
+        "id": 1006,
+        "kargopaneliId": 1486,
+        "cityName": "Adana",
+        "districtName": "Kozan"
+    },
+    {
+        "id": 1007,
+        "kargopaneliId": 1580,
+        "cityName": "Adana",
+        "districtName": "Pozantı"
+    },
+    {
+        "id": 1008,
+        "kargopaneliId": 1588,
+        "cityName": "Adana",
+        "districtName": "Saimbeyli"
+    },
+    {
+        "id": 1009,
+        "kargopaneliId": 1687,
+        "cityName": "Adana",
+        "districtName": "Tufanbeyli"
+    },
+    {
+        "id": 1010,
+        "kargopaneliId": 1734,
+        "cityName": "Adana",
+        "districtName": "Yumurtalık"
+    },
+    {
+        "id": 1011,
+        "kargopaneliId": 1748,
+        "cityName": "Adana",
+        "districtName": "Yüreğir"
+    },
+    {
+        "id": 1012,
+        "kargopaneliId": 1757,
+        "cityName": "Adana",
+        "districtName": "Aladağ"
+    },
+    {
+        "id": 1013,
+        "kargopaneliId": 1806,
+        "cityName": "Adana",
+        "districtName": "İmamoğlu"
+    },
+    {
+        "id": 1014,
+        "kargopaneliId": 2032,
+        "cityName": "Adana",
+        "districtName": "Sarıçam"
+    },
+    {
+        "id": 1015,
+        "kargopaneliId": 2033,
+        "cityName": "Adana",
+        "districtName": "Çukurova"
+    },
+    {
+        "id": 2001,
+        "kargopaneliId": 1105,
+        "cityName": "Adıyaman",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 2002,
+        "kargopaneliId": 1182,
+        "cityName": "Adıyaman",
+        "districtName": "Besni"
+    },
+    {
+        "id": 2003,
+        "kargopaneliId": 1246,
+        "cityName": "Adıyaman",
+        "districtName": "Çelikhan"
+    },
+    {
+        "id": 2004,
+        "kargopaneliId": 1347,
+        "cityName": "Adıyaman",
+        "districtName": "Gerger"
+    },
+    {
+        "id": 2005,
+        "kargopaneliId": 1354,
+        "cityName": "Adıyaman",
+        "districtName": "Gölbaşı"
+    },
+    {
+        "id": 2006,
+        "kargopaneliId": 1425,
+        "cityName": "Adıyaman",
+        "districtName": "Kahta"
+    },
+    {
+        "id": 2007,
+        "kargopaneliId": 1592,
+        "cityName": "Adıyaman",
+        "districtName": "Samsat"
+    },
+    {
+        "id": 2008,
+        "kargopaneliId": 1985,
+        "cityName": "Adıyaman",
+        "districtName": "Sincik"
+    },
+    {
+        "id": 2009,
+        "kargopaneliId": 1989,
+        "cityName": "Adıyaman",
+        "districtName": "Tut"
+    },
+    {
+        "id": 3001,
+        "kargopaneliId": 1108,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 3002,
+        "kargopaneliId": 1200,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Bolvadin"
+    },
+    {
+        "id": 3003,
+        "kargopaneliId": 1239,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Çay"
+    },
+    {
+        "id": 3004,
+        "kargopaneliId": 1267,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Dazkırı"
+    },
+    {
+        "id": 3005,
+        "kargopaneliId": 1281,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Dinar"
+    },
+    {
+        "id": 3006,
+        "kargopaneliId": 1306,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Emirdağ"
+    },
+    {
+        "id": 3007,
+        "kargopaneliId": 1404,
+        "cityName": "Afyonkarahisar",
+        "districtName": "İhsaniye"
+    },
+    {
+        "id": 3008,
+        "kargopaneliId": 1594,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Sandıklı"
+    },
+    {
+        "id": 3009,
+        "kargopaneliId": 1626,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Sinanpaşa"
+    },
+    {
+        "id": 3010,
+        "kargopaneliId": 1639,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Sultandağı"
+    },
+    {
+        "id": 3011,
+        "kargopaneliId": 1664,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Şuhut"
+    },
+    {
+        "id": 3012,
+        "kargopaneliId": 1771,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Başmakçı"
+    },
+    {
+        "id": 3013,
+        "kargopaneliId": 1773,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Bayat"
+    },
+    {
+        "id": 3014,
+        "kargopaneliId": 1809,
+        "cityName": "Afyonkarahisar",
+        "districtName": "İscehisar"
+    },
+    {
+        "id": 3015,
+        "kargopaneliId": 1906,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Çobanlar"
+    },
+    {
+        "id": 3016,
+        "kargopaneliId": 1923,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Evciler"
+    },
+    {
+        "id": 3017,
+        "kargopaneliId": 1944,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Hocalar"
+    },
+    {
+        "id": 3018,
+        "kargopaneliId": 1961,
+        "cityName": "Afyonkarahisar",
+        "districtName": "Kızılören"
+    },
+    {
+        "id": 4001,
+        "kargopaneliId": 1111,
+        "cityName": "Ağrı",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 4002,
+        "kargopaneliId": 1283,
+        "cityName": "Ağrı",
+        "districtName": "Diyadin"
+    },
+    {
+        "id": 4003,
+        "kargopaneliId": 1287,
+        "cityName": "Ağrı",
+        "districtName": "Doğubayazıt"
+    },
+    {
+        "id": 4004,
+        "kargopaneliId": 1301,
+        "cityName": "Ağrı",
+        "districtName": "Eleşkirt"
+    },
+    {
+        "id": 4005,
+        "kargopaneliId": 1379,
+        "cityName": "Ağrı",
+        "districtName": "Hamur"
+    },
+    {
+        "id": 4006,
+        "kargopaneliId": 1568,
+        "cityName": "Ağrı",
+        "districtName": "Patnos"
+    },
+    {
+        "id": 4007,
+        "kargopaneliId": 1667,
+        "cityName": "Ağrı",
+        "districtName": "Taşlıçay"
+    },
+    {
+        "id": 4008,
+        "kargopaneliId": 1691,
+        "cityName": "Ağrı",
+        "districtName": "Tutak"
+    },
+    {
+        "id": 5001,
+        "kargopaneliId": 1134,
+        "cityName": "Amasya",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 5002,
+        "kargopaneliId": 1363,
+        "cityName": "Amasya",
+        "districtName": "Göynücek"
+    },
+    {
+        "id": 5003,
+        "kargopaneliId": 1368,
+        "cityName": "Amasya",
+        "districtName": "Gümüşhacıköy"
+    },
+    {
+        "id": 5004,
+        "kargopaneliId": 1524,
+        "cityName": "Amasya",
+        "districtName": "Merzifon"
+    },
+    {
+        "id": 5005,
+        "kargopaneliId": 1641,
+        "cityName": "Amasya",
+        "districtName": "Suluova"
+    },
+    {
+        "id": 5006,
+        "kargopaneliId": 1668,
+        "cityName": "Amasya",
+        "districtName": "Taşova"
+    },
+    {
+        "id": 5007,
+        "kargopaneliId": 1938,
+        "cityName": "Amasya",
+        "districtName": "Hamamözü"
+    },
+    {
+        "id": 6001,
+        "kargopaneliId": 1130,
+        "cityName": "Ankara",
+        "districtName": "Altındağ"
+    },
+    {
+        "id": 6002,
+        "kargopaneliId": 1157,
+        "cityName": "Ankara",
+        "districtName": "Ayaş"
+    },
+    {
+        "id": 6003,
+        "kargopaneliId": 1167,
+        "cityName": "Ankara",
+        "districtName": "Bala"
+    },
+    {
+        "id": 6004,
+        "kargopaneliId": 1187,
+        "cityName": "Ankara",
+        "districtName": "Beypazarı"
+    },
+    {
+        "id": 6005,
+        "kargopaneliId": 1227,
+        "cityName": "Ankara",
+        "districtName": "Çamlıdere"
+    },
+    {
+        "id": 6006,
+        "kargopaneliId": 1231,
+        "cityName": "Ankara",
+        "districtName": "Çankaya"
+    },
+    {
+        "id": 6007,
+        "kargopaneliId": 1260,
+        "cityName": "Ankara",
+        "districtName": "Çubuk"
+    },
+    {
+        "id": 6008,
+        "kargopaneliId": 1302,
+        "cityName": "Ankara",
+        "districtName": "Elmadağ"
+    },
+    {
+        "id": 6009,
+        "kargopaneliId": 1365,
+        "cityName": "Ankara",
+        "districtName": "Güdül"
+    },
+    {
+        "id": 6010,
+        "kargopaneliId": 1387,
+        "cityName": "Ankara",
+        "districtName": "Haymana"
+    },
+    {
+        "id": 6011,
+        "kargopaneliId": 1427,
+        "cityName": "Ankara",
+        "districtName": "Kalecik"
+    },
+    {
+        "id": 6012,
+        "kargopaneliId": 1473,
+        "cityName": "Ankara",
+        "districtName": "Kızılcahamam"
+    },
+    {
+        "id": 6013,
+        "kargopaneliId": 1539,
+        "cityName": "Ankara",
+        "districtName": "Nallıhan"
+    },
+    {
+        "id": 6014,
+        "kargopaneliId": 1578,
+        "cityName": "Ankara",
+        "districtName": "Polatlı"
+    },
+    {
+        "id": 6015,
+        "kargopaneliId": 1658,
+        "cityName": "Ankara",
+        "districtName": "Şereflikoçhisar"
+    },
+    {
+        "id": 6016,
+        "kargopaneliId": 1723,
+        "cityName": "Ankara",
+        "districtName": "Yenimahalle"
+    },
+    {
+        "id": 6017,
+        "kargopaneliId": 1744,
+        "cityName": "Ankara",
+        "districtName": "Gölbaşı"
+    },
+    {
+        "id": 6018,
+        "kargopaneliId": 1745,
+        "cityName": "Ankara",
+        "districtName": "Keçiören"
+    },
+    {
+        "id": 6019,
+        "kargopaneliId": 1746,
+        "cityName": "Ankara",
+        "districtName": "Mamak"
+    },
+    {
+        "id": 6020,
+        "kargopaneliId": 1747,
+        "cityName": "Ankara",
+        "districtName": "Sincan"
+    },
+    {
+        "id": 6021,
+        "kargopaneliId": 1815,
+        "cityName": "Ankara",
+        "districtName": "Kahramankazan"
+    },
+    {
+        "id": 6022,
+        "kargopaneliId": 1872,
+        "cityName": "Ankara",
+        "districtName": "Akyurt"
+    },
+    {
+        "id": 6023,
+        "kargopaneliId": 1922,
+        "cityName": "Ankara",
+        "districtName": "Etimesgut"
+    },
+    {
+        "id": 6024,
+        "kargopaneliId": 1924,
+        "cityName": "Ankara",
+        "districtName": "Evren"
+    },
+    {
+        "id": 6025,
+        "kargopaneliId": 2034,
+        "cityName": "Ankara",
+        "districtName": "Pursaklar"
+    },
+    {
+        "id": 7001,
+        "kargopaneliId": 1121,
+        "cityName": "Antalya",
+        "districtName": "Akseki"
+    },
+    {
+        "id": 7002,
+        "kargopaneliId": 1126,
+        "cityName": "Antalya",
+        "districtName": "Alanya"
+    },
+    {
+        "id": 7003,
+        "kargopaneliId": 1303,
+        "cityName": "Antalya",
+        "districtName": "Elmalı"
+    },
+    {
+        "id": 7004,
+        "kargopaneliId": 1333,
+        "cityName": "Antalya",
+        "districtName": "Finike"
+    },
+    {
+        "id": 7005,
+        "kargopaneliId": 1337,
+        "cityName": "Antalya",
+        "districtName": "Gazipaşa"
+    },
+    {
+        "id": 7006,
+        "kargopaneliId": 1370,
+        "cityName": "Antalya",
+        "districtName": "Gündoğmuş"
+    },
+    {
+        "id": 7007,
+        "kargopaneliId": 1451,
+        "cityName": "Antalya",
+        "districtName": "Kaş"
+    },
+    {
+        "id": 7008,
+        "kargopaneliId": 1483,
+        "cityName": "Antalya",
+        "districtName": "Korkuteli"
+    },
+    {
+        "id": 7009,
+        "kargopaneliId": 1492,
+        "cityName": "Antalya",
+        "districtName": "Kumluca"
+    },
+    {
+        "id": 7010,
+        "kargopaneliId": 1512,
+        "cityName": "Antalya",
+        "districtName": "Manavgat"
+    },
+    {
+        "id": 7011,
+        "kargopaneliId": 1616,
+        "cityName": "Antalya",
+        "districtName": "Serik"
+    },
+    {
+        "id": 7012,
+        "kargopaneliId": 1811,
+        "cityName": "Antalya",
+        "districtName": "Demre"
+    },
+    {
+        "id": 7013,
+        "kargopaneliId": 1946,
+        "cityName": "Antalya",
+        "districtName": "İbradı"
+    },
+    {
+        "id": 7014,
+        "kargopaneliId": 1959,
+        "cityName": "Antalya",
+        "districtName": "Kemer"
+    },
+    {
+        "id": 7015,
+        "kargopaneliId": 2035,
+        "cityName": "Antalya",
+        "districtName": "Aksu"
+    },
+    {
+        "id": 7016,
+        "kargopaneliId": 2036,
+        "cityName": "Antalya",
+        "districtName": "Döşemealtı"
+    },
+    {
+        "id": 7017,
+        "kargopaneliId": 2037,
+        "cityName": "Antalya",
+        "districtName": "Kepez"
+    },
+    {
+        "id": 7018,
+        "kargopaneliId": 2038,
+        "cityName": "Antalya",
+        "districtName": "Konyaaltı"
+    },
+    {
+        "id": 7019,
+        "kargopaneliId": 2039,
+        "cityName": "Antalya",
+        "districtName": "Muratpaşa"
+    },
+    {
+        "id": 8001,
+        "kargopaneliId": 1145,
+        "cityName": "Artvin",
+        "districtName": "Ardanuç"
+    },
+    {
+        "id": 8002,
+        "kargopaneliId": 1147,
+        "cityName": "Artvin",
+        "districtName": "Arhavi"
+    },
+    {
+        "id": 8003,
+        "kargopaneliId": 1152,
+        "cityName": "Artvin",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 8004,
+        "kargopaneliId": 1202,
+        "cityName": "Artvin",
+        "districtName": "Borçka"
+    },
+    {
+        "id": 8005,
+        "kargopaneliId": 1395,
+        "cityName": "Artvin",
+        "districtName": "Hopa"
+    },
+    {
+        "id": 8006,
+        "kargopaneliId": 1653,
+        "cityName": "Artvin",
+        "districtName": "Şavşat"
+    },
+    {
+        "id": 8007,
+        "kargopaneliId": 1736,
+        "cityName": "Artvin",
+        "districtName": "Yusufeli"
+    },
+    {
+        "id": 8008,
+        "kargopaneliId": 1828,
+        "cityName": "Artvin",
+        "districtName": "Murgul"
+    },
+    {
+        "id": 8009,
+        "kargopaneliId": 2105,
+        "cityName": "Artvin",
+        "districtName": "Kemalpaşa"
+    },
+    {
+        "id": 9001,
+        "kargopaneliId": 1206,
+        "cityName": "Aydın",
+        "districtName": "Bozdoğan"
+    },
+    {
+        "id": 9002,
+        "kargopaneliId": 1256,
+        "cityName": "Aydın",
+        "districtName": "Çine"
+    },
+    {
+        "id": 9003,
+        "kargopaneliId": 1348,
+        "cityName": "Aydın",
+        "districtName": "Germencik"
+    },
+    {
+        "id": 9004,
+        "kargopaneliId": 1435,
+        "cityName": "Aydın",
+        "districtName": "Karacasu"
+    },
+    {
+        "id": 9005,
+        "kargopaneliId": 1479,
+        "cityName": "Aydın",
+        "districtName": "Koçarlı"
+    },
+    {
+        "id": 9006,
+        "kargopaneliId": 1497,
+        "cityName": "Aydın",
+        "districtName": "Kuşadası"
+    },
+    {
+        "id": 9007,
+        "kargopaneliId": 1498,
+        "cityName": "Aydın",
+        "districtName": "Kuyucak"
+    },
+    {
+        "id": 9008,
+        "kargopaneliId": 1542,
+        "cityName": "Aydın",
+        "districtName": "Nazilli"
+    },
+    {
+        "id": 9009,
+        "kargopaneliId": 1637,
+        "cityName": "Aydın",
+        "districtName": "Söke"
+    },
+    {
+        "id": 9010,
+        "kargopaneliId": 1640,
+        "cityName": "Aydın",
+        "districtName": "Sultanhisar"
+    },
+    {
+        "id": 9011,
+        "kargopaneliId": 1724,
+        "cityName": "Aydın",
+        "districtName": "Yenipazar"
+    },
+    {
+        "id": 9012,
+        "kargopaneliId": 1781,
+        "cityName": "Aydın",
+        "districtName": "Buharkent"
+    },
+    {
+        "id": 9013,
+        "kargopaneliId": 1807,
+        "cityName": "Aydın",
+        "districtName": "İncirliova"
+    },
+    {
+        "id": 9014,
+        "kargopaneliId": 1957,
+        "cityName": "Aydın",
+        "districtName": "Karpuzlu"
+    },
+    {
+        "id": 9015,
+        "kargopaneliId": 1968,
+        "cityName": "Aydın",
+        "districtName": "Köşk"
+    },
+    {
+        "id": 9016,
+        "kargopaneliId": 2000,
+        "cityName": "Aydın",
+        "districtName": "Didim"
+    },
+    {
+        "id": 9017,
+        "kargopaneliId": 2076,
+        "cityName": "Aydın",
+        "districtName": "Efeler"
+    },
+    {
+        "id": 10001,
+        "kargopaneliId": 1161,
+        "cityName": "Balıkesir",
+        "districtName": "Ayvalık"
+    },
+    {
+        "id": 10002,
+        "kargopaneliId": 1169,
+        "cityName": "Balıkesir",
+        "districtName": "Balya"
+    },
+    {
+        "id": 10003,
+        "kargopaneliId": 1171,
+        "cityName": "Balıkesir",
+        "districtName": "Bandırma"
+    },
+    {
+        "id": 10004,
+        "kargopaneliId": 1191,
+        "cityName": "Balıkesir",
+        "districtName": "Bigadiç"
+    },
+    {
+        "id": 10005,
+        "kargopaneliId": 1216,
+        "cityName": "Balıkesir",
+        "districtName": "Burhaniye"
+    },
+    {
+        "id": 10006,
+        "kargopaneliId": 1291,
+        "cityName": "Balıkesir",
+        "districtName": "Dursunbey"
+    },
+    {
+        "id": 10007,
+        "kargopaneliId": 1294,
+        "cityName": "Balıkesir",
+        "districtName": "Edremit"
+    },
+    {
+        "id": 10008,
+        "kargopaneliId": 1310,
+        "cityName": "Balıkesir",
+        "districtName": "Erdek"
+    },
+    {
+        "id": 10009,
+        "kargopaneliId": 1360,
+        "cityName": "Balıkesir",
+        "districtName": "Gönen"
+    },
+    {
+        "id": 10010,
+        "kargopaneliId": 1384,
+        "cityName": "Balıkesir",
+        "districtName": "Havran"
+    },
+    {
+        "id": 10011,
+        "kargopaneliId": 1418,
+        "cityName": "Balıkesir",
+        "districtName": "İvrindi"
+    },
+    {
+        "id": 10012,
+        "kargopaneliId": 1462,
+        "cityName": "Balıkesir",
+        "districtName": "Kepsut"
+    },
+    {
+        "id": 10013,
+        "kargopaneliId": 1514,
+        "cityName": "Balıkesir",
+        "districtName": "Manyas"
+    },
+    {
+        "id": 10014,
+        "kargopaneliId": 1608,
+        "cityName": "Balıkesir",
+        "districtName": "Savaştepe"
+    },
+    {
+        "id": 10015,
+        "kargopaneliId": 1619,
+        "cityName": "Balıkesir",
+        "districtName": "Sındırgı"
+    },
+    {
+        "id": 10016,
+        "kargopaneliId": 1644,
+        "cityName": "Balıkesir",
+        "districtName": "Susurluk"
+    },
+    {
+        "id": 10017,
+        "kargopaneliId": 1824,
+        "cityName": "Balıkesir",
+        "districtName": "Marmara"
+    },
+    {
+        "id": 10018,
+        "kargopaneliId": 1928,
+        "cityName": "Balıkesir",
+        "districtName": "Gömeç"
+    },
+    {
+        "id": 10019,
+        "kargopaneliId": 2077,
+        "cityName": "Balıkesir",
+        "districtName": "Altıeylül"
+    },
+    {
+        "id": 10020,
+        "kargopaneliId": 2078,
+        "cityName": "Balıkesir",
+        "districtName": "Karesi"
+    },
+    {
+        "id": 11001,
+        "kargopaneliId": 1192,
+        "cityName": "Bilecik",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 11002,
+        "kargopaneliId": 1210,
+        "cityName": "Bilecik",
+        "districtName": "Bozüyük"
+    },
+    {
+        "id": 11003,
+        "kargopaneliId": 1359,
+        "cityName": "Bilecik",
+        "districtName": "Gölpazarı"
+    },
+    {
+        "id": 11004,
+        "kargopaneliId": 1559,
+        "cityName": "Bilecik",
+        "districtName": "Osmaneli"
+    },
+    {
+        "id": 11005,
+        "kargopaneliId": 1571,
+        "cityName": "Bilecik",
+        "districtName": "Pazaryeri"
+    },
+    {
+        "id": 11006,
+        "kargopaneliId": 1636,
+        "cityName": "Bilecik",
+        "districtName": "Söğüt"
+    },
+    {
+        "id": 11007,
+        "kargopaneliId": 1857,
+        "cityName": "Bilecik",
+        "districtName": "Yenipazar"
+    },
+    {
+        "id": 11008,
+        "kargopaneliId": 1948,
+        "cityName": "Bilecik",
+        "districtName": "İnhisar"
+    },
+    {
+        "id": 12001,
+        "kargopaneliId": 1193,
+        "cityName": "Bingöl",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 12002,
+        "kargopaneliId": 1344,
+        "cityName": "Bingöl",
+        "districtName": "Genç"
+    },
+    {
+        "id": 12003,
+        "kargopaneliId": 1446,
+        "cityName": "Bingöl",
+        "districtName": "Karlıova"
+    },
+    {
+        "id": 12004,
+        "kargopaneliId": 1475,
+        "cityName": "Bingöl",
+        "districtName": "Kiğı"
+    },
+    {
+        "id": 12005,
+        "kargopaneliId": 1633,
+        "cityName": "Bingöl",
+        "districtName": "Solhan"
+    },
+    {
+        "id": 12006,
+        "kargopaneliId": 1750,
+        "cityName": "Bingöl",
+        "districtName": "Adaklı"
+    },
+    {
+        "id": 12007,
+        "kargopaneliId": 1855,
+        "cityName": "Bingöl",
+        "districtName": "Yayladere"
+    },
+    {
+        "id": 12008,
+        "kargopaneliId": 1996,
+        "cityName": "Bingöl",
+        "districtName": "Yedisu"
+    },
+    {
+        "id": 13001,
+        "kargopaneliId": 1106,
+        "cityName": "Bitlis",
+        "districtName": "Adilcevaz"
+    },
+    {
+        "id": 13002,
+        "kargopaneliId": 1112,
+        "cityName": "Bitlis",
+        "districtName": "Ahlat"
+    },
+    {
+        "id": 13003,
+        "kargopaneliId": 1196,
+        "cityName": "Bitlis",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 13004,
+        "kargopaneliId": 1394,
+        "cityName": "Bitlis",
+        "districtName": "Hizan"
+    },
+    {
+        "id": 13005,
+        "kargopaneliId": 1537,
+        "cityName": "Bitlis",
+        "districtName": "Mutki"
+    },
+    {
+        "id": 13006,
+        "kargopaneliId": 1669,
+        "cityName": "Bitlis",
+        "districtName": "Tatvan"
+    },
+    {
+        "id": 13007,
+        "kargopaneliId": 1798,
+        "cityName": "Bitlis",
+        "districtName": "Güroymak"
+    },
+    {
+        "id": 14001,
+        "kargopaneliId": 1199,
+        "cityName": "Bolu",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 14002,
+        "kargopaneliId": 1346,
+        "cityName": "Bolu",
+        "districtName": "Gerede"
+    },
+    {
+        "id": 14003,
+        "kargopaneliId": 1364,
+        "cityName": "Bolu",
+        "districtName": "Göynük"
+    },
+    {
+        "id": 14004,
+        "kargopaneliId": 1466,
+        "cityName": "Bolu",
+        "districtName": "Kıbrıscık"
+    },
+    {
+        "id": 14005,
+        "kargopaneliId": 1522,
+        "cityName": "Bolu",
+        "districtName": "Mengen"
+    },
+    {
+        "id": 14006,
+        "kargopaneliId": 1531,
+        "cityName": "Bolu",
+        "districtName": "Mudurnu"
+    },
+    {
+        "id": 14007,
+        "kargopaneliId": 1610,
+        "cityName": "Bolu",
+        "districtName": "Seben"
+    },
+    {
+        "id": 14008,
+        "kargopaneliId": 1916,
+        "cityName": "Bolu",
+        "districtName": "Dörtdivan"
+    },
+    {
+        "id": 14009,
+        "kargopaneliId": 1997,
+        "cityName": "Bolu",
+        "districtName": "Yeniçağa"
+    },
+    {
+        "id": 15001,
+        "kargopaneliId": 1109,
+        "cityName": "Burdur",
+        "districtName": "Ağlasun"
+    },
+    {
+        "id": 15002,
+        "kargopaneliId": 1211,
+        "cityName": "Burdur",
+        "districtName": "Bucak"
+    },
+    {
+        "id": 15003,
+        "kargopaneliId": 1215,
+        "cityName": "Burdur",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 15004,
+        "kargopaneliId": 1357,
+        "cityName": "Burdur",
+        "districtName": "Gölhisar"
+    },
+    {
+        "id": 15005,
+        "kargopaneliId": 1672,
+        "cityName": "Burdur",
+        "districtName": "Tefenni"
+    },
+    {
+        "id": 15006,
+        "kargopaneliId": 1728,
+        "cityName": "Burdur",
+        "districtName": "Yeşilova"
+    },
+    {
+        "id": 15007,
+        "kargopaneliId": 1813,
+        "cityName": "Burdur",
+        "districtName": "Karamanlı"
+    },
+    {
+        "id": 15008,
+        "kargopaneliId": 1816,
+        "cityName": "Burdur",
+        "districtName": "Kemer"
+    },
+    {
+        "id": 15009,
+        "kargopaneliId": 1874,
+        "cityName": "Burdur",
+        "districtName": "Altınyayla"
+    },
+    {
+        "id": 15010,
+        "kargopaneliId": 1899,
+        "cityName": "Burdur",
+        "districtName": "Çavdır"
+    },
+    {
+        "id": 15011,
+        "kargopaneliId": 1903,
+        "cityName": "Burdur",
+        "districtName": "Çeltikçi"
+    },
+    {
+        "id": 16001,
+        "kargopaneliId": 1343,
+        "cityName": "Bursa",
+        "districtName": "Gemlik"
+    },
+    {
+        "id": 16002,
+        "kargopaneliId": 1411,
+        "cityName": "Bursa",
+        "districtName": "İnegöl"
+    },
+    {
+        "id": 16003,
+        "kargopaneliId": 1420,
+        "cityName": "Bursa",
+        "districtName": "İznik"
+    },
+    {
+        "id": 16004,
+        "kargopaneliId": 1434,
+        "cityName": "Bursa",
+        "districtName": "Karacabey"
+    },
+    {
+        "id": 16005,
+        "kargopaneliId": 1457,
+        "cityName": "Bursa",
+        "districtName": "Keles"
+    },
+    {
+        "id": 16006,
+        "kargopaneliId": 1530,
+        "cityName": "Bursa",
+        "districtName": "Mudanya"
+    },
+    {
+        "id": 16007,
+        "kargopaneliId": 1535,
+        "cityName": "Bursa",
+        "districtName": "Mustafakemalpaşa"
+    },
+    {
+        "id": 16008,
+        "kargopaneliId": 1553,
+        "cityName": "Bursa",
+        "districtName": "Orhaneli"
+    },
+    {
+        "id": 16009,
+        "kargopaneliId": 1554,
+        "cityName": "Bursa",
+        "districtName": "Orhangazi"
+    },
+    {
+        "id": 16010,
+        "kargopaneliId": 1725,
+        "cityName": "Bursa",
+        "districtName": "Yenişehir"
+    },
+    {
+        "id": 16011,
+        "kargopaneliId": 1783,
+        "cityName": "Bursa",
+        "districtName": "Büyükorhan"
+    },
+    {
+        "id": 16012,
+        "kargopaneliId": 1799,
+        "cityName": "Bursa",
+        "districtName": "Harmancık"
+    },
+    {
+        "id": 16013,
+        "kargopaneliId": 1829,
+        "cityName": "Bursa",
+        "districtName": "Nilüfer"
+    },
+    {
+        "id": 16014,
+        "kargopaneliId": 1832,
+        "cityName": "Bursa",
+        "districtName": "Osmangazi"
+    },
+    {
+        "id": 16015,
+        "kargopaneliId": 1859,
+        "cityName": "Bursa",
+        "districtName": "Yıldırım"
+    },
+    {
+        "id": 16016,
+        "kargopaneliId": 1935,
+        "cityName": "Bursa",
+        "districtName": "Gürsu"
+    },
+    {
+        "id": 16017,
+        "kargopaneliId": 1960,
+        "cityName": "Bursa",
+        "districtName": "Kestel"
+    },
+    {
+        "id": 17001,
+        "kargopaneliId": 1160,
+        "cityName": "Çanakkale",
+        "districtName": "Ayvacık"
+    },
+    {
+        "id": 17002,
+        "kargopaneliId": 1180,
+        "cityName": "Çanakkale",
+        "districtName": "Bayramiç"
+    },
+    {
+        "id": 17003,
+        "kargopaneliId": 1190,
+        "cityName": "Çanakkale",
+        "districtName": "Biga"
+    },
+    {
+        "id": 17004,
+        "kargopaneliId": 1205,
+        "cityName": "Çanakkale",
+        "districtName": "Bozcaada"
+    },
+    {
+        "id": 17005,
+        "kargopaneliId": 1229,
+        "cityName": "Çanakkale",
+        "districtName": "Çan"
+    },
+    {
+        "id": 17006,
+        "kargopaneliId": 1230,
+        "cityName": "Çanakkale",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 17007,
+        "kargopaneliId": 1293,
+        "cityName": "Çanakkale",
+        "districtName": "Eceabat"
+    },
+    {
+        "id": 17008,
+        "kargopaneliId": 1326,
+        "cityName": "Çanakkale",
+        "districtName": "Ezine"
+    },
+    {
+        "id": 17009,
+        "kargopaneliId": 1340,
+        "cityName": "Çanakkale",
+        "districtName": "Gelibolu"
+    },
+    {
+        "id": 17010,
+        "kargopaneliId": 1408,
+        "cityName": "Çanakkale",
+        "districtName": "Gökçeada"
+    },
+    {
+        "id": 17011,
+        "kargopaneliId": 1503,
+        "cityName": "Çanakkale",
+        "districtName": "Lapseki"
+    },
+    {
+        "id": 17012,
+        "kargopaneliId": 1722,
+        "cityName": "Çanakkale",
+        "districtName": "Yenice"
+    },
+    {
+        "id": 18001,
+        "kargopaneliId": 1232,
+        "cityName": "Çankırı",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 18002,
+        "kargopaneliId": 1248,
+        "cityName": "Çankırı",
+        "districtName": "Çerkeş"
+    },
+    {
+        "id": 18003,
+        "kargopaneliId": 1300,
+        "cityName": "Çankırı",
+        "districtName": "Eldivan"
+    },
+    {
+        "id": 18004,
+        "kargopaneliId": 1399,
+        "cityName": "Çankırı",
+        "districtName": "Ilgaz"
+    },
+    {
+        "id": 18005,
+        "kargopaneliId": 1494,
+        "cityName": "Çankırı",
+        "districtName": "Kurşunlu"
+    },
+    {
+        "id": 18006,
+        "kargopaneliId": 1555,
+        "cityName": "Çankırı",
+        "districtName": "Orta"
+    },
+    {
+        "id": 18007,
+        "kargopaneliId": 1649,
+        "cityName": "Çankırı",
+        "districtName": "Şabanözü"
+    },
+    {
+        "id": 18008,
+        "kargopaneliId": 1718,
+        "cityName": "Çankırı",
+        "districtName": "Yapraklı"
+    },
+    {
+        "id": 18009,
+        "kargopaneliId": 1765,
+        "cityName": "Çankırı",
+        "districtName": "Atkaracalar"
+    },
+    {
+        "id": 18010,
+        "kargopaneliId": 1817,
+        "cityName": "Çankırı",
+        "districtName": "Kızılırmak"
+    },
+    {
+        "id": 18011,
+        "kargopaneliId": 1885,
+        "cityName": "Çankırı",
+        "districtName": "Bayramören"
+    },
+    {
+        "id": 18012,
+        "kargopaneliId": 1963,
+        "cityName": "Çankırı",
+        "districtName": "Korgun"
+    },
+    {
+        "id": 19001,
+        "kargopaneliId": 1124,
+        "cityName": "Çorum",
+        "districtName": "Alaca"
+    },
+    {
+        "id": 19002,
+        "kargopaneliId": 1177,
+        "cityName": "Çorum",
+        "districtName": "Bayat"
+    },
+    {
+        "id": 19003,
+        "kargopaneliId": 1259,
+        "cityName": "Çorum",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 19004,
+        "kargopaneliId": 1414,
+        "cityName": "Çorum",
+        "districtName": "İskilip"
+    },
+    {
+        "id": 19005,
+        "kargopaneliId": 1445,
+        "cityName": "Çorum",
+        "districtName": "Kargı"
+    },
+    {
+        "id": 19006,
+        "kargopaneliId": 1520,
+        "cityName": "Çorum",
+        "districtName": "Mecitözü"
+    },
+    {
+        "id": 19007,
+        "kargopaneliId": 1556,
+        "cityName": "Çorum",
+        "districtName": "Ortaköy"
+    },
+    {
+        "id": 19008,
+        "kargopaneliId": 1558,
+        "cityName": "Çorum",
+        "districtName": "Osmancık"
+    },
+    {
+        "id": 19009,
+        "kargopaneliId": 1642,
+        "cityName": "Çorum",
+        "districtName": "Sungurlu"
+    },
+    {
+        "id": 19010,
+        "kargopaneliId": 1778,
+        "cityName": "Çorum",
+        "districtName": "Boğazkale"
+    },
+    {
+        "id": 19011,
+        "kargopaneliId": 1850,
+        "cityName": "Çorum",
+        "districtName": "Uğurludağ"
+    },
+    {
+        "id": 19012,
+        "kargopaneliId": 1911,
+        "cityName": "Çorum",
+        "districtName": "Dodurga"
+    },
+    {
+        "id": 19013,
+        "kargopaneliId": 1972,
+        "cityName": "Çorum",
+        "districtName": "Laçin"
+    },
+    {
+        "id": 19014,
+        "kargopaneliId": 1976,
+        "cityName": "Çorum",
+        "districtName": "Oğuzlar"
+    },
+    {
+        "id": 20001,
+        "kargopaneliId": 1102,
+        "cityName": "Denizli",
+        "districtName": "Acıpayam"
+    },
+    {
+        "id": 20002,
+        "kargopaneliId": 1214,
+        "cityName": "Denizli",
+        "districtName": "Buldan"
+    },
+    {
+        "id": 20003,
+        "kargopaneliId": 1224,
+        "cityName": "Denizli",
+        "districtName": "Çal"
+    },
+    {
+        "id": 20004,
+        "kargopaneliId": 1226,
+        "cityName": "Denizli",
+        "districtName": "Çameli"
+    },
+    {
+        "id": 20005,
+        "kargopaneliId": 1233,
+        "cityName": "Denizli",
+        "districtName": "Çardak"
+    },
+    {
+        "id": 20006,
+        "kargopaneliId": 1257,
+        "cityName": "Denizli",
+        "districtName": "Çivril"
+    },
+    {
+        "id": 20007,
+        "kargopaneliId": 1371,
+        "cityName": "Denizli",
+        "districtName": "Güney"
+    },
+    {
+        "id": 20008,
+        "kargopaneliId": 1426,
+        "cityName": "Denizli",
+        "districtName": "Kale"
+    },
+    {
+        "id": 20009,
+        "kargopaneliId": 1597,
+        "cityName": "Denizli",
+        "districtName": "Sarayköy"
+    },
+    {
+        "id": 20010,
+        "kargopaneliId": 1670,
+        "cityName": "Denizli",
+        "districtName": "Tavas"
+    },
+    {
+        "id": 20011,
+        "kargopaneliId": 1769,
+        "cityName": "Denizli",
+        "districtName": "Babadağ"
+    },
+    {
+        "id": 20012,
+        "kargopaneliId": 1774,
+        "cityName": "Denizli",
+        "districtName": "Bekilli"
+    },
+    {
+        "id": 20013,
+        "kargopaneliId": 1803,
+        "cityName": "Denizli",
+        "districtName": "Honaz"
+    },
+    {
+        "id": 20014,
+        "kargopaneliId": 1840,
+        "cityName": "Denizli",
+        "districtName": "Serinhisar"
+    },
+    {
+        "id": 20015,
+        "kargopaneliId": 1871,
+        "cityName": "Denizli",
+        "districtName": "Pamukkale"
+    },
+    {
+        "id": 20016,
+        "kargopaneliId": 1881,
+        "cityName": "Denizli",
+        "districtName": "Baklan"
+    },
+    {
+        "id": 20017,
+        "kargopaneliId": 1888,
+        "cityName": "Denizli",
+        "districtName": "Beyağaç"
+    },
+    {
+        "id": 20018,
+        "kargopaneliId": 1889,
+        "cityName": "Denizli",
+        "districtName": "Bozkurt"
+    },
+    {
+        "id": 20019,
+        "kargopaneliId": 2079,
+        "cityName": "Denizli",
+        "districtName": "Merkezefendi"
+    },
+    {
+        "id": 21001,
+        "kargopaneliId": 1195,
+        "cityName": "Diyarbakır",
+        "districtName": "Bismil"
+    },
+    {
+        "id": 21002,
+        "kargopaneliId": 1249,
+        "cityName": "Diyarbakır",
+        "districtName": "Çermik"
+    },
+    {
+        "id": 21003,
+        "kargopaneliId": 1253,
+        "cityName": "Diyarbakır",
+        "districtName": "Çınar"
+    },
+    {
+        "id": 21004,
+        "kargopaneliId": 1263,
+        "cityName": "Diyarbakır",
+        "districtName": "Çüngüş"
+    },
+    {
+        "id": 21005,
+        "kargopaneliId": 1278,
+        "cityName": "Diyarbakır",
+        "districtName": "Dicle"
+    },
+    {
+        "id": 21006,
+        "kargopaneliId": 1315,
+        "cityName": "Diyarbakır",
+        "districtName": "Ergani"
+    },
+    {
+        "id": 21007,
+        "kargopaneliId": 1381,
+        "cityName": "Diyarbakır",
+        "districtName": "Hani"
+    },
+    {
+        "id": 21008,
+        "kargopaneliId": 1389,
+        "cityName": "Diyarbakır",
+        "districtName": "Hazro"
+    },
+    {
+        "id": 21009,
+        "kargopaneliId": 1490,
+        "cityName": "Diyarbakır",
+        "districtName": "Kulp"
+    },
+    {
+        "id": 21010,
+        "kargopaneliId": 1504,
+        "cityName": "Diyarbakır",
+        "districtName": "Lice"
+    },
+    {
+        "id": 21011,
+        "kargopaneliId": 1624,
+        "cityName": "Diyarbakır",
+        "districtName": "Silvan"
+    },
+    {
+        "id": 21012,
+        "kargopaneliId": 1791,
+        "cityName": "Diyarbakır",
+        "districtName": "Eğil"
+    },
+    {
+        "id": 21013,
+        "kargopaneliId": 1962,
+        "cityName": "Diyarbakır",
+        "districtName": "Kocaköy"
+    },
+    {
+        "id": 21014,
+        "kargopaneliId": 2040,
+        "cityName": "Diyarbakır",
+        "districtName": "Bağlar"
+    },
+    {
+        "id": 21015,
+        "kargopaneliId": 2041,
+        "cityName": "Diyarbakır",
+        "districtName": "Kayapınar"
+    },
+    {
+        "id": 21016,
+        "kargopaneliId": 2042,
+        "cityName": "Diyarbakır",
+        "districtName": "Sur"
+    },
+    {
+        "id": 21017,
+        "kargopaneliId": 2043,
+        "cityName": "Diyarbakır",
+        "districtName": "Yenişehir"
+    },
+    {
+        "id": 22001,
+        "kargopaneliId": 1295,
+        "cityName": "Edirne",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 22002,
+        "kargopaneliId": 1307,
+        "cityName": "Edirne",
+        "districtName": "Enez"
+    },
+    {
+        "id": 22003,
+        "kargopaneliId": 1385,
+        "cityName": "Edirne",
+        "districtName": "Havsa"
+    },
+    {
+        "id": 22004,
+        "kargopaneliId": 1412,
+        "cityName": "Edirne",
+        "districtName": "İpsala"
+    },
+    {
+        "id": 22005,
+        "kargopaneliId": 1464,
+        "cityName": "Edirne",
+        "districtName": "Keşan"
+    },
+    {
+        "id": 22006,
+        "kargopaneliId": 1502,
+        "cityName": "Edirne",
+        "districtName": "Lalapaşa"
+    },
+    {
+        "id": 22007,
+        "kargopaneliId": 1523,
+        "cityName": "Edirne",
+        "districtName": "Meriç"
+    },
+    {
+        "id": 22008,
+        "kargopaneliId": 1705,
+        "cityName": "Edirne",
+        "districtName": "Uzunköprü"
+    },
+    {
+        "id": 22009,
+        "kargopaneliId": 1988,
+        "cityName": "Edirne",
+        "districtName": "Süloğlu"
+    },
+    {
+        "id": 23001,
+        "kargopaneliId": 1110,
+        "cityName": "Elazığ",
+        "districtName": "Ağın"
+    },
+    {
+        "id": 23002,
+        "kargopaneliId": 1173,
+        "cityName": "Elazığ",
+        "districtName": "Baskil"
+    },
+    {
+        "id": 23003,
+        "kargopaneliId": 1298,
+        "cityName": "Elazığ",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 23004,
+        "kargopaneliId": 1438,
+        "cityName": "Elazığ",
+        "districtName": "Karakoçan"
+    },
+    {
+        "id": 23005,
+        "kargopaneliId": 1455,
+        "cityName": "Elazığ",
+        "districtName": "Keban"
+    },
+    {
+        "id": 23006,
+        "kargopaneliId": 1506,
+        "cityName": "Elazığ",
+        "districtName": "Maden"
+    },
+    {
+        "id": 23007,
+        "kargopaneliId": 1566,
+        "cityName": "Elazığ",
+        "districtName": "Palu"
+    },
+    {
+        "id": 23008,
+        "kargopaneliId": 1631,
+        "cityName": "Elazığ",
+        "districtName": "Sivrice"
+    },
+    {
+        "id": 23009,
+        "kargopaneliId": 1762,
+        "cityName": "Elazığ",
+        "districtName": "Arıcak"
+    },
+    {
+        "id": 23010,
+        "kargopaneliId": 1820,
+        "cityName": "Elazığ",
+        "districtName": "Kovancılar"
+    },
+    {
+        "id": 23011,
+        "kargopaneliId": 1873,
+        "cityName": "Elazığ",
+        "districtName": "Alacakaya"
+    },
+    {
+        "id": 24001,
+        "kargopaneliId": 1243,
+        "cityName": "Erzincan",
+        "districtName": "Çayırlı"
+    },
+    {
+        "id": 24002,
+        "kargopaneliId": 1318,
+        "cityName": "Erzincan",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 24003,
+        "kargopaneliId": 1406,
+        "cityName": "Erzincan",
+        "districtName": "İliç"
+    },
+    {
+        "id": 24004,
+        "kargopaneliId": 1459,
+        "cityName": "Erzincan",
+        "districtName": "Kemah"
+    },
+    {
+        "id": 24005,
+        "kargopaneliId": 1460,
+        "cityName": "Erzincan",
+        "districtName": "Kemaliye"
+    },
+    {
+        "id": 24006,
+        "kargopaneliId": 1583,
+        "cityName": "Erzincan",
+        "districtName": "Refahiye"
+    },
+    {
+        "id": 24007,
+        "kargopaneliId": 1675,
+        "cityName": "Erzincan",
+        "districtName": "Tercan"
+    },
+    {
+        "id": 24008,
+        "kargopaneliId": 1853,
+        "cityName": "Erzincan",
+        "districtName": "Üzümlü"
+    },
+    {
+        "id": 24009,
+        "kargopaneliId": 1977,
+        "cityName": "Erzincan",
+        "districtName": "Otlukbeli"
+    },
+    {
+        "id": 25001,
+        "kargopaneliId": 1153,
+        "cityName": "Erzurum",
+        "districtName": "Aşkale"
+    },
+    {
+        "id": 25002,
+        "kargopaneliId": 1235,
+        "cityName": "Erzurum",
+        "districtName": "Çat"
+    },
+    {
+        "id": 25003,
+        "kargopaneliId": 1392,
+        "cityName": "Erzurum",
+        "districtName": "Hınıs"
+    },
+    {
+        "id": 25004,
+        "kargopaneliId": 1396,
+        "cityName": "Erzurum",
+        "districtName": "Horasan"
+    },
+    {
+        "id": 25005,
+        "kargopaneliId": 1416,
+        "cityName": "Erzurum",
+        "districtName": "İspir"
+    },
+    {
+        "id": 25006,
+        "kargopaneliId": 1444,
+        "cityName": "Erzurum",
+        "districtName": "Karayazı"
+    },
+    {
+        "id": 25007,
+        "kargopaneliId": 1540,
+        "cityName": "Erzurum",
+        "districtName": "Narman"
+    },
+    {
+        "id": 25008,
+        "kargopaneliId": 1550,
+        "cityName": "Erzurum",
+        "districtName": "Oltu"
+    },
+    {
+        "id": 25009,
+        "kargopaneliId": 1551,
+        "cityName": "Erzurum",
+        "districtName": "Olur"
+    },
+    {
+        "id": 25010,
+        "kargopaneliId": 1567,
+        "cityName": "Erzurum",
+        "districtName": "Pasinler"
+    },
+    {
+        "id": 25011,
+        "kargopaneliId": 1657,
+        "cityName": "Erzurum",
+        "districtName": "Şenkaya"
+    },
+    {
+        "id": 25012,
+        "kargopaneliId": 1674,
+        "cityName": "Erzurum",
+        "districtName": "Tekman"
+    },
+    {
+        "id": 25013,
+        "kargopaneliId": 1683,
+        "cityName": "Erzurum",
+        "districtName": "Tortum"
+    },
+    {
+        "id": 25014,
+        "kargopaneliId": 1812,
+        "cityName": "Erzurum",
+        "districtName": "Karaçoban"
+    },
+    {
+        "id": 25015,
+        "kargopaneliId": 1851,
+        "cityName": "Erzurum",
+        "districtName": "Uzundere"
+    },
+    {
+        "id": 25016,
+        "kargopaneliId": 1865,
+        "cityName": "Erzurum",
+        "districtName": "Pazaryolu"
+    },
+    {
+        "id": 25017,
+        "kargopaneliId": 1945,
+        "cityName": "Erzurum",
+        "districtName": "Aziziye"
+    },
+    {
+        "id": 25018,
+        "kargopaneliId": 1967,
+        "cityName": "Erzurum",
+        "districtName": "Köprüköy"
+    },
+    {
+        "id": 25019,
+        "kargopaneliId": 2044,
+        "cityName": "Erzurum",
+        "districtName": "Palandöken"
+    },
+    {
+        "id": 25020,
+        "kargopaneliId": 2045,
+        "cityName": "Erzurum",
+        "districtName": "Yakutiye"
+    },
+    {
+        "id": 26001,
+        "kargopaneliId": 1255,
+        "cityName": "Eskişehir",
+        "districtName": "Çifteler"
+    },
+    {
+        "id": 26002,
+        "kargopaneliId": 1508,
+        "cityName": "Eskişehir",
+        "districtName": "Mahmudiye"
+    },
+    {
+        "id": 26003,
+        "kargopaneliId": 1527,
+        "cityName": "Eskişehir",
+        "districtName": "Mihalıççık"
+    },
+    {
+        "id": 26004,
+        "kargopaneliId": 1599,
+        "cityName": "Eskişehir",
+        "districtName": "Sarıcakaya"
+    },
+    {
+        "id": 26005,
+        "kargopaneliId": 1618,
+        "cityName": "Eskişehir",
+        "districtName": "Seyitgazi"
+    },
+    {
+        "id": 26006,
+        "kargopaneliId": 1632,
+        "cityName": "Eskişehir",
+        "districtName": "Sivrihisar"
+    },
+    {
+        "id": 26007,
+        "kargopaneliId": 1759,
+        "cityName": "Eskişehir",
+        "districtName": "Alpu"
+    },
+    {
+        "id": 26008,
+        "kargopaneliId": 1777,
+        "cityName": "Eskişehir",
+        "districtName": "Beylikova"
+    },
+    {
+        "id": 26009,
+        "kargopaneliId": 1808,
+        "cityName": "Eskişehir",
+        "districtName": "İnönü"
+    },
+    {
+        "id": 26010,
+        "kargopaneliId": 1934,
+        "cityName": "Eskişehir",
+        "districtName": "Günyüzü"
+    },
+    {
+        "id": 26011,
+        "kargopaneliId": 1939,
+        "cityName": "Eskişehir",
+        "districtName": "Han"
+    },
+    {
+        "id": 26012,
+        "kargopaneliId": 1973,
+        "cityName": "Eskişehir",
+        "districtName": "Mihalgazi"
+    },
+    {
+        "id": 26013,
+        "kargopaneliId": 2046,
+        "cityName": "Eskişehir",
+        "districtName": "Odunpazarı"
+    },
+    {
+        "id": 26014,
+        "kargopaneliId": 2047,
+        "cityName": "Eskişehir",
+        "districtName": "Tepebaşı"
+    },
+    {
+        "id": 27001,
+        "kargopaneliId": 1139,
+        "cityName": "Gaziantep",
+        "districtName": "Araban"
+    },
+    {
+        "id": 27002,
+        "kargopaneliId": 1415,
+        "cityName": "Gaziantep",
+        "districtName": "İslahiye"
+    },
+    {
+        "id": 27003,
+        "kargopaneliId": 1546,
+        "cityName": "Gaziantep",
+        "districtName": "Nizip"
+    },
+    {
+        "id": 27004,
+        "kargopaneliId": 1549,
+        "cityName": "Gaziantep",
+        "districtName": "Oğuzeli"
+    },
+    {
+        "id": 27005,
+        "kargopaneliId": 1720,
+        "cityName": "Gaziantep",
+        "districtName": "Yavuzeli"
+    },
+    {
+        "id": 27006,
+        "kargopaneliId": 1841,
+        "cityName": "Gaziantep",
+        "districtName": "Şahinbey"
+    },
+    {
+        "id": 27007,
+        "kargopaneliId": 1844,
+        "cityName": "Gaziantep",
+        "districtName": "Şehitkamil"
+    },
+    {
+        "id": 27008,
+        "kargopaneliId": 1956,
+        "cityName": "Gaziantep",
+        "districtName": "Karkamış"
+    },
+    {
+        "id": 27009,
+        "kargopaneliId": 1974,
+        "cityName": "Gaziantep",
+        "districtName": "Nurdağı"
+    },
+    {
+        "id": 28001,
+        "kargopaneliId": 1133,
+        "cityName": "Giresun",
+        "districtName": "Alucra"
+    },
+    {
+        "id": 28002,
+        "kargopaneliId": 1212,
+        "cityName": "Giresun",
+        "districtName": "Bulancak"
+    },
+    {
+        "id": 28003,
+        "kargopaneliId": 1272,
+        "cityName": "Giresun",
+        "districtName": "Dereli"
+    },
+    {
+        "id": 28004,
+        "kargopaneliId": 1320,
+        "cityName": "Giresun",
+        "districtName": "Espiye"
+    },
+    {
+        "id": 28005,
+        "kargopaneliId": 1324,
+        "cityName": "Giresun",
+        "districtName": "Eynesil"
+    },
+    {
+        "id": 28006,
+        "kargopaneliId": 1352,
+        "cityName": "Giresun",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 28007,
+        "kargopaneliId": 1361,
+        "cityName": "Giresun",
+        "districtName": "Görele"
+    },
+    {
+        "id": 28008,
+        "kargopaneliId": 1465,
+        "cityName": "Giresun",
+        "districtName": "Keşap"
+    },
+    {
+        "id": 28009,
+        "kargopaneliId": 1654,
+        "cityName": "Giresun",
+        "districtName": "Şebinkarahisar"
+    },
+    {
+        "id": 28010,
+        "kargopaneliId": 1678,
+        "cityName": "Giresun",
+        "districtName": "Tirebolu"
+    },
+    {
+        "id": 28011,
+        "kargopaneliId": 1837,
+        "cityName": "Giresun",
+        "districtName": "Piraziz"
+    },
+    {
+        "id": 28012,
+        "kargopaneliId": 1854,
+        "cityName": "Giresun",
+        "districtName": "Yağlıdere"
+    },
+    {
+        "id": 28013,
+        "kargopaneliId": 1893,
+        "cityName": "Giresun",
+        "districtName": "Çamoluk"
+    },
+    {
+        "id": 28014,
+        "kargopaneliId": 1894,
+        "cityName": "Giresun",
+        "districtName": "Çanakçı"
+    },
+    {
+        "id": 28015,
+        "kargopaneliId": 1912,
+        "cityName": "Giresun",
+        "districtName": "Doğankent"
+    },
+    {
+        "id": 28016,
+        "kargopaneliId": 1930,
+        "cityName": "Giresun",
+        "districtName": "Güce"
+    },
+    {
+        "id": 29001,
+        "kargopaneliId": 1369,
+        "cityName": "Gümüşhane",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 29002,
+        "kargopaneliId": 1458,
+        "cityName": "Gümüşhane",
+        "districtName": "Kelkit"
+    },
+    {
+        "id": 29003,
+        "kargopaneliId": 1660,
+        "cityName": "Gümüşhane",
+        "districtName": "Şiran"
+    },
+    {
+        "id": 29004,
+        "kargopaneliId": 1684,
+        "cityName": "Gümüşhane",
+        "districtName": "Torul"
+    },
+    {
+        "id": 29005,
+        "kargopaneliId": 1822,
+        "cityName": "Gümüşhane",
+        "districtName": "Köse"
+    },
+    {
+        "id": 29006,
+        "kargopaneliId": 1971,
+        "cityName": "Gümüşhane",
+        "districtName": "Kürtün"
+    },
+    {
+        "id": 30001,
+        "kargopaneliId": 1261,
+        "cityName": "Hakkari",
+        "districtName": "Çukurca"
+    },
+    {
+        "id": 30002,
+        "kargopaneliId": 1377,
+        "cityName": "Hakkari",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 30003,
+        "kargopaneliId": 1656,
+        "cityName": "Hakkari",
+        "districtName": "Şemdinli"
+    },
+    {
+        "id": 30004,
+        "kargopaneliId": 1737,
+        "cityName": "Hakkari",
+        "districtName": "Yüksekova"
+    },
+    {
+        "id": 30005,
+        "kargopaneliId": 2107,
+        "cityName": "Hakkari",
+        "districtName": "Derecik"
+    },
+    {
+        "id": 31001,
+        "kargopaneliId": 1131,
+        "cityName": "Hatay",
+        "districtName": "Altınözü"
+    },
+    {
+        "id": 31002,
+        "kargopaneliId": 1289,
+        "cityName": "Hatay",
+        "districtName": "Dörtyol"
+    },
+    {
+        "id": 31003,
+        "kargopaneliId": 1382,
+        "cityName": "Hatay",
+        "districtName": "Hassa"
+    },
+    {
+        "id": 31004,
+        "kargopaneliId": 1413,
+        "cityName": "Hatay",
+        "districtName": "İskenderun"
+    },
+    {
+        "id": 31005,
+        "kargopaneliId": 1468,
+        "cityName": "Hatay",
+        "districtName": "Kırıkhan"
+    },
+    {
+        "id": 31006,
+        "kargopaneliId": 1585,
+        "cityName": "Hatay",
+        "districtName": "Reyhanlı"
+    },
+    {
+        "id": 31007,
+        "kargopaneliId": 1591,
+        "cityName": "Hatay",
+        "districtName": "Samandağ"
+    },
+    {
+        "id": 31008,
+        "kargopaneliId": 1721,
+        "cityName": "Hatay",
+        "districtName": "Yayladağı"
+    },
+    {
+        "id": 31009,
+        "kargopaneliId": 1792,
+        "cityName": "Hatay",
+        "districtName": "Erzin"
+    },
+    {
+        "id": 31010,
+        "kargopaneliId": 1887,
+        "cityName": "Hatay",
+        "districtName": "Belen"
+    },
+    {
+        "id": 31011,
+        "kargopaneliId": 1970,
+        "cityName": "Hatay",
+        "districtName": "Kumlu"
+    },
+    {
+        "id": 31012,
+        "kargopaneliId": 2080,
+        "cityName": "Hatay",
+        "districtName": "Antakya"
+    },
+    {
+        "id": 31013,
+        "kargopaneliId": 2081,
+        "cityName": "Hatay",
+        "districtName": "Arsuz"
+    },
+    {
+        "id": 31014,
+        "kargopaneliId": 2082,
+        "cityName": "Hatay",
+        "districtName": "Defne"
+    },
+    {
+        "id": 31015,
+        "kargopaneliId": 2083,
+        "cityName": "Hatay",
+        "districtName": "Payas"
+    },
+    {
+        "id": 32001,
+        "kargopaneliId": 1154,
+        "cityName": "Isparta",
+        "districtName": "Atabey"
+    },
+    {
+        "id": 32002,
+        "kargopaneliId": 1297,
+        "cityName": "Isparta",
+        "districtName": "Eğirdir"
+    },
+    {
+        "id": 32003,
+        "kargopaneliId": 1341,
+        "cityName": "Isparta",
+        "districtName": "Gelendost"
+    },
+    {
+        "id": 32004,
+        "kargopaneliId": 1401,
+        "cityName": "Isparta",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 32005,
+        "kargopaneliId": 1456,
+        "cityName": "Isparta",
+        "districtName": "Keçiborlu"
+    },
+    {
+        "id": 32006,
+        "kargopaneliId": 1615,
+        "cityName": "Isparta",
+        "districtName": "Senirkent"
+    },
+    {
+        "id": 32007,
+        "kargopaneliId": 1648,
+        "cityName": "Isparta",
+        "districtName": "Sütçüler"
+    },
+    {
+        "id": 32008,
+        "kargopaneliId": 1651,
+        "cityName": "Isparta",
+        "districtName": "Şarkikaraağaç"
+    },
+    {
+        "id": 32009,
+        "kargopaneliId": 1699,
+        "cityName": "Isparta",
+        "districtName": "Uluborlu"
+    },
+    {
+        "id": 32010,
+        "kargopaneliId": 1717,
+        "cityName": "Isparta",
+        "districtName": "Yalvaç"
+    },
+    {
+        "id": 32011,
+        "kargopaneliId": 1755,
+        "cityName": "Isparta",
+        "districtName": "Aksu"
+    },
+    {
+        "id": 32012,
+        "kargopaneliId": 1929,
+        "cityName": "Isparta",
+        "districtName": "Gönen"
+    },
+    {
+        "id": 32013,
+        "kargopaneliId": 2001,
+        "cityName": "Isparta",
+        "districtName": "Yenişarbademli"
+    },
+    {
+        "id": 33001,
+        "kargopaneliId": 1135,
+        "cityName": "Mersin",
+        "districtName": "Anamur"
+    },
+    {
+        "id": 33002,
+        "kargopaneliId": 1311,
+        "cityName": "Mersin",
+        "districtName": "Erdemli"
+    },
+    {
+        "id": 33003,
+        "kargopaneliId": 1366,
+        "cityName": "Mersin",
+        "districtName": "Gülnar"
+    },
+    {
+        "id": 33004,
+        "kargopaneliId": 1536,
+        "cityName": "Mersin",
+        "districtName": "Mut"
+    },
+    {
+        "id": 33005,
+        "kargopaneliId": 1621,
+        "cityName": "Mersin",
+        "districtName": "Silifke"
+    },
+    {
+        "id": 33006,
+        "kargopaneliId": 1665,
+        "cityName": "Mersin",
+        "districtName": "Tarsus"
+    },
+    {
+        "id": 33007,
+        "kargopaneliId": 1766,
+        "cityName": "Mersin",
+        "districtName": "Aydıncık"
+    },
+    {
+        "id": 33008,
+        "kargopaneliId": 1779,
+        "cityName": "Mersin",
+        "districtName": "Bozyazı"
+    },
+    {
+        "id": 33009,
+        "kargopaneliId": 1892,
+        "cityName": "Mersin",
+        "districtName": "Çamlıyayla"
+    },
+    {
+        "id": 33010,
+        "kargopaneliId": 2064,
+        "cityName": "Mersin",
+        "districtName": "Akdeniz"
+    },
+    {
+        "id": 33011,
+        "kargopaneliId": 2065,
+        "cityName": "Mersin",
+        "districtName": "Mezitli"
+    },
+    {
+        "id": 33012,
+        "kargopaneliId": 2066,
+        "cityName": "Mersin",
+        "districtName": "Toroslar"
+    },
+    {
+        "id": 33013,
+        "kargopaneliId": 2067,
+        "cityName": "Mersin",
+        "districtName": "Yenişehir"
+    },
+    {
+        "id": 34001,
+        "kargopaneliId": 1103,
+        "cityName": "İstanbul",
+        "districtName": "Adalar"
+    },
+    {
+        "id": 34002,
+        "kargopaneliId": 1166,
+        "cityName": "İstanbul",
+        "districtName": "Bakırköy"
+    },
+    {
+        "id": 34003,
+        "kargopaneliId": 1183,
+        "cityName": "İstanbul",
+        "districtName": "Beşiktaş"
+    },
+    {
+        "id": 34004,
+        "kargopaneliId": 1185,
+        "cityName": "İstanbul",
+        "districtName": "Beykoz"
+    },
+    {
+        "id": 34005,
+        "kargopaneliId": 1186,
+        "cityName": "İstanbul",
+        "districtName": "Beyoğlu"
+    },
+    {
+        "id": 34006,
+        "kargopaneliId": 1237,
+        "cityName": "İstanbul",
+        "districtName": "Çatalca"
+    },
+    {
+        "id": 34007,
+        "kargopaneliId": 1325,
+        "cityName": "İstanbul",
+        "districtName": "Eyüpsultan"
+    },
+    {
+        "id": 34008,
+        "kargopaneliId": 1327,
+        "cityName": "İstanbul",
+        "districtName": "Fatih"
+    },
+    {
+        "id": 34009,
+        "kargopaneliId": 1336,
+        "cityName": "İstanbul",
+        "districtName": "Gaziosmanpaşa"
+    },
+    {
+        "id": 34010,
+        "kargopaneliId": 1421,
+        "cityName": "İstanbul",
+        "districtName": "Kadıköy"
+    },
+    {
+        "id": 34011,
+        "kargopaneliId": 1449,
+        "cityName": "İstanbul",
+        "districtName": "Kartal"
+    },
+    {
+        "id": 34012,
+        "kargopaneliId": 1604,
+        "cityName": "İstanbul",
+        "districtName": "Sarıyer"
+    },
+    {
+        "id": 34013,
+        "kargopaneliId": 1622,
+        "cityName": "İstanbul",
+        "districtName": "Silivri"
+    },
+    {
+        "id": 34014,
+        "kargopaneliId": 1659,
+        "cityName": "İstanbul",
+        "districtName": "Şile"
+    },
+    {
+        "id": 34015,
+        "kargopaneliId": 1663,
+        "cityName": "İstanbul",
+        "districtName": "Şişli"
+    },
+    {
+        "id": 34016,
+        "kargopaneliId": 1708,
+        "cityName": "İstanbul",
+        "districtName": "Üsküdar"
+    },
+    {
+        "id": 34017,
+        "kargopaneliId": 1739,
+        "cityName": "İstanbul",
+        "districtName": "Zeytinburnu"
+    },
+    {
+        "id": 34018,
+        "kargopaneliId": 1782,
+        "cityName": "İstanbul",
+        "districtName": "Büyükçekmece"
+    },
+    {
+        "id": 34019,
+        "kargopaneliId": 1810,
+        "cityName": "İstanbul",
+        "districtName": "Kağıthane"
+    },
+    {
+        "id": 34020,
+        "kargopaneliId": 1823,
+        "cityName": "İstanbul",
+        "districtName": "Küçükçekmece"
+    },
+    {
+        "id": 34021,
+        "kargopaneliId": 1835,
+        "cityName": "İstanbul",
+        "districtName": "Pendik"
+    },
+    {
+        "id": 34022,
+        "kargopaneliId": 1852,
+        "cityName": "İstanbul",
+        "districtName": "Ümraniye"
+    },
+    {
+        "id": 34023,
+        "kargopaneliId": 1886,
+        "cityName": "İstanbul",
+        "districtName": "Bayrampaşa"
+    },
+    {
+        "id": 34024,
+        "kargopaneliId": 2003,
+        "cityName": "İstanbul",
+        "districtName": "Avcılar"
+    },
+    {
+        "id": 34025,
+        "kargopaneliId": 2004,
+        "cityName": "İstanbul",
+        "districtName": "Bağcılar"
+    },
+    {
+        "id": 34026,
+        "kargopaneliId": 2005,
+        "cityName": "İstanbul",
+        "districtName": "Bahçelievler"
+    },
+    {
+        "id": 34027,
+        "kargopaneliId": 2010,
+        "cityName": "İstanbul",
+        "districtName": "Güngören"
+    },
+    {
+        "id": 34028,
+        "kargopaneliId": 2012,
+        "cityName": "İstanbul",
+        "districtName": "Maltepe"
+    },
+    {
+        "id": 34029,
+        "kargopaneliId": 2014,
+        "cityName": "İstanbul",
+        "districtName": "Sultanbeyli"
+    },
+    {
+        "id": 34030,
+        "kargopaneliId": 2015,
+        "cityName": "İstanbul",
+        "districtName": "Tuzla"
+    },
+    {
+        "id": 34031,
+        "kargopaneliId": 2016,
+        "cityName": "İstanbul",
+        "districtName": "Esenler"
+    },
+    {
+        "id": 34032,
+        "kargopaneliId": 2048,
+        "cityName": "İstanbul",
+        "districtName": "Arnavutköy"
+    },
+    {
+        "id": 34033,
+        "kargopaneliId": 2049,
+        "cityName": "İstanbul",
+        "districtName": "Ataşehir"
+    },
+    {
+        "id": 34034,
+        "kargopaneliId": 2050,
+        "cityName": "İstanbul",
+        "districtName": "Başakşehir"
+    },
+    {
+        "id": 34035,
+        "kargopaneliId": 2051,
+        "cityName": "İstanbul",
+        "districtName": "Beylikdüzü"
+    },
+    {
+        "id": 34036,
+        "kargopaneliId": 2052,
+        "cityName": "İstanbul",
+        "districtName": "Çekmeköy"
+    },
+    {
+        "id": 34037,
+        "kargopaneliId": 2053,
+        "cityName": "İstanbul",
+        "districtName": "Esenyurt"
+    },
+    {
+        "id": 34038,
+        "kargopaneliId": 2054,
+        "cityName": "İstanbul",
+        "districtName": "Sancaktepe"
+    },
+    {
+        "id": 34039,
+        "kargopaneliId": 2055,
+        "cityName": "İstanbul",
+        "districtName": "Sultangazi"
+    },
+    {
+        "id": 35001,
+        "kargopaneliId": 1128,
+        "cityName": "İzmir",
+        "districtName": "Aliağa"
+    },
+    {
+        "id": 35002,
+        "kargopaneliId": 1178,
+        "cityName": "İzmir",
+        "districtName": "Bayındır"
+    },
+    {
+        "id": 35003,
+        "kargopaneliId": 1181,
+        "cityName": "İzmir",
+        "districtName": "Bergama"
+    },
+    {
+        "id": 35004,
+        "kargopaneliId": 1203,
+        "cityName": "İzmir",
+        "districtName": "Bornova"
+    },
+    {
+        "id": 35005,
+        "kargopaneliId": 1251,
+        "cityName": "İzmir",
+        "districtName": "Çeşme"
+    },
+    {
+        "id": 35006,
+        "kargopaneliId": 1280,
+        "cityName": "İzmir",
+        "districtName": "Dikili"
+    },
+    {
+        "id": 35007,
+        "kargopaneliId": 1334,
+        "cityName": "İzmir",
+        "districtName": "Foça"
+    },
+    {
+        "id": 35008,
+        "kargopaneliId": 1432,
+        "cityName": "İzmir",
+        "districtName": "Karaburun"
+    },
+    {
+        "id": 35009,
+        "kargopaneliId": 1448,
+        "cityName": "İzmir",
+        "districtName": "Karşıyaka"
+    },
+    {
+        "id": 35010,
+        "kargopaneliId": 1461,
+        "cityName": "İzmir",
+        "districtName": "Kemalpaşa"
+    },
+    {
+        "id": 35011,
+        "kargopaneliId": 1467,
+        "cityName": "İzmir",
+        "districtName": "Kınık"
+    },
+    {
+        "id": 35012,
+        "kargopaneliId": 1477,
+        "cityName": "İzmir",
+        "districtName": "Kiraz"
+    },
+    {
+        "id": 35013,
+        "kargopaneliId": 1521,
+        "cityName": "İzmir",
+        "districtName": "Menemen"
+    },
+    {
+        "id": 35014,
+        "kargopaneliId": 1563,
+        "cityName": "İzmir",
+        "districtName": "Ödemiş"
+    },
+    {
+        "id": 35015,
+        "kargopaneliId": 1611,
+        "cityName": "İzmir",
+        "districtName": "Seferihisar"
+    },
+    {
+        "id": 35016,
+        "kargopaneliId": 1612,
+        "cityName": "İzmir",
+        "districtName": "Selçuk"
+    },
+    {
+        "id": 35017,
+        "kargopaneliId": 1677,
+        "cityName": "İzmir",
+        "districtName": "Tire"
+    },
+    {
+        "id": 35018,
+        "kargopaneliId": 1682,
+        "cityName": "İzmir",
+        "districtName": "Torbalı"
+    },
+    {
+        "id": 35019,
+        "kargopaneliId": 1703,
+        "cityName": "İzmir",
+        "districtName": "Urla"
+    },
+    {
+        "id": 35020,
+        "kargopaneliId": 1776,
+        "cityName": "İzmir",
+        "districtName": "Beydağ"
+    },
+    {
+        "id": 35021,
+        "kargopaneliId": 1780,
+        "cityName": "İzmir",
+        "districtName": "Buca"
+    },
+    {
+        "id": 35022,
+        "kargopaneliId": 1819,
+        "cityName": "İzmir",
+        "districtName": "Konak"
+    },
+    {
+        "id": 35023,
+        "kargopaneliId": 1826,
+        "cityName": "İzmir",
+        "districtName": "Menderes"
+    },
+    {
+        "id": 35024,
+        "kargopaneliId": 2006,
+        "cityName": "İzmir",
+        "districtName": "Balçova"
+    },
+    {
+        "id": 35025,
+        "kargopaneliId": 2007,
+        "cityName": "İzmir",
+        "districtName": "Çiğli"
+    },
+    {
+        "id": 35026,
+        "kargopaneliId": 2009,
+        "cityName": "İzmir",
+        "districtName": "Gaziemir"
+    },
+    {
+        "id": 35027,
+        "kargopaneliId": 2013,
+        "cityName": "İzmir",
+        "districtName": "Narlıdere"
+    },
+    {
+        "id": 35028,
+        "kargopaneliId": 2018,
+        "cityName": "İzmir",
+        "districtName": "Güzelbahçe"
+    },
+    {
+        "id": 35029,
+        "kargopaneliId": 2056,
+        "cityName": "İzmir",
+        "districtName": "Bayraklı"
+    },
+    {
+        "id": 35030,
+        "kargopaneliId": 2057,
+        "cityName": "İzmir",
+        "districtName": "Karabağlar"
+    },
+    {
+        "id": 36001,
+        "kargopaneliId": 1149,
+        "cityName": "Kars",
+        "districtName": "Arpaçay"
+    },
+    {
+        "id": 36002,
+        "kargopaneliId": 1279,
+        "cityName": "Kars",
+        "districtName": "Digor"
+    },
+    {
+        "id": 36003,
+        "kargopaneliId": 1424,
+        "cityName": "Kars",
+        "districtName": "Kağızman"
+    },
+    {
+        "id": 36004,
+        "kargopaneliId": 1447,
+        "cityName": "Kars",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 36005,
+        "kargopaneliId": 1601,
+        "cityName": "Kars",
+        "districtName": "Sarıkamış"
+    },
+    {
+        "id": 36006,
+        "kargopaneliId": 1614,
+        "cityName": "Kars",
+        "districtName": "Selim"
+    },
+    {
+        "id": 36007,
+        "kargopaneliId": 1645,
+        "cityName": "Kars",
+        "districtName": "Susuz"
+    },
+    {
+        "id": 36008,
+        "kargopaneliId": 1756,
+        "cityName": "Kars",
+        "districtName": "Akyaka"
+    },
+    {
+        "id": 37001,
+        "kargopaneliId": 1101,
+        "cityName": "Kastamonu",
+        "districtName": "Abana"
+    },
+    {
+        "id": 37002,
+        "kargopaneliId": 1140,
+        "cityName": "Kastamonu",
+        "districtName": "Araç"
+    },
+    {
+        "id": 37003,
+        "kargopaneliId": 1162,
+        "cityName": "Kastamonu",
+        "districtName": "Azdavay"
+    },
+    {
+        "id": 37004,
+        "kargopaneliId": 1208,
+        "cityName": "Kastamonu",
+        "districtName": "Bozkurt"
+    },
+    {
+        "id": 37005,
+        "kargopaneliId": 1221,
+        "cityName": "Kastamonu",
+        "districtName": "Cide"
+    },
+    {
+        "id": 37006,
+        "kargopaneliId": 1238,
+        "cityName": "Kastamonu",
+        "districtName": "Çatalzeytin"
+    },
+    {
+        "id": 37007,
+        "kargopaneliId": 1264,
+        "cityName": "Kastamonu",
+        "districtName": "Daday"
+    },
+    {
+        "id": 37008,
+        "kargopaneliId": 1277,
+        "cityName": "Kastamonu",
+        "districtName": "Devrekani"
+    },
+    {
+        "id": 37009,
+        "kargopaneliId": 1410,
+        "cityName": "Kastamonu",
+        "districtName": "İnebolu"
+    },
+    {
+        "id": 37010,
+        "kargopaneliId": 1450,
+        "cityName": "Kastamonu",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 37011,
+        "kargopaneliId": 1499,
+        "cityName": "Kastamonu",
+        "districtName": "Küre"
+    },
+    {
+        "id": 37012,
+        "kargopaneliId": 1666,
+        "cityName": "Kastamonu",
+        "districtName": "Taşköprü"
+    },
+    {
+        "id": 37013,
+        "kargopaneliId": 1685,
+        "cityName": "Kastamonu",
+        "districtName": "Tosya"
+    },
+    {
+        "id": 37014,
+        "kargopaneliId": 1805,
+        "cityName": "Kastamonu",
+        "districtName": "İhsangazi"
+    },
+    {
+        "id": 37015,
+        "kargopaneliId": 1836,
+        "cityName": "Kastamonu",
+        "districtName": "Pınarbaşı"
+    },
+    {
+        "id": 37016,
+        "kargopaneliId": 1845,
+        "cityName": "Kastamonu",
+        "districtName": "Şenpazar"
+    },
+    {
+        "id": 37017,
+        "kargopaneliId": 1867,
+        "cityName": "Kastamonu",
+        "districtName": "Ağlı"
+    },
+    {
+        "id": 37018,
+        "kargopaneliId": 1915,
+        "cityName": "Kastamonu",
+        "districtName": "Doğanyurt"
+    },
+    {
+        "id": 37019,
+        "kargopaneliId": 1940,
+        "cityName": "Kastamonu",
+        "districtName": "Hanönü"
+    },
+    {
+        "id": 37020,
+        "kargopaneliId": 1984,
+        "cityName": "Kastamonu",
+        "districtName": "Seydiler"
+    },
+    {
+        "id": 38001,
+        "kargopaneliId": 1218,
+        "cityName": "Kayseri",
+        "districtName": "Bünyan"
+    },
+    {
+        "id": 38002,
+        "kargopaneliId": 1275,
+        "cityName": "Kayseri",
+        "districtName": "Develi"
+    },
+    {
+        "id": 38003,
+        "kargopaneliId": 1330,
+        "cityName": "Kayseri",
+        "districtName": "Felahiye"
+    },
+    {
+        "id": 38004,
+        "kargopaneliId": 1409,
+        "cityName": "Kayseri",
+        "districtName": "İncesu"
+    },
+    {
+        "id": 38005,
+        "kargopaneliId": 1576,
+        "cityName": "Kayseri",
+        "districtName": "Pınarbaşı"
+    },
+    {
+        "id": 38006,
+        "kargopaneliId": 1603,
+        "cityName": "Kayseri",
+        "districtName": "Sarıoğlan"
+    },
+    {
+        "id": 38007,
+        "kargopaneliId": 1605,
+        "cityName": "Kayseri",
+        "districtName": "Sarız"
+    },
+    {
+        "id": 38008,
+        "kargopaneliId": 1680,
+        "cityName": "Kayseri",
+        "districtName": "Tomarza"
+    },
+    {
+        "id": 38009,
+        "kargopaneliId": 1715,
+        "cityName": "Kayseri",
+        "districtName": "Yahyalı"
+    },
+    {
+        "id": 38010,
+        "kargopaneliId": 1727,
+        "cityName": "Kayseri",
+        "districtName": "Yeşilhisar"
+    },
+    {
+        "id": 38011,
+        "kargopaneliId": 1752,
+        "cityName": "Kayseri",
+        "districtName": "Akkışla"
+    },
+    {
+        "id": 38012,
+        "kargopaneliId": 1846,
+        "cityName": "Kayseri",
+        "districtName": "Talas"
+    },
+    {
+        "id": 38013,
+        "kargopaneliId": 1863,
+        "cityName": "Kayseri",
+        "districtName": "Kocasinan"
+    },
+    {
+        "id": 38014,
+        "kargopaneliId": 1864,
+        "cityName": "Kayseri",
+        "districtName": "Melikgazi"
+    },
+    {
+        "id": 38015,
+        "kargopaneliId": 1936,
+        "cityName": "Kayseri",
+        "districtName": "Hacılar"
+    },
+    {
+        "id": 38016,
+        "kargopaneliId": 1978,
+        "cityName": "Kayseri",
+        "districtName": "Özvatan"
+    },
+    {
+        "id": 39001,
+        "kargopaneliId": 1163,
+        "cityName": "Kırklareli",
+        "districtName": "Babaeski"
+    },
+    {
+        "id": 39002,
+        "kargopaneliId": 1270,
+        "cityName": "Kırklareli",
+        "districtName": "Demirköy"
+    },
+    {
+        "id": 39003,
+        "kargopaneliId": 1471,
+        "cityName": "Kırklareli",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 39004,
+        "kargopaneliId": 1480,
+        "cityName": "Kırklareli",
+        "districtName": "Kofçaz"
+    },
+    {
+        "id": 39005,
+        "kargopaneliId": 1505,
+        "cityName": "Kırklareli",
+        "districtName": "Lüleburgaz"
+    },
+    {
+        "id": 39006,
+        "kargopaneliId": 1572,
+        "cityName": "Kırklareli",
+        "districtName": "Pehlivanköy"
+    },
+    {
+        "id": 39007,
+        "kargopaneliId": 1577,
+        "cityName": "Kırklareli",
+        "districtName": "Pınarhisar"
+    },
+    {
+        "id": 39008,
+        "kargopaneliId": 1714,
+        "cityName": "Kırklareli",
+        "districtName": "Vize"
+    },
+    {
+        "id": 40001,
+        "kargopaneliId": 1254,
+        "cityName": "Kırşehir",
+        "districtName": "Çiçekdağı"
+    },
+    {
+        "id": 40002,
+        "kargopaneliId": 1429,
+        "cityName": "Kırşehir",
+        "districtName": "Kaman"
+    },
+    {
+        "id": 40003,
+        "kargopaneliId": 1472,
+        "cityName": "Kırşehir",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 40004,
+        "kargopaneliId": 1529,
+        "cityName": "Kırşehir",
+        "districtName": "Mucur"
+    },
+    {
+        "id": 40005,
+        "kargopaneliId": 1754,
+        "cityName": "Kırşehir",
+        "districtName": "Akpınar"
+    },
+    {
+        "id": 40006,
+        "kargopaneliId": 1869,
+        "cityName": "Kırşehir",
+        "districtName": "Akçakent"
+    },
+    {
+        "id": 40007,
+        "kargopaneliId": 1890,
+        "cityName": "Kırşehir",
+        "districtName": "Boztepe"
+    },
+    {
+        "id": 41001,
+        "kargopaneliId": 1338,
+        "cityName": "Kocaeli",
+        "districtName": "Gebze"
+    },
+    {
+        "id": 41002,
+        "kargopaneliId": 1355,
+        "cityName": "Kocaeli",
+        "districtName": "Gölcük"
+    },
+    {
+        "id": 41003,
+        "kargopaneliId": 1430,
+        "cityName": "Kocaeli",
+        "districtName": "Kandıra"
+    },
+    {
+        "id": 41004,
+        "kargopaneliId": 1440,
+        "cityName": "Kocaeli",
+        "districtName": "Karamürsel"
+    },
+    {
+        "id": 41005,
+        "kargopaneliId": 1821,
+        "cityName": "Kocaeli",
+        "districtName": "Körfez"
+    },
+    {
+        "id": 41006,
+        "kargopaneliId": 2030,
+        "cityName": "Kocaeli",
+        "districtName": "Derince"
+    },
+    {
+        "id": 41007,
+        "kargopaneliId": 2058,
+        "cityName": "Kocaeli",
+        "districtName": "Başiskele"
+    },
+    {
+        "id": 41008,
+        "kargopaneliId": 2059,
+        "cityName": "Kocaeli",
+        "districtName": "Çayırova"
+    },
+    {
+        "id": 41009,
+        "kargopaneliId": 2060,
+        "cityName": "Kocaeli",
+        "districtName": "Darıca"
+    },
+    {
+        "id": 41010,
+        "kargopaneliId": 2061,
+        "cityName": "Kocaeli",
+        "districtName": "Dilovası"
+    },
+    {
+        "id": 41011,
+        "kargopaneliId": 2062,
+        "cityName": "Kocaeli",
+        "districtName": "İzmit"
+    },
+    {
+        "id": 41012,
+        "kargopaneliId": 2063,
+        "cityName": "Kocaeli",
+        "districtName": "Kartepe"
+    },
+    {
+        "id": 42001,
+        "kargopaneliId": 1122,
+        "cityName": "Konya",
+        "districtName": "Akşehir"
+    },
+    {
+        "id": 42002,
+        "kargopaneliId": 1188,
+        "cityName": "Konya",
+        "districtName": "Beyşehir"
+    },
+    {
+        "id": 42003,
+        "kargopaneliId": 1207,
+        "cityName": "Konya",
+        "districtName": "Bozkır"
+    },
+    {
+        "id": 42004,
+        "kargopaneliId": 1222,
+        "cityName": "Konya",
+        "districtName": "Cihanbeyli"
+    },
+    {
+        "id": 42005,
+        "kargopaneliId": 1262,
+        "cityName": "Konya",
+        "districtName": "Çumra"
+    },
+    {
+        "id": 42006,
+        "kargopaneliId": 1285,
+        "cityName": "Konya",
+        "districtName": "Doğanhisar"
+    },
+    {
+        "id": 42007,
+        "kargopaneliId": 1312,
+        "cityName": "Konya",
+        "districtName": "Ereğli"
+    },
+    {
+        "id": 42008,
+        "kargopaneliId": 1375,
+        "cityName": "Konya",
+        "districtName": "Hadim"
+    },
+    {
+        "id": 42009,
+        "kargopaneliId": 1400,
+        "cityName": "Konya",
+        "districtName": "Ilgın"
+    },
+    {
+        "id": 42010,
+        "kargopaneliId": 1422,
+        "cityName": "Konya",
+        "districtName": "Kadınhanı"
+    },
+    {
+        "id": 42011,
+        "kargopaneliId": 1441,
+        "cityName": "Konya",
+        "districtName": "Karapınar"
+    },
+    {
+        "id": 42012,
+        "kargopaneliId": 1491,
+        "cityName": "Konya",
+        "districtName": "Kulu"
+    },
+    {
+        "id": 42013,
+        "kargopaneliId": 1598,
+        "cityName": "Konya",
+        "districtName": "Sarayönü"
+    },
+    {
+        "id": 42014,
+        "kargopaneliId": 1617,
+        "cityName": "Konya",
+        "districtName": "Seydişehir"
+    },
+    {
+        "id": 42015,
+        "kargopaneliId": 1735,
+        "cityName": "Konya",
+        "districtName": "Yunak"
+    },
+    {
+        "id": 42016,
+        "kargopaneliId": 1753,
+        "cityName": "Konya",
+        "districtName": "Akören"
+    },
+    {
+        "id": 42017,
+        "kargopaneliId": 1760,
+        "cityName": "Konya",
+        "districtName": "Altınekin"
+    },
+    {
+        "id": 42018,
+        "kargopaneliId": 1789,
+        "cityName": "Konya",
+        "districtName": "Derebucak"
+    },
+    {
+        "id": 42019,
+        "kargopaneliId": 1804,
+        "cityName": "Konya",
+        "districtName": "Hüyük"
+    },
+    {
+        "id": 42020,
+        "kargopaneliId": 1814,
+        "cityName": "Konya",
+        "districtName": "Karatay"
+    },
+    {
+        "id": 42021,
+        "kargopaneliId": 1827,
+        "cityName": "Konya",
+        "districtName": "Meram"
+    },
+    {
+        "id": 42022,
+        "kargopaneliId": 1839,
+        "cityName": "Konya",
+        "districtName": "Selçuklu"
+    },
+    {
+        "id": 42023,
+        "kargopaneliId": 1848,
+        "cityName": "Konya",
+        "districtName": "Taşkent"
+    },
+    {
+        "id": 42024,
+        "kargopaneliId": 1868,
+        "cityName": "Konya",
+        "districtName": "Ahırlı"
+    },
+    {
+        "id": 42025,
+        "kargopaneliId": 1902,
+        "cityName": "Konya",
+        "districtName": "Çeltik"
+    },
+    {
+        "id": 42026,
+        "kargopaneliId": 1907,
+        "cityName": "Konya",
+        "districtName": "Derbent"
+    },
+    {
+        "id": 42027,
+        "kargopaneliId": 1920,
+        "cityName": "Konya",
+        "districtName": "Emirgazi"
+    },
+    {
+        "id": 42028,
+        "kargopaneliId": 1933,
+        "cityName": "Konya",
+        "districtName": "Güneysınır"
+    },
+    {
+        "id": 42029,
+        "kargopaneliId": 1937,
+        "cityName": "Konya",
+        "districtName": "Halkapınar"
+    },
+    {
+        "id": 42030,
+        "kargopaneliId": 1990,
+        "cityName": "Konya",
+        "districtName": "Tuzlukçu"
+    },
+    {
+        "id": 42031,
+        "kargopaneliId": 1994,
+        "cityName": "Konya",
+        "districtName": "Yalıhüyük"
+    },
+    {
+        "id": 43001,
+        "kargopaneliId": 1132,
+        "cityName": "Kütahya",
+        "districtName": "Altıntaş"
+    },
+    {
+        "id": 43002,
+        "kargopaneliId": 1288,
+        "cityName": "Kütahya",
+        "districtName": "Domaniç"
+    },
+    {
+        "id": 43003,
+        "kargopaneliId": 1304,
+        "cityName": "Kütahya",
+        "districtName": "Emet"
+    },
+    {
+        "id": 43004,
+        "kargopaneliId": 1339,
+        "cityName": "Kütahya",
+        "districtName": "Gediz"
+    },
+    {
+        "id": 43005,
+        "kargopaneliId": 1500,
+        "cityName": "Kütahya",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 43006,
+        "kargopaneliId": 1625,
+        "cityName": "Kütahya",
+        "districtName": "Simav"
+    },
+    {
+        "id": 43007,
+        "kargopaneliId": 1671,
+        "cityName": "Kütahya",
+        "districtName": "Tavşanlı"
+    },
+    {
+        "id": 43008,
+        "kargopaneliId": 1764,
+        "cityName": "Kütahya",
+        "districtName": "Aslanapa"
+    },
+    {
+        "id": 43009,
+        "kargopaneliId": 1790,
+        "cityName": "Kütahya",
+        "districtName": "Dumlupınar"
+    },
+    {
+        "id": 43010,
+        "kargopaneliId": 1802,
+        "cityName": "Kütahya",
+        "districtName": "Hisarcık"
+    },
+    {
+        "id": 43011,
+        "kargopaneliId": 1843,
+        "cityName": "Kütahya",
+        "districtName": "Şaphane"
+    },
+    {
+        "id": 43012,
+        "kargopaneliId": 1898,
+        "cityName": "Kütahya",
+        "districtName": "Çavdarhisar"
+    },
+    {
+        "id": 43013,
+        "kargopaneliId": 1979,
+        "cityName": "Kütahya",
+        "districtName": "Pazarlar"
+    },
+    {
+        "id": 44001,
+        "kargopaneliId": 1114,
+        "cityName": "Malatya",
+        "districtName": "Akçadağ"
+    },
+    {
+        "id": 44002,
+        "kargopaneliId": 1143,
+        "cityName": "Malatya",
+        "districtName": "Arapgir"
+    },
+    {
+        "id": 44003,
+        "kargopaneliId": 1148,
+        "cityName": "Malatya",
+        "districtName": "Arguvan"
+    },
+    {
+        "id": 44004,
+        "kargopaneliId": 1265,
+        "cityName": "Malatya",
+        "districtName": "Darende"
+    },
+    {
+        "id": 44005,
+        "kargopaneliId": 1286,
+        "cityName": "Malatya",
+        "districtName": "Doğanşehir"
+    },
+    {
+        "id": 44006,
+        "kargopaneliId": 1390,
+        "cityName": "Malatya",
+        "districtName": "Hekimhan"
+    },
+    {
+        "id": 44007,
+        "kargopaneliId": 1582,
+        "cityName": "Malatya",
+        "districtName": "Pütürge"
+    },
+    {
+        "id": 44008,
+        "kargopaneliId": 1729,
+        "cityName": "Malatya",
+        "districtName": "Yeşilyurt"
+    },
+    {
+        "id": 44009,
+        "kargopaneliId": 1772,
+        "cityName": "Malatya",
+        "districtName": "Battalgazi"
+    },
+    {
+        "id": 44010,
+        "kargopaneliId": 1914,
+        "cityName": "Malatya",
+        "districtName": "Doğanyol"
+    },
+    {
+        "id": 44011,
+        "kargopaneliId": 1953,
+        "cityName": "Malatya",
+        "districtName": "Kale"
+    },
+    {
+        "id": 44012,
+        "kargopaneliId": 1969,
+        "cityName": "Malatya",
+        "districtName": "Kuluncak"
+    },
+    {
+        "id": 44013,
+        "kargopaneliId": 1995,
+        "cityName": "Malatya",
+        "districtName": "Yazıhan"
+    },
+    {
+        "id": 45001,
+        "kargopaneliId": 1118,
+        "cityName": "Manisa",
+        "districtName": "Akhisar"
+    },
+    {
+        "id": 45002,
+        "kargopaneliId": 1127,
+        "cityName": "Manisa",
+        "districtName": "Alaşehir"
+    },
+    {
+        "id": 45003,
+        "kargopaneliId": 1269,
+        "cityName": "Manisa",
+        "districtName": "Demirci"
+    },
+    {
+        "id": 45004,
+        "kargopaneliId": 1362,
+        "cityName": "Manisa",
+        "districtName": "Gördes"
+    },
+    {
+        "id": 45005,
+        "kargopaneliId": 1470,
+        "cityName": "Manisa",
+        "districtName": "Kırkağaç"
+    },
+    {
+        "id": 45006,
+        "kargopaneliId": 1489,
+        "cityName": "Manisa",
+        "districtName": "Kula"
+    },
+    {
+        "id": 45007,
+        "kargopaneliId": 1590,
+        "cityName": "Manisa",
+        "districtName": "Salihli"
+    },
+    {
+        "id": 45008,
+        "kargopaneliId": 1600,
+        "cityName": "Manisa",
+        "districtName": "Sarıgöl"
+    },
+    {
+        "id": 45009,
+        "kargopaneliId": 1606,
+        "cityName": "Manisa",
+        "districtName": "Saruhanlı"
+    },
+    {
+        "id": 45010,
+        "kargopaneliId": 1613,
+        "cityName": "Manisa",
+        "districtName": "Selendi"
+    },
+    {
+        "id": 45011,
+        "kargopaneliId": 1634,
+        "cityName": "Manisa",
+        "districtName": "Soma"
+    },
+    {
+        "id": 45012,
+        "kargopaneliId": 1689,
+        "cityName": "Manisa",
+        "districtName": "Turgutlu"
+    },
+    {
+        "id": 45013,
+        "kargopaneliId": 1751,
+        "cityName": "Manisa",
+        "districtName": "Ahmetli"
+    },
+    {
+        "id": 45014,
+        "kargopaneliId": 1793,
+        "cityName": "Manisa",
+        "districtName": "Gölmarmara"
+    },
+    {
+        "id": 45015,
+        "kargopaneliId": 1965,
+        "cityName": "Manisa",
+        "districtName": "Köprübaşı"
+    },
+    {
+        "id": 45016,
+        "kargopaneliId": 2086,
+        "cityName": "Manisa",
+        "districtName": "Şehzadeler"
+    },
+    {
+        "id": 45017,
+        "kargopaneliId": 2087,
+        "cityName": "Manisa",
+        "districtName": "Yunusemre"
+    },
+    {
+        "id": 46001,
+        "kargopaneliId": 1107,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Afşin"
+    },
+    {
+        "id": 46002,
+        "kargopaneliId": 1136,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Andırın"
+    },
+    {
+        "id": 46003,
+        "kargopaneliId": 1299,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Elbistan"
+    },
+    {
+        "id": 46004,
+        "kargopaneliId": 1353,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Göksun"
+    },
+    {
+        "id": 46005,
+        "kargopaneliId": 1570,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Pazarcık"
+    },
+    {
+        "id": 46006,
+        "kargopaneliId": 1694,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Türkoğlu"
+    },
+    {
+        "id": 46007,
+        "kargopaneliId": 1785,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Çağlayancerit"
+    },
+    {
+        "id": 46008,
+        "kargopaneliId": 1919,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Ekinözü"
+    },
+    {
+        "id": 46009,
+        "kargopaneliId": 1975,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Nurhak"
+    },
+    {
+        "id": 46010,
+        "kargopaneliId": 2084,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Dulkadiroğlu"
+    },
+    {
+        "id": 46011,
+        "kargopaneliId": 2085,
+        "cityName": "Kahramanmaraş",
+        "districtName": "Onikişubat"
+    },
+    {
+        "id": 47001,
+        "kargopaneliId": 1273,
+        "cityName": "Mardin",
+        "districtName": "Derik"
+    },
+    {
+        "id": 47002,
+        "kargopaneliId": 1474,
+        "cityName": "Mardin",
+        "districtName": "Kızıltepe"
+    },
+    {
+        "id": 47003,
+        "kargopaneliId": 1519,
+        "cityName": "Mardin",
+        "districtName": "Mazıdağı"
+    },
+    {
+        "id": 47004,
+        "kargopaneliId": 1526,
+        "cityName": "Mardin",
+        "districtName": "Midyat"
+    },
+    {
+        "id": 47005,
+        "kargopaneliId": 1547,
+        "cityName": "Mardin",
+        "districtName": "Nusaybin"
+    },
+    {
+        "id": 47006,
+        "kargopaneliId": 1564,
+        "cityName": "Mardin",
+        "districtName": "Ömerli"
+    },
+    {
+        "id": 47007,
+        "kargopaneliId": 1609,
+        "cityName": "Mardin",
+        "districtName": "Savur"
+    },
+    {
+        "id": 47008,
+        "kargopaneliId": 1787,
+        "cityName": "Mardin",
+        "districtName": "Dargeçit"
+    },
+    {
+        "id": 47009,
+        "kargopaneliId": 2002,
+        "cityName": "Mardin",
+        "districtName": "Yeşilli"
+    },
+    {
+        "id": 47010,
+        "kargopaneliId": 2088,
+        "cityName": "Mardin",
+        "districtName": "Artuklu"
+    },
+    {
+        "id": 48001,
+        "kargopaneliId": 1197,
+        "cityName": "Muğla",
+        "districtName": "Bodrum"
+    },
+    {
+        "id": 48002,
+        "kargopaneliId": 1266,
+        "cityName": "Muğla",
+        "districtName": "Datça"
+    },
+    {
+        "id": 48003,
+        "kargopaneliId": 1331,
+        "cityName": "Muğla",
+        "districtName": "Fethiye"
+    },
+    {
+        "id": 48004,
+        "kargopaneliId": 1488,
+        "cityName": "Muğla",
+        "districtName": "Köyceğiz"
+    },
+    {
+        "id": 48005,
+        "kargopaneliId": 1517,
+        "cityName": "Muğla",
+        "districtName": "Marmaris"
+    },
+    {
+        "id": 48006,
+        "kargopaneliId": 1528,
+        "cityName": "Muğla",
+        "districtName": "Milas"
+    },
+    {
+        "id": 48007,
+        "kargopaneliId": 1695,
+        "cityName": "Muğla",
+        "districtName": "Ula"
+    },
+    {
+        "id": 48008,
+        "kargopaneliId": 1719,
+        "cityName": "Muğla",
+        "districtName": "Yatağan"
+    },
+    {
+        "id": 48009,
+        "kargopaneliId": 1742,
+        "cityName": "Muğla",
+        "districtName": "Dalaman"
+    },
+    {
+        "id": 48010,
+        "kargopaneliId": 1831,
+        "cityName": "Muğla",
+        "districtName": "Ortaca"
+    },
+    {
+        "id": 48011,
+        "kargopaneliId": 1958,
+        "cityName": "Muğla",
+        "districtName": "Kavaklıdere"
+    },
+    {
+        "id": 48012,
+        "kargopaneliId": 2089,
+        "cityName": "Muğla",
+        "districtName": "Menteşe"
+    },
+    {
+        "id": 48013,
+        "kargopaneliId": 2090,
+        "cityName": "Muğla",
+        "districtName": "Seydikemer"
+    },
+    {
+        "id": 49001,
+        "kargopaneliId": 1213,
+        "cityName": "Muş",
+        "districtName": "Bulanık"
+    },
+    {
+        "id": 49002,
+        "kargopaneliId": 1510,
+        "cityName": "Muş",
+        "districtName": "Malazgirt"
+    },
+    {
+        "id": 49003,
+        "kargopaneliId": 1534,
+        "cityName": "Muş",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 49004,
+        "kargopaneliId": 1711,
+        "cityName": "Muş",
+        "districtName": "Varto"
+    },
+    {
+        "id": 49005,
+        "kargopaneliId": 1801,
+        "cityName": "Muş",
+        "districtName": "Hasköy"
+    },
+    {
+        "id": 49006,
+        "kargopaneliId": 1964,
+        "cityName": "Muş",
+        "districtName": "Korkut"
+    },
+    {
+        "id": 50001,
+        "kargopaneliId": 1155,
+        "cityName": "Nevşehir",
+        "districtName": "Avanos"
+    },
+    {
+        "id": 50002,
+        "kargopaneliId": 1274,
+        "cityName": "Nevşehir",
+        "districtName": "Derinkuyu"
+    },
+    {
+        "id": 50003,
+        "kargopaneliId": 1367,
+        "cityName": "Nevşehir",
+        "districtName": "Gülşehir"
+    },
+    {
+        "id": 50004,
+        "kargopaneliId": 1374,
+        "cityName": "Nevşehir",
+        "districtName": "Hacıbektaş"
+    },
+    {
+        "id": 50005,
+        "kargopaneliId": 1485,
+        "cityName": "Nevşehir",
+        "districtName": "Kozaklı"
+    },
+    {
+        "id": 50006,
+        "kargopaneliId": 1543,
+        "cityName": "Nevşehir",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 50007,
+        "kargopaneliId": 1707,
+        "cityName": "Nevşehir",
+        "districtName": "Ürgüp"
+    },
+    {
+        "id": 50008,
+        "kargopaneliId": 1749,
+        "cityName": "Nevşehir",
+        "districtName": "Acıgöl"
+    },
+    {
+        "id": 51001,
+        "kargopaneliId": 1201,
+        "cityName": "Niğde",
+        "districtName": "Bor"
+    },
+    {
+        "id": 51002,
+        "kargopaneliId": 1225,
+        "cityName": "Niğde",
+        "districtName": "Çamardı"
+    },
+    {
+        "id": 51003,
+        "kargopaneliId": 1544,
+        "cityName": "Niğde",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 51004,
+        "kargopaneliId": 1700,
+        "cityName": "Niğde",
+        "districtName": "Ulukışla"
+    },
+    {
+        "id": 51005,
+        "kargopaneliId": 1876,
+        "cityName": "Niğde",
+        "districtName": "Altunhisar"
+    },
+    {
+        "id": 51006,
+        "kargopaneliId": 1904,
+        "cityName": "Niğde",
+        "districtName": "Çiftlik"
+    },
+    {
+        "id": 52001,
+        "kargopaneliId": 1119,
+        "cityName": "Ordu",
+        "districtName": "Akkuş"
+    },
+    {
+        "id": 52002,
+        "kargopaneliId": 1158,
+        "cityName": "Ordu",
+        "districtName": "Aybastı"
+    },
+    {
+        "id": 52003,
+        "kargopaneliId": 1328,
+        "cityName": "Ordu",
+        "districtName": "Fatsa"
+    },
+    {
+        "id": 52004,
+        "kargopaneliId": 1358,
+        "cityName": "Ordu",
+        "districtName": "Gölköy"
+    },
+    {
+        "id": 52005,
+        "kargopaneliId": 1482,
+        "cityName": "Ordu",
+        "districtName": "Korgan"
+    },
+    {
+        "id": 52006,
+        "kargopaneliId": 1493,
+        "cityName": "Ordu",
+        "districtName": "Kumru"
+    },
+    {
+        "id": 52007,
+        "kargopaneliId": 1525,
+        "cityName": "Ordu",
+        "districtName": "Mesudiye"
+    },
+    {
+        "id": 52008,
+        "kargopaneliId": 1573,
+        "cityName": "Ordu",
+        "districtName": "Perşembe"
+    },
+    {
+        "id": 52009,
+        "kargopaneliId": 1696,
+        "cityName": "Ordu",
+        "districtName": "Ulubey"
+    },
+    {
+        "id": 52010,
+        "kargopaneliId": 1706,
+        "cityName": "Ordu",
+        "districtName": "Ünye"
+    },
+    {
+        "id": 52011,
+        "kargopaneliId": 1795,
+        "cityName": "Ordu",
+        "districtName": "Gülyalı"
+    },
+    {
+        "id": 52012,
+        "kargopaneliId": 1797,
+        "cityName": "Ordu",
+        "districtName": "Gürgentepe"
+    },
+    {
+        "id": 52013,
+        "kargopaneliId": 1891,
+        "cityName": "Ordu",
+        "districtName": "Çamaş"
+    },
+    {
+        "id": 52014,
+        "kargopaneliId": 1897,
+        "cityName": "Ordu",
+        "districtName": "Çatalpınar"
+    },
+    {
+        "id": 52015,
+        "kargopaneliId": 1900,
+        "cityName": "Ordu",
+        "districtName": "Çaybaşı"
+    },
+    {
+        "id": 52016,
+        "kargopaneliId": 1947,
+        "cityName": "Ordu",
+        "districtName": "İkizce"
+    },
+    {
+        "id": 52017,
+        "kargopaneliId": 1950,
+        "cityName": "Ordu",
+        "districtName": "Kabadüz"
+    },
+    {
+        "id": 52018,
+        "kargopaneliId": 1951,
+        "cityName": "Ordu",
+        "districtName": "Kabataş"
+    },
+    {
+        "id": 52019,
+        "kargopaneliId": 2103,
+        "cityName": "Ordu",
+        "districtName": "Altınordu"
+    },
+    {
+        "id": 53001,
+        "kargopaneliId": 1146,
+        "cityName": "Rize",
+        "districtName": "Ardeşen"
+    },
+    {
+        "id": 53002,
+        "kargopaneliId": 1228,
+        "cityName": "Rize",
+        "districtName": "Çamlıhemşin"
+    },
+    {
+        "id": 53003,
+        "kargopaneliId": 1241,
+        "cityName": "Rize",
+        "districtName": "Çayeli"
+    },
+    {
+        "id": 53004,
+        "kargopaneliId": 1332,
+        "cityName": "Rize",
+        "districtName": "Fındıklı"
+    },
+    {
+        "id": 53005,
+        "kargopaneliId": 1405,
+        "cityName": "Rize",
+        "districtName": "İkizdere"
+    },
+    {
+        "id": 53006,
+        "kargopaneliId": 1428,
+        "cityName": "Rize",
+        "districtName": "Kalkandere"
+    },
+    {
+        "id": 53007,
+        "kargopaneliId": 1569,
+        "cityName": "Rize",
+        "districtName": "Pazar"
+    },
+    {
+        "id": 53008,
+        "kargopaneliId": 1586,
+        "cityName": "Rize",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 53009,
+        "kargopaneliId": 1796,
+        "cityName": "Rize",
+        "districtName": "Güneysu"
+    },
+    {
+        "id": 53010,
+        "kargopaneliId": 1908,
+        "cityName": "Rize",
+        "districtName": "Derepazarı"
+    },
+    {
+        "id": 53011,
+        "kargopaneliId": 1943,
+        "cityName": "Rize",
+        "districtName": "Hemşin"
+    },
+    {
+        "id": 53012,
+        "kargopaneliId": 1949,
+        "cityName": "Rize",
+        "districtName": "İyidere"
+    },
+    {
+        "id": 54001,
+        "kargopaneliId": 1123,
+        "cityName": "Sakarya",
+        "districtName": "Akyazı"
+    },
+    {
+        "id": 54002,
+        "kargopaneliId": 1351,
+        "cityName": "Sakarya",
+        "districtName": "Geyve"
+    },
+    {
+        "id": 54003,
+        "kargopaneliId": 1391,
+        "cityName": "Sakarya",
+        "districtName": "Hendek"
+    },
+    {
+        "id": 54004,
+        "kargopaneliId": 1442,
+        "cityName": "Sakarya",
+        "districtName": "Karasu"
+    },
+    {
+        "id": 54005,
+        "kargopaneliId": 1453,
+        "cityName": "Sakarya",
+        "districtName": "Kaynarca"
+    },
+    {
+        "id": 54006,
+        "kargopaneliId": 1595,
+        "cityName": "Sakarya",
+        "districtName": "Sapanca"
+    },
+    {
+        "id": 54007,
+        "kargopaneliId": 1818,
+        "cityName": "Sakarya",
+        "districtName": "Kocaali"
+    },
+    {
+        "id": 54008,
+        "kargopaneliId": 1833,
+        "cityName": "Sakarya",
+        "districtName": "Pamukova"
+    },
+    {
+        "id": 54009,
+        "kargopaneliId": 1847,
+        "cityName": "Sakarya",
+        "districtName": "Taraklı"
+    },
+    {
+        "id": 54010,
+        "kargopaneliId": 1925,
+        "cityName": "Sakarya",
+        "districtName": "Ferizli"
+    },
+    {
+        "id": 54011,
+        "kargopaneliId": 1955,
+        "cityName": "Sakarya",
+        "districtName": "Karapürçek"
+    },
+    {
+        "id": 54012,
+        "kargopaneliId": 1986,
+        "cityName": "Sakarya",
+        "districtName": "Söğütlü"
+    },
+    {
+        "id": 54013,
+        "kargopaneliId": 2068,
+        "cityName": "Sakarya",
+        "districtName": "Adapazarı"
+    },
+    {
+        "id": 54014,
+        "kargopaneliId": 2069,
+        "cityName": "Sakarya",
+        "districtName": "Arifiye"
+    },
+    {
+        "id": 54015,
+        "kargopaneliId": 2070,
+        "cityName": "Sakarya",
+        "districtName": "Erenler"
+    },
+    {
+        "id": 54016,
+        "kargopaneliId": 2071,
+        "cityName": "Sakarya",
+        "districtName": "Serdivan"
+    },
+    {
+        "id": 55001,
+        "kargopaneliId": 1125,
+        "cityName": "Samsun",
+        "districtName": "Alaçam"
+    },
+    {
+        "id": 55002,
+        "kargopaneliId": 1164,
+        "cityName": "Samsun",
+        "districtName": "Bafra"
+    },
+    {
+        "id": 55003,
+        "kargopaneliId": 1234,
+        "cityName": "Samsun",
+        "districtName": "Çarşamba"
+    },
+    {
+        "id": 55004,
+        "kargopaneliId": 1386,
+        "cityName": "Samsun",
+        "districtName": "Havza"
+    },
+    {
+        "id": 55005,
+        "kargopaneliId": 1452,
+        "cityName": "Samsun",
+        "districtName": "Kavak"
+    },
+    {
+        "id": 55006,
+        "kargopaneliId": 1501,
+        "cityName": "Samsun",
+        "districtName": "Ladik"
+    },
+    {
+        "id": 55007,
+        "kargopaneliId": 1676,
+        "cityName": "Samsun",
+        "districtName": "Terme"
+    },
+    {
+        "id": 55008,
+        "kargopaneliId": 1712,
+        "cityName": "Samsun",
+        "districtName": "Vezirköprü"
+    },
+    {
+        "id": 55009,
+        "kargopaneliId": 1763,
+        "cityName": "Samsun",
+        "districtName": "Asarcık"
+    },
+    {
+        "id": 55010,
+        "kargopaneliId": 1830,
+        "cityName": "Samsun",
+        "districtName": "19 Mayıs"
+    },
+    {
+        "id": 55011,
+        "kargopaneliId": 1838,
+        "cityName": "Samsun",
+        "districtName": "Salıpazarı"
+    },
+    {
+        "id": 55012,
+        "kargopaneliId": 1849,
+        "cityName": "Samsun",
+        "districtName": "Tekkeköy"
+    },
+    {
+        "id": 55013,
+        "kargopaneliId": 1879,
+        "cityName": "Samsun",
+        "districtName": "Ayvacık"
+    },
+    {
+        "id": 55014,
+        "kargopaneliId": 1993,
+        "cityName": "Samsun",
+        "districtName": "Yakakent"
+    },
+    {
+        "id": 55015,
+        "kargopaneliId": 2072,
+        "cityName": "Samsun",
+        "districtName": "Atakum"
+    },
+    {
+        "id": 55016,
+        "kargopaneliId": 2073,
+        "cityName": "Samsun",
+        "districtName": "Canik"
+    },
+    {
+        "id": 55017,
+        "kargopaneliId": 2074,
+        "cityName": "Samsun",
+        "districtName": "İlkadım"
+    },
+    {
+        "id": 56001,
+        "kargopaneliId": 1179,
+        "cityName": "Siirt",
+        "districtName": "Baykan"
+    },
+    {
+        "id": 56002,
+        "kargopaneliId": 1317,
+        "cityName": "Siirt",
+        "districtName": "Eruh"
+    },
+    {
+        "id": 56003,
+        "kargopaneliId": 1495,
+        "cityName": "Siirt",
+        "districtName": "Kurtalan"
+    },
+    {
+        "id": 56004,
+        "kargopaneliId": 1575,
+        "cityName": "Siirt",
+        "districtName": "Pervari"
+    },
+    {
+        "id": 56005,
+        "kargopaneliId": 1620,
+        "cityName": "Siirt",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 56006,
+        "kargopaneliId": 1662,
+        "cityName": "Siirt",
+        "districtName": "Şirvan"
+    },
+    {
+        "id": 56007,
+        "kargopaneliId": 1878,
+        "cityName": "Siirt",
+        "districtName": "Tillo"
+    },
+    {
+        "id": 57001,
+        "kargopaneliId": 1156,
+        "cityName": "Sinop",
+        "districtName": "Ayancık"
+    },
+    {
+        "id": 57002,
+        "kargopaneliId": 1204,
+        "cityName": "Sinop",
+        "districtName": "Boyabat"
+    },
+    {
+        "id": 57003,
+        "kargopaneliId": 1290,
+        "cityName": "Sinop",
+        "districtName": "Durağan"
+    },
+    {
+        "id": 57004,
+        "kargopaneliId": 1314,
+        "cityName": "Sinop",
+        "districtName": "Erfelek"
+    },
+    {
+        "id": 57005,
+        "kargopaneliId": 1349,
+        "cityName": "Sinop",
+        "districtName": "Gerze"
+    },
+    {
+        "id": 57006,
+        "kargopaneliId": 1627,
+        "cityName": "Sinop",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 57007,
+        "kargopaneliId": 1693,
+        "cityName": "Sinop",
+        "districtName": "Türkeli"
+    },
+    {
+        "id": 57008,
+        "kargopaneliId": 1910,
+        "cityName": "Sinop",
+        "districtName": "Dikmen"
+    },
+    {
+        "id": 57009,
+        "kargopaneliId": 1981,
+        "cityName": "Sinop",
+        "districtName": "Saraydüzü"
+    },
+    {
+        "id": 58001,
+        "kargopaneliId": 1282,
+        "cityName": "Sivas",
+        "districtName": "Divriği"
+    },
+    {
+        "id": 58002,
+        "kargopaneliId": 1342,
+        "cityName": "Sivas",
+        "districtName": "Gemerek"
+    },
+    {
+        "id": 58003,
+        "kargopaneliId": 1373,
+        "cityName": "Sivas",
+        "districtName": "Gürün"
+    },
+    {
+        "id": 58004,
+        "kargopaneliId": 1376,
+        "cityName": "Sivas",
+        "districtName": "Hafik"
+    },
+    {
+        "id": 58005,
+        "kargopaneliId": 1407,
+        "cityName": "Sivas",
+        "districtName": "İmranlı"
+    },
+    {
+        "id": 58006,
+        "kargopaneliId": 1431,
+        "cityName": "Sivas",
+        "districtName": "Kangal"
+    },
+    {
+        "id": 58007,
+        "kargopaneliId": 1484,
+        "cityName": "Sivas",
+        "districtName": "Koyulhisar"
+    },
+    {
+        "id": 58008,
+        "kargopaneliId": 1628,
+        "cityName": "Sivas",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 58009,
+        "kargopaneliId": 1646,
+        "cityName": "Sivas",
+        "districtName": "Suşehri"
+    },
+    {
+        "id": 58010,
+        "kargopaneliId": 1650,
+        "cityName": "Sivas",
+        "districtName": "Şarkışla"
+    },
+    {
+        "id": 58011,
+        "kargopaneliId": 1731,
+        "cityName": "Sivas",
+        "districtName": "Yıldızeli"
+    },
+    {
+        "id": 58012,
+        "kargopaneliId": 1738,
+        "cityName": "Sivas",
+        "districtName": "Zara"
+    },
+    {
+        "id": 58013,
+        "kargopaneliId": 1870,
+        "cityName": "Sivas",
+        "districtName": "Akıncılar"
+    },
+    {
+        "id": 58014,
+        "kargopaneliId": 1875,
+        "cityName": "Sivas",
+        "districtName": "Altınyayla"
+    },
+    {
+        "id": 58015,
+        "kargopaneliId": 1913,
+        "cityName": "Sivas",
+        "districtName": "Doğanşar"
+    },
+    {
+        "id": 58016,
+        "kargopaneliId": 1927,
+        "cityName": "Sivas",
+        "districtName": "Gölova"
+    },
+    {
+        "id": 58017,
+        "kargopaneliId": 1991,
+        "cityName": "Sivas",
+        "districtName": "Ulaş"
+    },
+    {
+        "id": 59001,
+        "kargopaneliId": 1250,
+        "cityName": "Tekirdağ",
+        "districtName": "Çerkezköy"
+    },
+    {
+        "id": 59002,
+        "kargopaneliId": 1258,
+        "cityName": "Tekirdağ",
+        "districtName": "Çorlu"
+    },
+    {
+        "id": 59003,
+        "kargopaneliId": 1388,
+        "cityName": "Tekirdağ",
+        "districtName": "Hayrabolu"
+    },
+    {
+        "id": 59004,
+        "kargopaneliId": 1511,
+        "cityName": "Tekirdağ",
+        "districtName": "Malkara"
+    },
+    {
+        "id": 59005,
+        "kargopaneliId": 1538,
+        "cityName": "Tekirdağ",
+        "districtName": "Muratlı"
+    },
+    {
+        "id": 59006,
+        "kargopaneliId": 1596,
+        "cityName": "Tekirdağ",
+        "districtName": "Saray"
+    },
+    {
+        "id": 59007,
+        "kargopaneliId": 1652,
+        "cityName": "Tekirdağ",
+        "districtName": "Şarköy"
+    },
+    {
+        "id": 59008,
+        "kargopaneliId": 1825,
+        "cityName": "Tekirdağ",
+        "districtName": "Marmaraereğlisi"
+    },
+    {
+        "id": 59009,
+        "kargopaneliId": 2094,
+        "cityName": "Tekirdağ",
+        "districtName": "Ergene"
+    },
+    {
+        "id": 59010,
+        "kargopaneliId": 2095,
+        "cityName": "Tekirdağ",
+        "districtName": "Kapaklı"
+    },
+    {
+        "id": 59011,
+        "kargopaneliId": 2096,
+        "cityName": "Tekirdağ",
+        "districtName": "Süleymanpaşa"
+    },
+    {
+        "id": 60001,
+        "kargopaneliId": 1129,
+        "cityName": "Tokat",
+        "districtName": "Almus"
+    },
+    {
+        "id": 60002,
+        "kargopaneliId": 1151,
+        "cityName": "Tokat",
+        "districtName": "Artova"
+    },
+    {
+        "id": 60003,
+        "kargopaneliId": 1308,
+        "cityName": "Tokat",
+        "districtName": "Erbaa"
+    },
+    {
+        "id": 60004,
+        "kargopaneliId": 1545,
+        "cityName": "Tokat",
+        "districtName": "Niksar"
+    },
+    {
+        "id": 60005,
+        "kargopaneliId": 1584,
+        "cityName": "Tokat",
+        "districtName": "Reşadiye"
+    },
+    {
+        "id": 60006,
+        "kargopaneliId": 1679,
+        "cityName": "Tokat",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 60007,
+        "kargopaneliId": 1690,
+        "cityName": "Tokat",
+        "districtName": "Turhal"
+    },
+    {
+        "id": 60008,
+        "kargopaneliId": 1740,
+        "cityName": "Tokat",
+        "districtName": "Zile"
+    },
+    {
+        "id": 60009,
+        "kargopaneliId": 1834,
+        "cityName": "Tokat",
+        "districtName": "Pazar"
+    },
+    {
+        "id": 60010,
+        "kargopaneliId": 1858,
+        "cityName": "Tokat",
+        "districtName": "Yeşilyurt"
+    },
+    {
+        "id": 60011,
+        "kargopaneliId": 1883,
+        "cityName": "Tokat",
+        "districtName": "Başçiftlik"
+    },
+    {
+        "id": 60012,
+        "kargopaneliId": 1987,
+        "cityName": "Tokat",
+        "districtName": "Sulusaray"
+    },
+    {
+        "id": 61001,
+        "kargopaneliId": 1113,
+        "cityName": "Trabzon",
+        "districtName": "Akçaabat"
+    },
+    {
+        "id": 61002,
+        "kargopaneliId": 1141,
+        "cityName": "Trabzon",
+        "districtName": "Araklı"
+    },
+    {
+        "id": 61003,
+        "kargopaneliId": 1150,
+        "cityName": "Trabzon",
+        "districtName": "Arsin"
+    },
+    {
+        "id": 61004,
+        "kargopaneliId": 1244,
+        "cityName": "Trabzon",
+        "districtName": "Çaykara"
+    },
+    {
+        "id": 61005,
+        "kargopaneliId": 1507,
+        "cityName": "Trabzon",
+        "districtName": "Maçka"
+    },
+    {
+        "id": 61006,
+        "kargopaneliId": 1548,
+        "cityName": "Trabzon",
+        "districtName": "Of"
+    },
+    {
+        "id": 61007,
+        "kargopaneliId": 1647,
+        "cityName": "Trabzon",
+        "districtName": "Sürmene"
+    },
+    {
+        "id": 61008,
+        "kargopaneliId": 1681,
+        "cityName": "Trabzon",
+        "districtName": "Tonya"
+    },
+    {
+        "id": 61009,
+        "kargopaneliId": 1709,
+        "cityName": "Trabzon",
+        "districtName": "Vakfıkebir"
+    },
+    {
+        "id": 61010,
+        "kargopaneliId": 1732,
+        "cityName": "Trabzon",
+        "districtName": "Yomra"
+    },
+    {
+        "id": 61011,
+        "kargopaneliId": 1775,
+        "cityName": "Trabzon",
+        "districtName": "Beşikdüzü"
+    },
+    {
+        "id": 61012,
+        "kargopaneliId": 1842,
+        "cityName": "Trabzon",
+        "districtName": "Şalpazarı"
+    },
+    {
+        "id": 61013,
+        "kargopaneliId": 1896,
+        "cityName": "Trabzon",
+        "districtName": "Çarşıbaşı"
+    },
+    {
+        "id": 61014,
+        "kargopaneliId": 1909,
+        "cityName": "Trabzon",
+        "districtName": "Dernekpazarı"
+    },
+    {
+        "id": 61015,
+        "kargopaneliId": 1917,
+        "cityName": "Trabzon",
+        "districtName": "Düzköy"
+    },
+    {
+        "id": 61016,
+        "kargopaneliId": 1942,
+        "cityName": "Trabzon",
+        "districtName": "Hayrat"
+    },
+    {
+        "id": 61017,
+        "kargopaneliId": 1966,
+        "cityName": "Trabzon",
+        "districtName": "Köprübaşı"
+    },
+    {
+        "id": 61018,
+        "kargopaneliId": 2097,
+        "cityName": "Trabzon",
+        "districtName": "Ortahisar"
+    },
+    {
+        "id": 62001,
+        "kargopaneliId": 1247,
+        "cityName": "Tunceli",
+        "districtName": "Çemişgezek"
+    },
+    {
+        "id": 62002,
+        "kargopaneliId": 1397,
+        "cityName": "Tunceli",
+        "districtName": "Hozat"
+    },
+    {
+        "id": 62003,
+        "kargopaneliId": 1518,
+        "cityName": "Tunceli",
+        "districtName": "Mazgirt"
+    },
+    {
+        "id": 62004,
+        "kargopaneliId": 1541,
+        "cityName": "Tunceli",
+        "districtName": "Nazımiye"
+    },
+    {
+        "id": 62005,
+        "kargopaneliId": 1562,
+        "cityName": "Tunceli",
+        "districtName": "Ovacık"
+    },
+    {
+        "id": 62006,
+        "kargopaneliId": 1574,
+        "cityName": "Tunceli",
+        "districtName": "Pertek"
+    },
+    {
+        "id": 62007,
+        "kargopaneliId": 1581,
+        "cityName": "Tunceli",
+        "districtName": "Pülümür"
+    },
+    {
+        "id": 62008,
+        "kargopaneliId": 1688,
+        "cityName": "Tunceli",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 63001,
+        "kargopaneliId": 1115,
+        "cityName": "Şanlıurfa",
+        "districtName": "Akçakale"
+    },
+    {
+        "id": 63002,
+        "kargopaneliId": 1194,
+        "cityName": "Şanlıurfa",
+        "districtName": "Birecik"
+    },
+    {
+        "id": 63003,
+        "kargopaneliId": 1209,
+        "cityName": "Şanlıurfa",
+        "districtName": "Bozova"
+    },
+    {
+        "id": 63004,
+        "kargopaneliId": 1220,
+        "cityName": "Şanlıurfa",
+        "districtName": "Ceylanpınar"
+    },
+    {
+        "id": 63005,
+        "kargopaneliId": 1378,
+        "cityName": "Şanlıurfa",
+        "districtName": "Halfeti"
+    },
+    {
+        "id": 63006,
+        "kargopaneliId": 1393,
+        "cityName": "Şanlıurfa",
+        "districtName": "Hilvan"
+    },
+    {
+        "id": 63007,
+        "kargopaneliId": 1630,
+        "cityName": "Şanlıurfa",
+        "districtName": "Siverek"
+    },
+    {
+        "id": 63008,
+        "kargopaneliId": 1643,
+        "cityName": "Şanlıurfa",
+        "districtName": "Suruç"
+    },
+    {
+        "id": 63009,
+        "kargopaneliId": 1713,
+        "cityName": "Şanlıurfa",
+        "districtName": "Viranşehir"
+    },
+    {
+        "id": 63010,
+        "kargopaneliId": 1800,
+        "cityName": "Şanlıurfa",
+        "districtName": "Harran"
+    },
+    {
+        "id": 63011,
+        "kargopaneliId": 2091,
+        "cityName": "Şanlıurfa",
+        "districtName": "Eyyübiye"
+    },
+    {
+        "id": 63012,
+        "kargopaneliId": 2092,
+        "cityName": "Şanlıurfa",
+        "districtName": "Haliliye"
+    },
+    {
+        "id": 63013,
+        "kargopaneliId": 2093,
+        "cityName": "Şanlıurfa",
+        "districtName": "Karaköprü"
+    },
+    {
+        "id": 64001,
+        "kargopaneliId": 1170,
+        "cityName": "Uşak",
+        "districtName": "Banaz"
+    },
+    {
+        "id": 64002,
+        "kargopaneliId": 1323,
+        "cityName": "Uşak",
+        "districtName": "Eşme"
+    },
+    {
+        "id": 64003,
+        "kargopaneliId": 1436,
+        "cityName": "Uşak",
+        "districtName": "Karahallı"
+    },
+    {
+        "id": 64004,
+        "kargopaneliId": 1629,
+        "cityName": "Uşak",
+        "districtName": "Sivaslı"
+    },
+    {
+        "id": 64005,
+        "kargopaneliId": 1697,
+        "cityName": "Uşak",
+        "districtName": "Ulubey"
+    },
+    {
+        "id": 64006,
+        "kargopaneliId": 1704,
+        "cityName": "Uşak",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 65001,
+        "kargopaneliId": 1175,
+        "cityName": "Van",
+        "districtName": "Başkale"
+    },
+    {
+        "id": 65002,
+        "kargopaneliId": 1236,
+        "cityName": "Van",
+        "districtName": "Çatak"
+    },
+    {
+        "id": 65003,
+        "kargopaneliId": 1309,
+        "cityName": "Van",
+        "districtName": "Erciş"
+    },
+    {
+        "id": 65004,
+        "kargopaneliId": 1350,
+        "cityName": "Van",
+        "districtName": "Gevaş"
+    },
+    {
+        "id": 65005,
+        "kargopaneliId": 1372,
+        "cityName": "Van",
+        "districtName": "Gürpınar"
+    },
+    {
+        "id": 65006,
+        "kargopaneliId": 1533,
+        "cityName": "Van",
+        "districtName": "Muradiye"
+    },
+    {
+        "id": 65007,
+        "kargopaneliId": 1565,
+        "cityName": "Van",
+        "districtName": "Özalp"
+    },
+    {
+        "id": 65008,
+        "kargopaneliId": 1770,
+        "cityName": "Van",
+        "districtName": "Bahçesaray"
+    },
+    {
+        "id": 65009,
+        "kargopaneliId": 1786,
+        "cityName": "Van",
+        "districtName": "Çaldıran"
+    },
+    {
+        "id": 65010,
+        "kargopaneliId": 1918,
+        "cityName": "Van",
+        "districtName": "Edremit"
+    },
+    {
+        "id": 65011,
+        "kargopaneliId": 1980,
+        "cityName": "Van",
+        "districtName": "Saray"
+    },
+    {
+        "id": 65012,
+        "kargopaneliId": 2098,
+        "cityName": "Van",
+        "districtName": "İpekyolu"
+    },
+    {
+        "id": 65013,
+        "kargopaneliId": 2099,
+        "cityName": "Van",
+        "districtName": "Tuşba"
+    },
+    {
+        "id": 66001,
+        "kargopaneliId": 1117,
+        "cityName": "Yozgat",
+        "districtName": "Akdağmadeni"
+    },
+    {
+        "id": 66002,
+        "kargopaneliId": 1198,
+        "cityName": "Yozgat",
+        "districtName": "Boğazlıyan"
+    },
+    {
+        "id": 66003,
+        "kargopaneliId": 1242,
+        "cityName": "Yozgat",
+        "districtName": "Çayıralan"
+    },
+    {
+        "id": 66004,
+        "kargopaneliId": 1245,
+        "cityName": "Yozgat",
+        "districtName": "Çekerek"
+    },
+    {
+        "id": 66005,
+        "kargopaneliId": 1602,
+        "cityName": "Yozgat",
+        "districtName": "Sarıkaya"
+    },
+    {
+        "id": 66006,
+        "kargopaneliId": 1635,
+        "cityName": "Yozgat",
+        "districtName": "Sorgun"
+    },
+    {
+        "id": 66007,
+        "kargopaneliId": 1655,
+        "cityName": "Yozgat",
+        "districtName": "Şefaatli"
+    },
+    {
+        "id": 66008,
+        "kargopaneliId": 1726,
+        "cityName": "Yozgat",
+        "districtName": "Yerköy"
+    },
+    {
+        "id": 66009,
+        "kargopaneliId": 1733,
+        "cityName": "Yozgat",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 66010,
+        "kargopaneliId": 1877,
+        "cityName": "Yozgat",
+        "districtName": "Aydıncık"
+    },
+    {
+        "id": 66011,
+        "kargopaneliId": 1895,
+        "cityName": "Yozgat",
+        "districtName": "Çandır"
+    },
+    {
+        "id": 66012,
+        "kargopaneliId": 1952,
+        "cityName": "Yozgat",
+        "districtName": "Kadışehri"
+    },
+    {
+        "id": 66013,
+        "kargopaneliId": 1982,
+        "cityName": "Yozgat",
+        "districtName": "Saraykent"
+    },
+    {
+        "id": 66014,
+        "kargopaneliId": 1998,
+        "cityName": "Yozgat",
+        "districtName": "Yenifakılı"
+    },
+    {
+        "id": 67001,
+        "kargopaneliId": 1240,
+        "cityName": "Zonguldak",
+        "districtName": "Çaycuma"
+    },
+    {
+        "id": 67002,
+        "kargopaneliId": 1276,
+        "cityName": "Zonguldak",
+        "districtName": "Devrek"
+    },
+    {
+        "id": 67003,
+        "kargopaneliId": 1313,
+        "cityName": "Zonguldak",
+        "districtName": "Ereğli"
+    },
+    {
+        "id": 67004,
+        "kargopaneliId": 1741,
+        "cityName": "Zonguldak",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 67005,
+        "kargopaneliId": 1758,
+        "cityName": "Zonguldak",
+        "districtName": "Alaplı"
+    },
+    {
+        "id": 67006,
+        "kargopaneliId": 1926,
+        "cityName": "Zonguldak",
+        "districtName": "Gökçebey"
+    },
+    {
+        "id": 67007,
+        "kargopaneliId": 2100,
+        "cityName": "Zonguldak",
+        "districtName": "Kilimli"
+    },
+    {
+        "id": 67008,
+        "kargopaneliId": 2101,
+        "cityName": "Zonguldak",
+        "districtName": "Kozlu"
+    },
+    {
+        "id": 68001,
+        "kargopaneliId": 1120,
+        "cityName": "Aksaray",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 68002,
+        "kargopaneliId": 1557,
+        "cityName": "Aksaray",
+        "districtName": "Ortaköy"
+    },
+    {
+        "id": 68003,
+        "kargopaneliId": 1860,
+        "cityName": "Aksaray",
+        "districtName": "Ağaçören"
+    },
+    {
+        "id": 68004,
+        "kargopaneliId": 1861,
+        "cityName": "Aksaray",
+        "districtName": "Güzelyurt"
+    },
+    {
+        "id": 68005,
+        "kargopaneliId": 1866,
+        "cityName": "Aksaray",
+        "districtName": "Sarıyahşi"
+    },
+    {
+        "id": 68006,
+        "kargopaneliId": 1921,
+        "cityName": "Aksaray",
+        "districtName": "Eskil"
+    },
+    {
+        "id": 68007,
+        "kargopaneliId": 1932,
+        "cityName": "Aksaray",
+        "districtName": "Gülağaç"
+    },
+    {
+        "id": 68008,
+        "kargopaneliId": 2106,
+        "cityName": "Aksaray",
+        "districtName": "Sultanhanı"
+    },
+    {
+        "id": 69001,
+        "kargopaneliId": 1176,
+        "cityName": "Bayburt",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 69002,
+        "kargopaneliId": 1767,
+        "cityName": "Bayburt",
+        "districtName": "Aydıntepe"
+    },
+    {
+        "id": 69003,
+        "kargopaneliId": 1788,
+        "cityName": "Bayburt",
+        "districtName": "Demirözü"
+    },
+    {
+        "id": 70001,
+        "kargopaneliId": 1316,
+        "cityName": "Karaman",
+        "districtName": "Ermenek"
+    },
+    {
+        "id": 70002,
+        "kargopaneliId": 1439,
+        "cityName": "Karaman",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 70003,
+        "kargopaneliId": 1768,
+        "cityName": "Karaman",
+        "districtName": "Ayrancı"
+    },
+    {
+        "id": 70004,
+        "kargopaneliId": 1862,
+        "cityName": "Karaman",
+        "districtName": "Kazımkarabekir"
+    },
+    {
+        "id": 70005,
+        "kargopaneliId": 1884,
+        "cityName": "Karaman",
+        "districtName": "Başyayla"
+    },
+    {
+        "id": 70006,
+        "kargopaneliId": 1983,
+        "cityName": "Karaman",
+        "districtName": "Sarıveliler"
+    },
+    {
+        "id": 71001,
+        "kargopaneliId": 1268,
+        "cityName": "Kırıkkale",
+        "districtName": "Delice"
+    },
+    {
+        "id": 71002,
+        "kargopaneliId": 1463,
+        "cityName": "Kırıkkale",
+        "districtName": "Keskin"
+    },
+    {
+        "id": 71003,
+        "kargopaneliId": 1469,
+        "cityName": "Kırıkkale",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 71004,
+        "kargopaneliId": 1638,
+        "cityName": "Kırıkkale",
+        "districtName": "Sulakyurt"
+    },
+    {
+        "id": 71005,
+        "kargopaneliId": 1880,
+        "cityName": "Kırıkkale",
+        "districtName": "Bahşılı"
+    },
+    {
+        "id": 71006,
+        "kargopaneliId": 1882,
+        "cityName": "Kırıkkale",
+        "districtName": "Balışeyh"
+    },
+    {
+        "id": 71007,
+        "kargopaneliId": 1901,
+        "cityName": "Kırıkkale",
+        "districtName": "Çelebi"
+    },
+    {
+        "id": 71008,
+        "kargopaneliId": 1954,
+        "cityName": "Kırıkkale",
+        "districtName": "Karakeçili"
+    },
+    {
+        "id": 71009,
+        "kargopaneliId": 1992,
+        "cityName": "Kırıkkale",
+        "districtName": "Yahşihan"
+    },
+    {
+        "id": 72001,
+        "kargopaneliId": 1174,
+        "cityName": "Batman",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 72002,
+        "kargopaneliId": 1184,
+        "cityName": "Batman",
+        "districtName": "Beşiri"
+    },
+    {
+        "id": 72003,
+        "kargopaneliId": 1345,
+        "cityName": "Batman",
+        "districtName": "Gercüş"
+    },
+    {
+        "id": 72004,
+        "kargopaneliId": 1487,
+        "cityName": "Batman",
+        "districtName": "Kozluk"
+    },
+    {
+        "id": 72005,
+        "kargopaneliId": 1607,
+        "cityName": "Batman",
+        "districtName": "Sason"
+    },
+    {
+        "id": 72006,
+        "kargopaneliId": 1941,
+        "cityName": "Batman",
+        "districtName": "Hasankeyf"
+    },
+    {
+        "id": 73001,
+        "kargopaneliId": 1189,
+        "cityName": "Şırnak",
+        "districtName": "Beytüşşebap"
+    },
+    {
+        "id": 73002,
+        "kargopaneliId": 1223,
+        "cityName": "Şırnak",
+        "districtName": "Cizre"
+    },
+    {
+        "id": 73003,
+        "kargopaneliId": 1403,
+        "cityName": "Şırnak",
+        "districtName": "İdil"
+    },
+    {
+        "id": 73004,
+        "kargopaneliId": 1623,
+        "cityName": "Şırnak",
+        "districtName": "Silopi"
+    },
+    {
+        "id": 73005,
+        "kargopaneliId": 1661,
+        "cityName": "Şırnak",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 73006,
+        "kargopaneliId": 1698,
+        "cityName": "Şırnak",
+        "districtName": "Uludere"
+    },
+    {
+        "id": 73007,
+        "kargopaneliId": 1931,
+        "cityName": "Şırnak",
+        "districtName": "Güçlükonak"
+    },
+    {
+        "id": 74001,
+        "kargopaneliId": 1172,
+        "cityName": "Bartın",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 74002,
+        "kargopaneliId": 1496,
+        "cityName": "Bartın",
+        "districtName": "Kurucaşile"
+    },
+    {
+        "id": 74003,
+        "kargopaneliId": 1701,
+        "cityName": "Bartın",
+        "districtName": "Ulus"
+    },
+    {
+        "id": 74004,
+        "kargopaneliId": 1761,
+        "cityName": "Bartın",
+        "districtName": "Amasra"
+    },
+    {
+        "id": 75001,
+        "kargopaneliId": 1144,
+        "cityName": "Ardahan",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 75002,
+        "kargopaneliId": 1252,
+        "cityName": "Ardahan",
+        "districtName": "Çıldır"
+    },
+    {
+        "id": 75003,
+        "kargopaneliId": 1356,
+        "cityName": "Ardahan",
+        "districtName": "Göle"
+    },
+    {
+        "id": 75004,
+        "kargopaneliId": 1380,
+        "cityName": "Ardahan",
+        "districtName": "Hanak"
+    },
+    {
+        "id": 75005,
+        "kargopaneliId": 1579,
+        "cityName": "Ardahan",
+        "districtName": "Posof"
+    },
+    {
+        "id": 75006,
+        "kargopaneliId": 2008,
+        "cityName": "Ardahan",
+        "districtName": "Damal"
+    },
+    {
+        "id": 76001,
+        "kargopaneliId": 1142,
+        "cityName": "Iğdır",
+        "districtName": "Aralık"
+    },
+    {
+        "id": 76002,
+        "kargopaneliId": 1398,
+        "cityName": "Iğdır",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 76003,
+        "kargopaneliId": 1692,
+        "cityName": "Iğdır",
+        "districtName": "Tuzluca"
+    },
+    {
+        "id": 76004,
+        "kargopaneliId": 2011,
+        "cityName": "Iğdır",
+        "districtName": "Karakoyunlu"
+    },
+    {
+        "id": 77001,
+        "kargopaneliId": 1716,
+        "cityName": "Yalova",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 77002,
+        "kargopaneliId": 2019,
+        "cityName": "Yalova",
+        "districtName": "Altınova"
+    },
+    {
+        "id": 77003,
+        "kargopaneliId": 2020,
+        "cityName": "Yalova",
+        "districtName": "Armutlu"
+    },
+    {
+        "id": 77004,
+        "kargopaneliId": 2021,
+        "cityName": "Yalova",
+        "districtName": "Çınarcık"
+    },
+    {
+        "id": 77005,
+        "kargopaneliId": 2022,
+        "cityName": "Yalova",
+        "districtName": "Çiftlikköy"
+    },
+    {
+        "id": 77006,
+        "kargopaneliId": 2026,
+        "cityName": "Yalova",
+        "districtName": "Termal"
+    },
+    {
+        "id": 78001,
+        "kargopaneliId": 1296,
+        "cityName": "Karabük",
+        "districtName": "Eflani"
+    },
+    {
+        "id": 78002,
+        "kargopaneliId": 1321,
+        "cityName": "Karabük",
+        "districtName": "Eskipazar"
+    },
+    {
+        "id": 78003,
+        "kargopaneliId": 1433,
+        "cityName": "Karabük",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 78004,
+        "kargopaneliId": 1561,
+        "cityName": "Karabük",
+        "districtName": "Ovacık"
+    },
+    {
+        "id": 78005,
+        "kargopaneliId": 1587,
+        "cityName": "Karabük",
+        "districtName": "Safranbolu"
+    },
+    {
+        "id": 78006,
+        "kargopaneliId": 1856,
+        "cityName": "Karabük",
+        "districtName": "Yenice"
+    },
+    {
+        "id": 79001,
+        "kargopaneliId": 1476,
+        "cityName": "Kilis",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 79002,
+        "kargopaneliId": 2023,
+        "cityName": "Kilis",
+        "districtName": "Elbeyli"
+    },
+    {
+        "id": 79003,
+        "kargopaneliId": 2024,
+        "cityName": "Kilis",
+        "districtName": "Musabeyli"
+    },
+    {
+        "id": 79004,
+        "kargopaneliId": 2025,
+        "cityName": "Kilis",
+        "districtName": "Polateli"
+    },
+    {
+        "id": 80001,
+        "kargopaneliId": 1165,
+        "cityName": "Osmaniye",
+        "districtName": "Bahçe"
+    },
+    {
+        "id": 80002,
+        "kargopaneliId": 1423,
+        "cityName": "Osmaniye",
+        "districtName": "Kadirli"
+    },
+    {
+        "id": 80003,
+        "kargopaneliId": 1560,
+        "cityName": "Osmaniye",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 80004,
+        "kargopaneliId": 1743,
+        "cityName": "Osmaniye",
+        "districtName": "Düziçi"
+    },
+    {
+        "id": 80005,
+        "kargopaneliId": 2027,
+        "cityName": "Osmaniye",
+        "districtName": "Hasanbeyli"
+    },
+    {
+        "id": 80006,
+        "kargopaneliId": 2028,
+        "cityName": "Osmaniye",
+        "districtName": "Sumbas"
+    },
+    {
+        "id": 80007,
+        "kargopaneliId": 2029,
+        "cityName": "Osmaniye",
+        "districtName": "Toprakkale"
+    },
+    {
+        "id": 81001,
+        "kargopaneliId": 1116,
+        "cityName": "Düzce",
+        "districtName": "Akçakoca"
+    },
+    {
+        "id": 81002,
+        "kargopaneliId": 1292,
+        "cityName": "Düzce",
+        "districtName": "Merkez"
+    },
+    {
+        "id": 81003,
+        "kargopaneliId": 1730,
+        "cityName": "Düzce",
+        "districtName": "Yığılca"
+    },
+    {
+        "id": 81004,
+        "kargopaneliId": 1784,
+        "cityName": "Düzce",
+        "districtName": "Cumayeri"
+    },
+    {
+        "id": 81005,
+        "kargopaneliId": 1794,
+        "cityName": "Düzce",
+        "districtName": "Gölyaka"
+    },
+    {
+        "id": 81006,
+        "kargopaneliId": 1905,
+        "cityName": "Düzce",
+        "districtName": "Çilimli"
+    },
+    {
+        "id": 81007,
+        "kargopaneliId": 2017,
+        "cityName": "Düzce",
+        "districtName": "Gümüşova"
+    },
+    {
+        "id": 81008,
+        "kargopaneliId": 2031,
+        "cityName": "Düzce",
+        "districtName": "Kaynaşlı"
+    }
+]

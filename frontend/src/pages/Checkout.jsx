@@ -3,7 +3,8 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { ShoppingBag, User, MapPin, FileText, Check, ChevronRight, ArrowLeft } from 'lucide-react';
-import turkeyAddresses from '../data/turkeyAddresses.json';
+import cities from '../data/cities.json';
+import allDistricts from '../data/districts.json';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
 const Checkout = () => {
@@ -33,17 +34,8 @@ const Checkout = () => {
    // Get districts based on selected city
    const districts = useMemo(() => {
       if (!formData.city) return [];
-      const province = turkeyAddresses.provinces.find(p => p.name === formData.city);
-      return province?.districts || [];
+      return allDistricts.filter(d => d.cityName === formData.city);
    }, [formData.city]);
-
-   // Get neighborhoods based on selected district
-   const neighborhoods = useMemo(() => {
-      if (!formData.district) return [];
-      const province = turkeyAddresses.provinces.find(p => p.name === formData.city);
-      const district = province?.districts.find(d => d.name === formData.district);
-      return district?.neighborhoods || [];
-   }, [formData.city, formData.district]);
 
    const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -88,7 +80,7 @@ const Checkout = () => {
       } else if (stepNumber === 2) {
          if (!formData.city) newErrors.city = 'İl seçimi gereklidir';
          if (!formData.district) newErrors.district = 'İlçe seçimi gereklidir';
-         if (!formData.neighborhood) newErrors.neighborhood = 'Mahalle seçimi gereklidir';
+         if (!formData.neighborhood) newErrors.neighborhood = 'Mahalle gereklidir';
          if (!formData.address.trim()) newErrors.address = 'Açık adres gereklidir';
       }
 
@@ -375,9 +367,9 @@ const Checkout = () => {
                               className={errors.city ? 'error' : ''}
                            >
                               <option value="">İl Seçiniz</option>
-                              {turkeyAddresses.provinces.map(province => (
-                                 <option key={province.name} value={province.name}>
-                                    {province.name}
+                              {cities.map(city => (
+                                 <option key={city.id} value={city.cityName}>
+                                    {city.cityName}
                                  </option>
                               ))}
                            </select>
@@ -396,8 +388,8 @@ const Checkout = () => {
                            >
                               <option value="">İlçe Seçiniz</option>
                               {districts.map(district => (
-                                 <option key={district.name} value={district.name}>
-                                    {district.name}
+                                 <option key={district.id} value={district.districtName}>
+                                    {district.districtName}
                                  </option>
                               ))}
                            </select>
@@ -407,21 +399,15 @@ const Checkout = () => {
 
                      <div className="form-group" style={{ marginBottom: '1.25rem' }}>
                         <label htmlFor="neighborhood">Mahalle *</label>
-                        <select
+                        <input
+                           type="text"
                            id="neighborhood"
                            name="neighborhood"
                            value={formData.neighborhood}
                            onChange={handleInputChange}
-                           disabled={!formData.district}
-                           className={errors.neighborhood ? 'error' : ''}
-                        >
-                           <option value="">Mahalle Seçiniz</option>
-                           {neighborhoods.map(neighborhood => (
-                              <option key={neighborhood} value={neighborhood}>
-                                 {neighborhood}
-                              </option>
-                           ))}
-                        </select>
+                           placeholder="Mahalle adı giriniz"
+                           className={`form-input ${errors.neighborhood ? 'error' : ''}`}
+                        />
                         {errors.neighborhood && <span className="error-text">{errors.neighborhood}</span>}
                      </div>
 
