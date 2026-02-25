@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
@@ -14,6 +14,24 @@ const Checkout = () => {
 
    const [step, setStep] = useState(1);
    const [isSubmitting, setIsSubmitting] = useState(false);
+
+   // Shipping settings from admin panel
+   const [shippingSettings, setShippingSettings] = useState(null);
+
+   useEffect(() => {
+      const fetchShippingSettings = async () => {
+         try {
+            const res = await fetch(`${VITE_API_URL}/shipping-settings`);
+            const data = await res.json();
+            if (data.success) {
+               setShippingSettings(data.data);
+            }
+         } catch (err) {
+            console.error('Kargo ayarları alınamadı:', err);
+         }
+      };
+      fetchShippingSettings();
+   }, []);
 
    // Form state
    const [formData, setFormData] = useState({
@@ -208,7 +226,29 @@ const Checkout = () => {
       };
    }, [cart.items]);
 
-   const shippingCost = grandTotal > 500 ? 0 : 30;
+   // Calculate shipping cost using admin settings (mirrors backend calculateShippingCost)
+   const shippingCost = useMemo(() => {
+      if (!shippingSettings) return 0;
+      const fee = shippingSettings.standardShippingFee;
+      // Check free shipping threshold
+      if (shippingSettings.freeShippingEnabled && grandTotal >= shippingSettings.freeShippingThreshold) {
+         return 0;
+      }
+      switch (shippingSettings.calculationMethod) {
+         case 'single':
+            return fee;
+         case 'sum_all':
+            return fee * cart.totalItems;
+         case 'first_plus':
+            return fee + (Math.max(0, cart.totalItems - 1) * (shippingSettings.perItemExtraFee || 0));
+         case 'threshold':
+            return grandTotal >= shippingSettings.freeShippingThreshold ? 0 : fee;
+         case 'delivery':
+            return fee;
+         default:
+            return fee;
+      }
+   }, [shippingSettings, grandTotal, cart.totalItems]);
    const finalTotal = grandTotal + shippingCost;
 
    // Redirect if cart is empty
@@ -600,7 +640,7 @@ const Checkout = () => {
                   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                      <span>Kargo:</span>
                      <strong style={{ color: shippingCost === 0 ? 'var(--color-success)' : 'inherit' }}>
-                        {shippingCost === 0 ? 'Ücretsiz' : '30.00 ₺'}
+                        {shippingCost === 0 ? 'Ücretsiz' : `${shippingCost.toFixed(2)} ₺`}
                      </strong>
                   </div>
                </div>
