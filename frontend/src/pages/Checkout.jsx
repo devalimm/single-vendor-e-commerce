@@ -1,8 +1,8 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
-import { ShoppingBag, User, MapPin, FileText, Check, ChevronRight, ArrowLeft } from 'lucide-react';
+import { ShoppingBag, User, MapPin, FileText, Check, ChevronRight, ArrowLeft, CreditCard, Loader } from 'lucide-react';
 import cities from '../data/cities.json';
 import allDistricts from '../data/districts.json';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
@@ -14,6 +14,32 @@ const Checkout = () => {
 
    const [step, setStep] = useState(1);
    const [isSubmitting, setIsSubmitting] = useState(false);
+   const [paymentLoading, setPaymentLoading] = useState(false);
+   const [checkoutFormContent, setCheckoutFormContent] = useState(null);
+   const iyzipayFormRef = useRef(null);
+
+   // Execute iyzico checkout form scripts after DOM injection
+   useEffect(() => {
+      if (checkoutFormContent && iyzipayFormRef.current) {
+         // Set innerHTML first
+         iyzipayFormRef.current.innerHTML = checkoutFormContent;
+
+         // Extract and re-create script tags so they execute
+         const scripts = iyzipayFormRef.current.querySelectorAll('script');
+         scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            // Copy all attributes
+            Array.from(oldScript.attributes).forEach(attr => {
+               newScript.setAttribute(attr.name, attr.value);
+            });
+            // Copy inline script content
+            if (oldScript.textContent) {
+               newScript.textContent = oldScript.textContent;
+            }
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+         });
+      }
+   }, [checkoutFormContent]);
 
    // Shipping settings from admin panel
    const [shippingSettings, setShippingSettings] = useState(null);
@@ -142,9 +168,12 @@ const Checkout = () => {
    };
 
    const handleSubmit = async () => {
-      if (!validateStep(3)) return;
+      if (!agreementAccepted) {
+         showToast('Mesafeli Satış Sözleşmesini kabul etmelisiniz', 'error');
+         return;
+      }
 
-      setIsSubmitting(true);
+      setPaymentLoading(true);
 
       try {
          // Prepare order items for API
@@ -156,7 +185,7 @@ const Checkout = () => {
             selectedOptions: item.selectedOptions || []
          }));
 
-         const orderData = {
+         const paymentData = {
             items,
             shippingAddress: {
                fullName: formData.fullName,
@@ -168,32 +197,30 @@ const Checkout = () => {
                neighborhood: formData.neighborhood,
                address: formData.address
             },
-            customerNote: formData.customerNote || null,
-            paymentMethod: 'cash_on_delivery'
+            customerNote: formData.customerNote || null
          };
 
-         const response = await fetch(`${VITE_API_URL}/orders/guest`, {
+         const response = await fetch(`${VITE_API_URL}/payment/initialize`, {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(orderData)
+            body: JSON.stringify(paymentData)
          });
 
          const data = await response.json();
 
          if (data.success) {
-            clearCart();
-            showToast('Siparişiniz başarıyla oluşturuldu!', 'success');
-            navigate('/order-success', { state: { orderId: data.data._id } });
+            setCheckoutFormContent(data.data.checkoutFormContent);
+            setStep(4);
          } else {
-            showToast(data.message || 'Sipariş oluşturulamadı', 'error');
+            showToast(data.message || 'Ödeme başlatılamadı', 'error');
          }
       } catch (error) {
-         console.error('Order error:', error);
-         showToast('Sipariş oluşturulurken bir hata oluştu', 'error');
+         console.error('Payment init error:', error);
+         showToast('Ödeme başlatılırken bir hata oluştu', 'error');
       } finally {
-         setIsSubmitting(false);
+         setPaymentLoading(false);
       }
    };
 
@@ -270,7 +297,8 @@ const Checkout = () => {
    const steps = [
       { number: 1, title: 'Müşteri Bilgileri', icon: User },
       { number: 2, title: 'Adres Bilgileri', icon: MapPin },
-      { number: 3, title: 'Sipariş Özeti', icon: FileText }
+      { number: 3, title: 'Sipariş Özeti', icon: FileText },
+      { number: 4, title: 'Ödeme', icon: CreditCard }
    ];
 
    return (
@@ -306,7 +334,7 @@ const Checkout = () => {
                      }}
                   >
                      {step > s.number ? (
-                        <Check size={18} />
+                        <CreditCard size={18} />
                      ) : (
                         <s.icon size={18} />
                      )}
@@ -604,12 +632,45 @@ const Checkout = () => {
                            onClick={handleSubmit}
                            className="btn btn-primary"
                            style={{ flex: 2 }}
-                           disabled={isSubmitting || !agreementAccepted}
+                           disabled={paymentLoading || !agreementAccepted}
                         >
-                           {isSubmitting ? 'İşleniyor...' : 'Siparişi Onayla'}
-                           <Check size={18} />
+                           {paymentLoading ? 'Yükleniyor...' : 'Ödemeye Geç'}
+                           <CreditCard size={18} />
                         </button>
                      </div>
+                  </div>
+               )}
+
+               {/* Step 4: iyzico Payment */}
+               {step === 4 && (
+                  <div>
+                     <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <CreditCard size={24} />
+                        Kredi Kartı ile Ödeme
+                     </h2>
+                     <p style={{ color: 'var(--color-text-secondary)', marginBottom: '1.5rem' }}>
+                        Lütfen kart bilgilerinizi girerek ödemenizi tamamlayın.
+                     </p>
+                     {checkoutFormContent ? (
+                        <div
+                           id="iyzipay-checkout-form"
+                           className="iyzico-form-container"
+                           ref={iyzipayFormRef}
+                        />
+                     ) : (
+                        <div style={{ textAlign: 'center', padding: '3rem' }}>
+                           <Loader size={40} style={{ animation: 'spin 1s linear infinite', color: 'var(--color-primary)' }} />
+                           <p style={{ marginTop: '1rem', color: 'var(--color-text-secondary)' }}>Ödeme formu yükleniyor...</p>
+                        </div>
+                     )}
+                     <button
+                        onClick={() => { setStep(3); setCheckoutFormContent(null); }}
+                        className="btn btn-secondary"
+                        style={{ marginTop: '1.5rem' }}
+                     >
+                        <ArrowLeft size={18} />
+                        Geri Dön
+                     </button>
                   </div>
                )}
             </div>
