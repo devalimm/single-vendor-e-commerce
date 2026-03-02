@@ -15,6 +15,7 @@ import discountRoutes from './routes/discounts.js';
 import variationRoutes from './routes/variations.js';
 import shippingRoutes from './routes/shipping.js';
 import customerRoutes from './routes/customers.js';
+import paymentRoutes from './routes/payment.js';
 
 // Import rate limiters
 import { apiLimiter, authLimiter } from './middleware/rateLimiter.js';
@@ -30,6 +31,8 @@ const app = express();
 app.set('trust proxy', 1);
 
 connectDB();
+import { handleCallback as iyzicoCallback } from './controllers/paymentController.js';
+app.post('/api/payment/callback', express.urlencoded({ extended: true }), express.json(), iyzicoCallback);
 
 // Middleware
 const allowedOrigins = [
@@ -87,6 +90,7 @@ app.use('/api/discounts', discountRoutes);
 app.use('/api/variations', variationRoutes);
 app.use('/api/shipping-settings', shippingRoutes);
 app.use('/api/customers', customerRoutes);
+app.use('/api/payment', paymentRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
