@@ -21,6 +21,7 @@ import OrderSuccess from './pages/OrderSuccess';
 import Orders from './pages/Orders';
 import MesafeliSatisSozlesmesi from './pages/MesafeliSatisSozlesmesi';
 import KVKK from './pages/KVKK';
+import PaymentCallback from './pages/PaymentCallback';
 
 // Admin Pages
 import AdminLayout from './pages/admin/AdminLayout';
@@ -60,6 +61,7 @@ function App() {
                   <Route path="/orders" element={<Orders />} />
                   <Route path="/mesafeli-satis-sozlesmesi" element={<MesafeliSatisSozlesmesi />} />
                   <Route path="/kvkk" element={<KVKK />} />
+                  <Route path="/payment-callback" element={<PaymentCallback />} />
 
                   {/* Admin Routes */}
                   <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>

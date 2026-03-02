@@ -469,6 +469,58 @@ export const updateOrderStatus = async (req, res) => {
    }
 };
 
+// @desc    Bulk update order status
+// @route   PUT /api/orders/bulk-status
+// @access  Private/Admin
+export const bulkUpdateOrderStatus = async (req, res) => {
+   try {
+      const { orderIds, status } = req.body;
+
+      if (!orderIds || !Array.isArray(orderIds) || orderIds.length === 0) {
+         return res.status(400).json({
+            success: false,
+            message: 'Sipariş IDleri gereklidir.'
+         });
+      }
+
+      if (!status) {
+         return res.status(400).json({
+            success: false,
+            message: 'Yeni durum gereklidir.'
+         });
+      }
+
+      const timestampField = {
+         confirmed: 'confirmedAt',
+         shipped: 'shippedAt',
+         delivered: 'deliveredAt',
+         cancelled: 'cancelledAt'
+      };
+
+      const updateData = { status };
+      if (timestampField[status]) {
+         updateData[timestampField[status]] = new Date();
+      }
+
+      const result = await Order.updateMany(
+         { _id: { $in: orderIds } },
+         { $set: updateData }
+      );
+
+      res.json({
+         success: true,
+         message: `${result.modifiedCount} sipariş güncellendi.`,
+         modifiedCount: result.modifiedCount
+      });
+   } catch (error) {
+      console.error('Bulk update error:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Toplu güncelleme sırasında hata oluştu.'
+      });
+   }
+};
+
 // @desc    Update payment status
 // @route   PUT /api/orders/:id/payment
 // @access  Private/Admin

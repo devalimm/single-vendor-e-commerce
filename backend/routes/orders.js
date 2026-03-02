@@ -6,6 +6,7 @@ import {
    getOrder,
    getAllOrders,
    updateOrderStatus,
+   bulkUpdateOrderStatus,
    updatePaymentStatus,
    trackOrders
 } from '../controllers/orderController.js';
@@ -27,6 +28,7 @@ router.post('/', protect, createOrder);
 router.get('/my-orders', protect, getUserOrders);
 
 // Status and payment updates - must come before /:id
+router.put('/bulk-status', protect, adminOnly, bulkUpdateOrderStatus);
 router.put('/:id/status', protect, adminOnly, updateOrderStatus);
 router.put('/:id/payment', protect, adminOnly, updatePaymentStatus);
 

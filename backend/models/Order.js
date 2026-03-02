@@ -106,7 +106,7 @@ const orderSchema = new mongoose.Schema({
    // Payment information
    paymentMethod: {
       type: String,
-      enum: ['credit_card', 'bank_transfer', 'cash_on_delivery'],
+      enum: ['credit_card', 'bank_transfer', 'cash_on_delivery', 'iyzico'],
       default: 'cash_on_delivery'
    },
    paymentStatus: {
@@ -124,6 +124,11 @@ const orderSchema = new mongoose.Schema({
 
    // Tracking
    trackingNumber: String,
+
+   // iyzico payment tracking
+   iyzicoPaymentId: String,
+   iyzicoConversationId: String,
+   iyzicoToken: String,
 
    // Notes
    customerNote: String,
