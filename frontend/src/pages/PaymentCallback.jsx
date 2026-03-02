@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { CheckCircle, XCircle, Loader, Home } from 'lucide-react';
@@ -7,11 +7,16 @@ const PaymentCallback = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const { clearCart } = useCart();
+    const processedRef = useRef(false);
 
     const [status, setStatus] = useState('loading'); // loading, success, error
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
+        // Prevent running twice due to StrictMode or clearCart re-renders
+        if (processedRef.current) return;
+        processedRef.current = true;
+
         const paramStatus = searchParams.get('status');
         const orderId = searchParams.get('orderId');
         const message = searchParams.get('message');
@@ -25,13 +30,13 @@ const PaymentCallback = () => {
         if (paramStatus === 'success' && orderId) {
             clearCart();
             setStatus('success');
-            // Redirect to order success after a brief moment
+            // Redirect to order success after showing the message briefly
             setTimeout(() => {
                 navigate('/order-success', {
                     state: { orderId },
                     replace: true
                 });
-            }, 100);
+            }, 1500);
             return;
         }
 
