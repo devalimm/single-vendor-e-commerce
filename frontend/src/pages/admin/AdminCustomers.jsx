@@ -298,7 +298,9 @@ const AdminCustomers = () => {
                                     const isSelected = selectedIds.has(customer._id);
                                     return (
                                         <tr key={customer._id} style={{
-                                            background: isSelected ? 'var(--color-primary-light, rgba(59,130,246,0.06))' : undefined
+                                            outline: isSelected ? '2px solid var(--color-primary)' : undefined,
+                                            outlineOffset: '-2px',
+                                            borderRadius: '4px'
                                         }}>
                                             <td>
                                                 <button

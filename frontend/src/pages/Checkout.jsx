@@ -401,7 +401,7 @@ const Checkout = () => {
                      <div className="form-group" style={{ marginBottom: '1.5rem' }}>
                         <label htmlFor="phone">Telefon Numarası *</label>
                         <input
-                           type="tel"
+                           type="number"
                            id="phone"
                            name="phone"
                            value={formData.phone}
