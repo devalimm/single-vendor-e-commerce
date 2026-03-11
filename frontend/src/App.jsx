@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { CartProvider } from './context/CartContext';
@@ -37,57 +37,66 @@ import AdminCustomers from './pages/admin/AdminCustomers';
 
 import './index.css';
 
+function AppContent() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="app">
+      <Navbar />
+      <main>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Home />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+          <Route path="/products/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/order-success" element={<OrderSuccess />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/mesafeli-satis-sozlesmesi" element={<MesafeliSatisSozlesmesi />} />
+          <Route path="/kvkk" element={<KVKK />} />
+          <Route path="/payment-callback" element={<PaymentCallback />} />
+
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="categories" element={<AdminCategories />} />
+            <Route path="products" element={<AdminProducts />} />
+            <Route path="products/new" element={<AdminProductForm />} />
+            <Route path="products/edit/:id" element={<AdminProductForm />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="discounts" element={<AdminDiscount />} />
+            <Route path="variations" element={<AdminVariations />} />
+            <Route path="shipping" element={<AdminShipping />} />
+            <Route path="customers" element={<AdminCustomers />} />
+          </Route>
+
+          {/* 404 */}
+          <Route path="*" element={
+            <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
+              <h1>404</h1>
+              <p>Sayfa bulunamadı</p>
+            </div>
+          } />
+        </Routes>
+      </main>
+      {!isAdmin && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <AuthProvider>
       <ToastProvider>
         <CartProvider>
           <Router>
-            <div className="app">
-              <Navbar />
-              <main>
-                <Routes>
-                  {/* Public Routes */}
-                  <Route path="/" element={<Home />} />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
-                  <Route path="/forgot-password" element={<ForgotPassword />} />
-                  <Route path="/reset-password/:token" element={<ResetPassword />} />
-                  <Route path="/products/:id" element={<ProductDetail />} />
-                  <Route path="/cart" element={<Cart />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/order-success" element={<OrderSuccess />} />
-                  <Route path="/orders" element={<Orders />} />
-                  <Route path="/mesafeli-satis-sozlesmesi" element={<MesafeliSatisSozlesmesi />} />
-                  <Route path="/kvkk" element={<KVKK />} />
-                  <Route path="/payment-callback" element={<PaymentCallback />} />
-
-                  {/* Admin Routes */}
-                  <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
-                    <Route index element={<AdminDashboard />} />
-                    <Route path="categories" element={<AdminCategories />} />
-                    <Route path="products" element={<AdminProducts />} />
-                    <Route path="products/new" element={<AdminProductForm />} />
-                    <Route path="products/edit/:id" element={<AdminProductForm />} />
-                    <Route path="orders" element={<AdminOrders />} />
-                    <Route path="discounts" element={<AdminDiscount />} />
-                    <Route path="variations" element={<AdminVariations />} />
-                    <Route path="shipping" element={<AdminShipping />} />
-                    <Route path="customers" element={<AdminCustomers />} />
-                  </Route>
-
-                  {/* 404 */}
-                  <Route path="*" element={
-                    <div className="container" style={{ textAlign: 'center', padding: '4rem 0' }}>
-                      <h1>404</h1>
-                      <p>Sayfa bulunamadı</p>
-                    </div>
-                  } />
-                </Routes>
-              </main>
-              <Footer />
-            </div>
+            <AppContent />
           </Router>
         </CartProvider>
       </ToastProvider>
