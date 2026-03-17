@@ -7,6 +7,20 @@ const api = axios.create({
    },
 });
 
+/**
+ * Görsel URL'i oluşturur.
+ * VITE_API_URL = 'https://api.asiyeozel.com/api' → base = 'https://api.asiyeozel.com'
+ * Lokalde (VITE_API_URL yok) → base = '' → görseller aynı origin'den gelir
+ */
+export const getImageUrl = (imagePath) => {
+   if (!imagePath) return '';
+   const apiUrl = import.meta.env.VITE_API_URL || '';
+   // /api suffix'ini kaldır, sadece origin+port kalsın
+   const base = apiUrl.replace(/\/api$/, '');
+   return `${base}${imagePath}`;
+};
+
+
 // Request interceptor for adding auth token
 api.interceptors.request.use(
    (config) => {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import api from '../../utils/api';
+import api, { getImageUrl } from '../../utils/api';
 import { X } from 'lucide-react';
 
 const AdminProductForm = () => {
@@ -448,7 +448,7 @@ const AdminProductForm = () => {
                   <div className="image-grid">
                      {existingImages.map((img, index) => (
                         <div key={index} className="image-preview">
-                           <img src={`${import.meta.env.VITE_API_URL}${img}`} alt={`Product ${index + 1}`} />
+                           <img src={getImageUrl(img)} alt={`Product ${index + 1}`} />
                            <button
                               type="button"
                               onClick={() => removeExistingImage(img)}

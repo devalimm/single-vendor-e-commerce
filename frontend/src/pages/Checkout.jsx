@@ -6,6 +6,7 @@ import { ShoppingBag, User, MapPin, FileText, Check, ChevronRight, ArrowLeft, Cr
 import cities from '../data/cities.json';
 import allDistricts from '../data/districts.json';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
+import { getImageUrl } from '../utils/api';
 
 const Checkout = () => {
    const navigate = useNavigate();
@@ -563,7 +564,7 @@ const Checkout = () => {
                                  borderBottom: index < cart.items.length - 1 ? '1px solid var(--color-border)' : 'none'
                               }}>
                                  <img
-                                    src={item.image ? `${import.meta.env.VITE_API_URL}${item.image}` : 'https://via.placeholder.com/60'}
+                                    src={item.image ? getImageUrl(item.image) : 'https://via.placeholder.com/60'}
                                     alt={item.name}
                                     style={{ width: '60px', height: '80px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }}
                                  />

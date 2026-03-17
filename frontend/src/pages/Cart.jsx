@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
+import { getImageUrl } from '../utils/api';
 
 const Cart = () => {
    const { cart, removeFromCart, updateQuantity } = useCart();
@@ -142,7 +143,7 @@ const Cart = () => {
                         <div style={{ display: 'flex', gap: '1.5rem' }}>
                            {/* Product Image */}
                            <img
-                              src={item.image ? `${import.meta.env.VITE_API_URL}${item.image}` : 'https://via.placeholder.com/100'}
+                              src={item.image ? getImageUrl(item.image) : 'https://via.placeholder.com/100'}
                               alt={item.name}
                               style={{ width: '100px', height: '133px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
                            />

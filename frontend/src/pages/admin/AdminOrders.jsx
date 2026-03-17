@@ -3,6 +3,7 @@ import { useToast } from '../../context/ToastContext';
 import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw, Search, Download, CheckSquare, Square, MinusSquare } from 'lucide-react';
 import * as XLSX from 'xlsx';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
+import { getImageUrl } from '../../utils/api';
 
 const statusConfig = {
    pending: { label: 'Beklemede', color: '#f59e0b', icon: Clock },
@@ -588,7 +589,7 @@ const AdminOrders = () => {
                                        >
                                           {item.productImage && (
                                              <img
-                                                src={`${import.meta.env.VITE_API_URL}${item.productImage}`}
+                                                src={getImageUrl(item.productImage)}
                                                 alt={item.productName}
                                                 style={{ width: '50px', height: '65px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }}
                                              />

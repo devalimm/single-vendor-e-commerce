@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../../utils/api';
+import api, { getImageUrl } from '../../utils/api';
 import { Edit, Trash2, Search } from 'lucide-react';
 import ConfirmModal from '../../components/ConfirmModal';
 
@@ -155,7 +155,7 @@ const AdminProducts = () => {
                         <tr key={product._id}>
                            <td>
                               <img
-                                 src={product.images?.[0] ? `${import.meta.env.VITE_API_URL}${product.images[0]}` : 'https://via.placeholder.com/60'}
+                                 src={product.images?.[0] ? getImageUrl(product.images[0]) : 'https://via.placeholder.com/60'}
                                  alt={product.name}
                                  style={{ width: '60px', height: '80px', objectFit: 'cover', borderRadius: '4px' }}
                               />

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import api from '../utils/api';
+import api, { getImageUrl } from '../utils/api';
 import { ShoppingCart, Home, ChevronRight } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../context/CartContext';
@@ -219,7 +219,7 @@ const ProductDetail = () => {
    const displayPrice = hasDiscount ? discountedPrice : originalPrice;
 
    const mainImage = product.images?.[selectedImage]
-      ? `https://api.asiyeozel.com${product.images[selectedImage]}`
+      ? getImageUrl(product.images[selectedImage])
       : 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="600" height="800"%3E%3Crect fill="%23f0f0f0" width="600" height="800"/%3E%3Ctext fill="%23999" font-family="Arial" font-size="24" x="50%25" y="50%25" text-anchor="middle"%3EResim Yok%3C/text%3E%3C/svg%3E';
 
    return (
@@ -261,7 +261,7 @@ const ProductDetail = () => {
                               className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
                               onClick={() => setSelectedImage(index)}
                            >
-                              <img src={`${import.meta.env.VITE_API_URL}${image}`} alt={`${product.name} ${index + 1}`} />
+                              <img src={getImageUrl(image)} alt={`${product.name} ${index + 1}`} />
                            </div>
                         ))}
                      </div>
