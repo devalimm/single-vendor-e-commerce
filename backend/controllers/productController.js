@@ -4,6 +4,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { applyDiscountsToProducts, applyDiscountToProduct } from '../utils/discountHelper.js';
+import redisClient, { invalidateProductCache } from '../config/redisClient.js';
+
+const CACHE_TTL = 600; // 10 dakika (saniye cinsinden)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -54,6 +57,22 @@ export const getAllProducts = async (req, res) => {
          sort.createdAt = -1; // Default: newest first
       }
 
+      // Cache key: tüm query parametrelerini dahil et
+      const queryStr = new URLSearchParams(req.query).toString();
+      const cacheKey = `products:all:${queryStr}`;
+
+      // 1. Redis'te var mı?
+      try {
+         const cached = await redisClient.get(cacheKey);
+         if (cached) {
+            console.log('[Cache HIT]', cacheKey);
+            return res.json(JSON.parse(cached));
+         }
+      } catch (_) { /* Redis hazır değilse devam et */ }
+
+      console.log('[Cache MISS]', cacheKey);
+
+      // 2. MongoDB'den çek
       const products = await Product.find(query)
          .populate('category', 'name slug')
          .sort(sort)
@@ -61,18 +80,23 @@ export const getAllProducts = async (req, res) => {
          .skip(skip);
 
       const total = await Product.countDocuments(query);
-
-      // İndirim bilgisi ekle
       const productsWithDiscount = await applyDiscountsToProducts(products);
 
-      res.json({
+      const response = {
          success: true,
          count: productsWithDiscount.length,
          total,
          page,
          pages: Math.ceil(total / limit),
          data: productsWithDiscount
-      });
+      };
+
+      // 3. Redis'e yaz
+      try {
+         await redisClient.setEx(cacheKey, CACHE_TTL, JSON.stringify(response));
+      } catch (_) { /* Redis yazma hatası kritik değil */ }
+
+      res.json(response);
    } catch (error) {
       console.error('Get products error:', error);
       res.status(500).json({
@@ -88,6 +112,17 @@ export const getAllProducts = async (req, res) => {
 export const getNewProducts = async (req, res) => {
    try {
       const limit = parseInt(req.query.limit) || 8;
+      const cacheKey = `products:new:${limit}`;
+
+      try {
+         const cached = await redisClient.get(cacheKey);
+         if (cached) {
+            console.log('[Cache HIT]', cacheKey);
+            return res.json(JSON.parse(cached));
+         }
+      } catch (_) { }
+
+      console.log('[Cache MISS]', cacheKey);
 
       const products = await Product.find({ isActive: true, isNew: true })
          .populate('category', 'name slug')
@@ -96,11 +131,17 @@ export const getNewProducts = async (req, res) => {
 
       const productsWithDiscount = await applyDiscountsToProducts(products);
 
-      res.json({
+      const response = {
          success: true,
          count: productsWithDiscount.length,
          data: productsWithDiscount
-      });
+      };
+
+      try {
+         await redisClient.setEx(cacheKey, CACHE_TTL, JSON.stringify(response));
+      } catch (_) { }
+
+      res.json(response);
    } catch (error) {
       console.error('Get new products error:', error);
       res.status(500).json({
@@ -116,6 +157,17 @@ export const getNewProducts = async (req, res) => {
 export const getBestSelling = async (req, res) => {
    try {
       const limit = parseInt(req.query.limit) || 8;
+      const cacheKey = `products:bestselling:${limit}`;
+
+      try {
+         const cached = await redisClient.get(cacheKey);
+         if (cached) {
+            console.log('[Cache HIT]', cacheKey);
+            return res.json(JSON.parse(cached));
+         }
+      } catch (_) { }
+
+      console.log('[Cache MISS]', cacheKey);
 
       const products = await Product.find({ isActive: true })
          .populate('category', 'name slug')
@@ -124,11 +176,17 @@ export const getBestSelling = async (req, res) => {
 
       const productsWithDiscount = await applyDiscountsToProducts(products);
 
-      res.json({
+      const response = {
          success: true,
          count: productsWithDiscount.length,
          data: productsWithDiscount
-      });
+      };
+
+      try {
+         await redisClient.setEx(cacheKey, CACHE_TTL, JSON.stringify(response));
+      } catch (_) { }
+
+      res.json(response);
    } catch (error) {
       console.error('Get bestselling products error:', error);
       res.status(500).json({
@@ -146,6 +204,17 @@ export const getByCategory = async (req, res) => {
       const page = parseInt(req.query.page) || 1;
       const limit = parseInt(req.query.limit) || 12;
       const skip = (page - 1) * limit;
+      const cacheKey = `products:category:${req.params.categoryId}:${page}:${limit}`;
+
+      try {
+         const cached = await redisClient.get(cacheKey);
+         if (cached) {
+            console.log('[Cache HIT]', cacheKey);
+            return res.json(JSON.parse(cached));
+         }
+      } catch (_) { }
+
+      console.log('[Cache MISS]', cacheKey);
 
       const products = await Product.find({
          category: req.params.categoryId,
@@ -163,14 +232,20 @@ export const getByCategory = async (req, res) => {
 
       const productsWithDiscount = await applyDiscountsToProducts(products);
 
-      res.json({
+      const response = {
          success: true,
          count: productsWithDiscount.length,
          total,
          page,
          pages: Math.ceil(total / limit),
          data: productsWithDiscount
-      });
+      };
+
+      try {
+         await redisClient.setEx(cacheKey, CACHE_TTL, JSON.stringify(response));
+      } catch (_) { }
+
+      res.json(response);
    } catch (error) {
       console.error('Get products by category error:', error);
       res.status(500).json({
@@ -259,6 +334,9 @@ export const createProduct = async (req, res) => {
       const populatedProduct = await Product.findById(product._id)
          .populate('category', 'name slug');
 
+      // Cache temizle
+      await invalidateProductCache();
+
       res.status(201).json({
          success: true,
          data: populatedProduct
@@ -320,6 +398,9 @@ export const updateProduct = async (req, res) => {
       const populatedProduct = await Product.findById(updatedProduct._id)
          .populate('category', 'name slug');
 
+      // Cache temizle
+      await invalidateProductCache();
+
       res.json({
          success: true,
          data: populatedProduct
@@ -358,6 +439,9 @@ export const deleteProduct = async (req, res) => {
       }
 
       await product.deleteOne();
+
+      // Cache temizle
+      await invalidateProductCache();
 
       res.json({
          success: true,
@@ -398,6 +482,9 @@ export const uploadImages = async (req, res) => {
       product.images.push(...imagePaths);
 
       await product.save();
+
+      // Cache temizle
+      await invalidateProductCache();
 
       res.json({
          success: true,
@@ -445,6 +532,9 @@ export const deleteImage = async (req, res) => {
       // Remove from product
       product.images.splice(imageIndex, 1);
       await product.save();
+
+      // Cache temizle
+      await invalidateProductCache();
 
       res.json({
          success: true,
