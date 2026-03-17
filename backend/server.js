@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import connectDB from './config/db.js';
+import { connectRedis } from './config/redisClient.js';
 
 // Import routes
 import authRoutes from './routes/auth.js';
@@ -31,6 +32,7 @@ const app = express();
 app.set('trust proxy', 1);
 
 connectDB();
+// connectRedis();
 import { handleCallback as iyzicoCallback } from './controllers/paymentController.js';
 app.post('/api/payment/callback', express.urlencoded({ extended: true }), express.json(), iyzicoCallback);
 
