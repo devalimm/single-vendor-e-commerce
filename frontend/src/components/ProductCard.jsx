@@ -5,7 +5,7 @@ const ProductCard = ({ product }) => {
    const placeholderImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"%3E%3Crect fill="%23f0f0f0" width="300" height="400"/%3E%3Ctext fill="%23999" font-family="Arial" font-size="18" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3EResim Yok%3C/text%3E%3C/svg%3E';
 
    const mainImage = product.images && product.images.length > 0
-      ? `http://localhost:5000${product.images[0]}`
+      ? `https://api.asiyeozel.com${product.images[0]}`
       : placeholderImage;
 
    const hasDiscount = product.discount && product.discount.discountedPrice < product.basePrice;

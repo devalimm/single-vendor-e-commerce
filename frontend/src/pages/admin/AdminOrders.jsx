@@ -588,7 +588,7 @@ const AdminOrders = () => {
                                        >
                                           {item.productImage && (
                                              <img
-                                                src={`http://localhost:5000${item.productImage}`}
+                                                src={`${import.meta.env.VITE_API_URL}${item.productImage}`}
                                                 alt={item.productName}
                                                 style={{ width: '50px', height: '65px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }}
                                              />

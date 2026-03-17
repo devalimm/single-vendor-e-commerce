@@ -563,7 +563,7 @@ const Checkout = () => {
                                  borderBottom: index < cart.items.length - 1 ? '1px solid var(--color-border)' : 'none'
                               }}>
                                  <img
-                                    src={item.image ? `http://localhost:5000${item.image}` : 'https://via.placeholder.com/60'}
+                                    src={item.image ? `${import.meta.env.VITE_API_URL}${item.image}` : 'https://via.placeholder.com/60'}
                                     alt={item.name}
                                     style={{ width: '60px', height: '80px', objectFit: 'cover', borderRadius: 'var(--radius-sm)' }}
                                  />

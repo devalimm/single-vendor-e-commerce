@@ -155,7 +155,7 @@ const AdminProducts = () => {
                         <tr key={product._id}>
                            <td>
                               <img
-                                 src={product.images?.[0] ? `http://localhost:5000${product.images[0]}` : 'https://via.placeholder.com/60'}
+                                 src={product.images?.[0] ? `${import.meta.env.VITE_API_URL}${product.images[0]}` : 'https://via.placeholder.com/60'}
                                  alt={product.name}
                                  style={{ width: '60px', height: '80px', objectFit: 'cover', borderRadius: '4px' }}
                               />

@@ -448,7 +448,7 @@ const AdminProductForm = () => {
                   <div className="image-grid">
                      {existingImages.map((img, index) => (
                         <div key={index} className="image-preview">
-                           <img src={`http://localhost:5000${img}`} alt={`Product ${index + 1}`} />
+                           <img src={`${import.meta.env.VITE_API_URL}${img}`} alt={`Product ${index + 1}`} />
                            <button
                               type="button"
                               onClick={() => removeExistingImage(img)}

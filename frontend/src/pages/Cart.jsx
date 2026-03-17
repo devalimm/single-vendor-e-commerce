@@ -142,7 +142,7 @@ const Cart = () => {
                         <div style={{ display: 'flex', gap: '1.5rem' }}>
                            {/* Product Image */}
                            <img
-                              src={item.image ? `http://localhost:5000${item.image}` : 'https://via.placeholder.com/100'}
+                              src={item.image ? `${import.meta.env.VITE_API_URL}${item.image}` : 'https://via.placeholder.com/100'}
                               alt={item.name}
                               style={{ width: '100px', height: '133px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
                            />
