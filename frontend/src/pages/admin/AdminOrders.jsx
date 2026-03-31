@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../../context/ToastContext';
-import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw, Search, Download, CheckSquare, Square, MinusSquare } from 'lucide-react';
+import { Package, Eye, ChevronDown, ChevronUp, Truck, CheckCircle, Clock, XCircle, RefreshCw, Search, Download, CheckSquare, Square, MinusSquare, Copy, ChevronLeft, ChevronRight } from 'lucide-react';
 import * as XLSX from 'xlsx';
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 import { getImageUrl } from '../../utils/api';
@@ -30,46 +30,53 @@ const AdminOrders = () => {
    const [searchQuery, setSearchQuery] = useState('');
    const [updatingOrder, setUpdatingOrder] = useState(null);
 
+   // Pagination state
+   const [pagination, setPagination] = useState({
+      currentPage: 1,
+      totalPages: 1,
+      totalOrders: 0,
+      limit: 20,
+      hasNextPage: false,
+      hasPrevPage: false
+   });
+
    // Bulk selection state
    const [selectedOrders, setSelectedOrders] = useState(new Set());
    const [bulkUpdating, setBulkUpdating] = useState(false);
 
-   // Filter orders based on search query
-   const filteredOrders = useMemo(() => {
-      if (!searchQuery.trim()) return orders;
+   // Backend now handles the filtering and pagination, so filteredOrders map directly to the API result
+   const filteredOrders = orders;
 
-      const query = searchQuery.toLowerCase().trim();
-      return orders.filter(order => {
-         const fullName = order.shippingAddress?.fullName?.toLowerCase() || '';
-         const email = order.shippingAddress?.email?.toLowerCase() || '';
-         const phone = order.shippingAddress?.phone?.toLowerCase() || '';
-         const orderId = order._id.toLowerCase();
-
-         return fullName.includes(query) ||
-            email.includes(query) ||
-            phone.includes(query) ||
-            orderId.includes(query);
-      });
-   }, [orders, searchQuery]);
-
-   const fetchOrders = async () => {
+   const fetchOrders = async (page = 1) => {
+      setLoading(true);
       try {
          const token = localStorage.getItem('token');
+         const url = new URL(`${VITE_API_URL}/orders/admin/all`);
+         url.searchParams.append('page', page);
+         url.searchParams.append('limit', pagination.limit || 20);
 
-         const url = filter === 'all'
-            ? `${VITE_API_URL}/orders/admin/all`
-            : `${VITE_API_URL}/orders/admin/all?status=${filter}`;
+         if (filter !== 'all') {
+            url.searchParams.append('status', filter);
+         }
+         if (searchQuery.trim()) {
+            url.searchParams.append('search', searchQuery.trim());
+         }
 
-         const response = await fetch(url, {
-            headers: {
-               'Authorization': `Bearer ${token}`
-            }
+         const response = await fetch(url.toString(), {
+            headers: { 'Authorization': `Bearer ${token}` }
          });
-
          const data = await response.json();
 
          if (data.success) {
             setOrders(data.data);
+            setPagination({
+               currentPage: data.page,
+               totalPages: data.pages,
+               totalOrders: data.total,
+               limit: 20,
+               hasNextPage: data.page < data.pages,
+               hasPrevPage: data.page > 1
+            });
          } else {
             showToast(data.message || 'Siparişler yüklenemedi', 'error');
          }
@@ -82,9 +89,24 @@ const AdminOrders = () => {
    };
 
    useEffect(() => {
-      fetchOrders();
+      const timer = setTimeout(() => {
+         fetchOrders(1);
+         setSelectedOrders(new Set());
+      }, searchQuery ? 400 : 0);
+      return () => clearTimeout(timer);
+   }, [filter, searchQuery]);
+
+   const handlePageChange = (page) => {
+      fetchOrders(page);
       setSelectedOrders(new Set());
-   }, [filter]);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+   };
+
+   const handleCopy = (text, label) => {
+       navigator.clipboard.writeText(text)
+          .then(() => showToast(`${label} kopyalandı!`, 'success'))
+          .catch(() => showToast('Kopyalama başarısız', 'error'));
+   };
 
    const updateStatus = async (orderId, newStatus) => {
       setUpdatingOrder(orderId);
@@ -103,7 +125,7 @@ const AdminOrders = () => {
 
          if (data.success) {
             showToast('Sipariş durumu güncellendi', 'success');
-            fetchOrders();
+            fetchOrders(pagination.currentPage);
          } else {
             showToast(data.message || 'Güncelleme başarısız', 'error');
          }
@@ -139,7 +161,7 @@ const AdminOrders = () => {
          if (data.success) {
             showToast(`${data.modifiedCount} sipariş "${statusConfig[newStatus].label}" olarak güncellendi`, 'success');
             setSelectedOrders(new Set());
-            fetchOrders();
+            fetchOrders(pagination.currentPage);
          } else {
             showToast(data.message || 'Toplu güncelleme başarısız', 'error');
          }
@@ -174,10 +196,36 @@ const AdminOrders = () => {
    };
 
    // Export to real Excel (.xlsx)
-   const exportToExcel = () => {
-      const ordersToExport = selectedOrders.size > 0
-         ? filteredOrders.filter(o => selectedOrders.has(o._id))
-         : filteredOrders;
+   const exportToExcel = async () => {
+      let ordersToExport = [];
+      if (selectedOrders.size > 0) {
+         ordersToExport = filteredOrders.filter(o => selectedOrders.has(o._id));
+      } else {
+         try {
+            showToast('Tüm veriler indiriliyor, lütfen bekleyin...', 'info');
+            const token = localStorage.getItem('token');
+            const url = new URL(`${VITE_API_URL}/orders/admin/all`);
+            url.searchParams.append('page', 1);
+            url.searchParams.append('limit', 99999);
+            if (filter !== 'all') url.searchParams.append('status', filter);
+            if (searchQuery.trim()) url.searchParams.append('search', searchQuery.trim());
+            
+            const response = await fetch(url.toString(), {
+               headers: { 'Authorization': `Bearer ${token}` }
+            });
+            const data = await response.json();
+            if (data.success) {
+               ordersToExport = data.data;
+            } else {
+               showToast('Dışa aktarma başarısız oldu', 'error');
+               return;
+            }
+         } catch(error) {
+            console.error('Export error:', error);
+            showToast('Dışa aktarılırken hata oluştu', 'error');
+            return;
+         }
+      }
 
       if (ordersToExport.length === 0) {
          showToast('Dışa aktarılacak sipariş bulunamadı', 'error');
@@ -265,7 +313,7 @@ const AdminOrders = () => {
                   <Download size={18} />
                   {selectedOrders.size > 0 ? `Seçilenleri İndir (${selectedOrders.size})` : 'Excel İndir'}
                </button>
-               <button onClick={fetchOrders} className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+               <button onClick={() => fetchOrders(pagination.currentPage)} className="btn btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <RefreshCw size={18} />
                   Yenile
                </button>
@@ -526,7 +574,12 @@ const AdminOrders = () => {
                                     <div style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
                                        <p><strong>{order.shippingAddress?.fullName}</strong></p>
                                        <p>{order.shippingAddress?.email}</p>
-                                       <p>{order.shippingAddress?.phone}</p>
+                                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                           <p>{order.shippingAddress?.phone}</p>
+                                           <button onClick={() => handleCopy(order.shippingAddress?.phone, 'Telefon')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }} title="Kopyala">
+                                               <Copy size={14} />
+                                           </button>
+                                       </div>
                                        {order.shippingAddress?.tcKimlik && (
                                           <p style={{ color: 'var(--color-text-secondary)' }}>TC: {order.shippingAddress.tcKimlik}</p>
                                        )}
@@ -535,7 +588,19 @@ const AdminOrders = () => {
 
                                  {/* Address */}
                                  <div>
-                                    <h4 style={{ marginBottom: '0.75rem', color: 'var(--color-primary)' }}>Teslimat Adresi</h4>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                                       <h4 style={{ margin: 0, color: 'var(--color-primary)' }}>Teslimat Adresi</h4>
+                                       <button 
+                                          onClick={() => {
+                                             const fullAddress = `${order.shippingAddress?.neighborhood || ''}, ${order.shippingAddress?.district || ''}\n${order.shippingAddress?.city || ''}\n${order.shippingAddress?.address || ''}`.replace(/[\n, ]+$/g, '').trim();
+                                             handleCopy(fullAddress, 'Teslimat Adresi');
+                                          }} 
+                                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem' }} 
+                                          title="Tüm Adresi Kopyala"
+                                       >
+                                           <Copy size={14} /> Kopyala
+                                       </button>
+                                    </div>
                                     <div style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
                                        <p>{order.shippingAddress?.neighborhood}, {order.shippingAddress?.district}</p>
                                        <p>{order.shippingAddress?.city}</p>
@@ -655,6 +720,56 @@ const AdminOrders = () => {
                      </div>
                   );
                })}
+               
+               {/* Pagination Component */}
+               {pagination.totalPages > 1 && (
+                   <div className="pagination-bar" style={{ marginTop: '2rem' }}>
+                       <button
+                           className="btn btn-secondary btn-sm"
+                           disabled={!pagination.hasPrevPage}
+                           onClick={() => handlePageChange(pagination.currentPage - 1)}
+                       >
+                           <ChevronLeft size={16} /> Önceki
+                       </button>
+
+                       <div className="pagination-pages">
+                           {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
+                               .filter(p => {
+                                   return p === 1 || p === pagination.totalPages ||
+                                       Math.abs(p - pagination.currentPage) <= 1;
+                               })
+                               .reduce((acc, p, i, arr) => {
+                                   if (i > 0 && p - arr[i - 1] > 1) {
+                                       acc.push('...');
+                                   }
+                                   acc.push(p);
+                                   return acc;
+                               }, [])
+                               .map((p, i) =>
+                                   p === '...' ? (
+                                       <span key={`dots-${i}`} className="pagination-dots">...</span>
+                                   ) : (
+                                       <button
+                                           key={p}
+                                           className={`pagination-btn ${p === pagination.currentPage ? 'active' : ''}`}
+                                           onClick={() => handlePageChange(p)}
+                                       >
+                                           {p}
+                                       </button>
+                                   )
+                               )
+                           }
+                       </div>
+
+                       <button
+                           className="btn btn-secondary btn-sm"
+                           disabled={!pagination.hasNextPage}
+                           onClick={() => handlePageChange(pagination.currentPage + 1)}
+                       >
+                           Sonraki <ChevronRight size={16} />
+                       </button>
+                   </div>
+               )}
             </div>
          )}
       </div>

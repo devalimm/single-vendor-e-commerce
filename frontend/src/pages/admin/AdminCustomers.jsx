@@ -3,6 +3,126 @@ import api from '../../utils/api';
 import { Search, ChevronLeft, ChevronRight, User, Phone, Mail, MapPin, Calendar, Download, CheckSquare, Square, MinusSquare } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
+const responsiveStyles = `
+    @media (max-width: 768px) {
+        .admin-customers-header-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        .admin-customers-header-actions .form-input, 
+        .admin-customers-header-actions .btn {
+            width: 100%;
+        }
+        .admin-customers-search-container {
+            width: 100%;
+            min-width: 100% !important;
+        }
+        .customers-table thead {
+            display: none;
+        }
+        .customers-table tbody {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding: 1rem;
+        }
+        .customers-table tr {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            position: relative;
+            background: var(--color-surface);
+            box-shadow: var(--shadow-sm);
+        }
+        .customers-table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--color-border-light) !important;
+        }
+        .customers-table td:last-child {
+            border-bottom: none !important;
+        }
+        .customers-table td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+        }
+        .customers-table td.td-checkbox {
+            position: absolute;
+            top: 1rem;
+            right: 0.5rem;
+            border: none !important;
+            padding: 0;
+            width: auto;
+        }
+        .customers-table td.td-checkbox::before { display: none; }
+        .customers-table td.td-name {
+             border-bottom: none !important;
+             padding-top: 0;
+             padding-bottom: 0.25rem;
+             font-size: 1.1rem;
+             color: var(--color-primary);
+             justify-content: flex-start;
+             width: 85%;
+        }
+        .customers-table td.td-name::before { display: none; }
+        .customers-table td.td-email {
+             word-break: break-all;
+             text-align: right;
+        }
+        .customers-table td.td-actions {
+             justify-content: center;
+             padding-top: 1rem;
+             padding-bottom: 0;
+             border-bottom: none !important;
+             margin-top: 0.5rem;
+        }
+        .customers-table td.td-actions .btn { width: 100%; }
+        .customers-table td.td-actions::before { display: none; }
+        .mobile-select-all {
+            display: flex !important;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-border);
+            background: var(--color-surface-hover);
+            border-top-left-radius: var(--radius-lg);
+            border-top-right-radius: var(--radius-lg);
+        }
+        .modal-content {
+             width: 95% !important;
+             margin: 1rem auto !important;
+             padding: 1.5rem !important;
+             max-height: 90vh;
+             overflow-y: auto;
+             max-width: 100% !important;
+        }
+        .customer-detail-value {
+             word-break: break-word;
+             text-align: right;
+        }
+        .customer-detail-item {
+             flex-direction: column;
+             align-items: flex-start !important;
+             gap: 0.5rem;
+             padding: 0.75rem 0;
+        }
+        .customer-detail-item > div {
+             width: 100%;
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             gap: 0.5rem;
+        }
+    }
+    .mobile-select-all { display: none; }
+`;
+
 const AdminCustomers = () => {
     const [customers, setCustomers] = useState([]);
     const [pagination, setPagination] = useState({
@@ -152,6 +272,7 @@ const AdminCustomers = () => {
 
     return (
         <div className="admin-page">
+            <style>{responsiveStyles}</style>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
                 <div>
                     <h1 style={{ margin: 0 }}>Müşteriler</h1>
@@ -160,8 +281,8 @@ const AdminCustomers = () => {
                     </p>
                 </div>
 
-                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                    <div style={{ position: 'relative', minWidth: '280px' }}>
+                <div className="admin-customers-header-actions" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                    <div className="admin-customers-search-container" style={{ position: 'relative', minWidth: '280px' }}>
                         <Search size={16} style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)', color: 'var(--color-text-secondary)' }} />
                         <input
                             type="text"
@@ -254,18 +375,31 @@ const AdminCustomers = () => {
             )}
 
             {/* Customers Table */}
-            <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+            <div className="card" style={{ padding: 0, overflow: 'visible', background: 'transparent', boxShadow: 'none' }}>
                 {loading ? (
-                    <div style={{ padding: '3rem', textAlign: 'center' }}>
+                    <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
                         <p className="text-muted">Yükleniyor...</p>
                     </div>
                 ) : customers.length === 0 ? (
-                    <div style={{ padding: '3rem', textAlign: 'center' }}>
+                    <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
                         <p className="text-muted">{search ? 'Arama sonucu bulunamadı.' : 'Henüz müşteri yok.'}</p>
                     </div>
                 ) : (
-                    <div style={{ overflowX: 'auto' }}>
-                        <table className="admin-table">
+                    <div className="card" style={{ overflowX: 'visible', padding: 0 }}>
+                        <div className="mobile-select-all">
+                            <span style={{ fontWeight: 600 }}>Tümünü Seç</span>
+                            <button
+                                onClick={toggleSelectAll}
+                                style={{
+                                    background: 'none', border: 'none', cursor: 'pointer',
+                                    color: allSelected ? 'var(--color-primary)' : 'var(--color-text-muted)',
+                                    display: 'flex', alignItems: 'center'
+                                }}
+                            >
+                                {allSelected ? <CheckSquare size={24} /> : someSelected ? <MinusSquare size={24} /> : <Square size={24} />}
+                            </button>
+                        </div>
+                        <table className="admin-table customers-table">
                             <thead>
                                 <tr>
                                     <th style={{ width: '40px' }}>
@@ -302,7 +436,7 @@ const AdminCustomers = () => {
                                             outlineOffset: '-2px',
                                             borderRadius: '4px'
                                         }}>
-                                            <td>
+                                            <td className="td-checkbox">
                                                 <button
                                                     onClick={() => toggleSelect(customer._id)}
                                                     style={{
@@ -315,13 +449,13 @@ const AdminCustomers = () => {
                                                         color: isSelected ? 'var(--color-primary)' : 'var(--color-text-muted)'
                                                     }}
                                                 >
-                                                    {isSelected ? <CheckSquare size={18} /> : <Square size={18} />}
+                                                    {isSelected ? <CheckSquare size={24} /> : <Square size={24} />}
                                                 </button>
                                             </td>
-                                            <td style={{ fontWeight: 500 }}>{customer.name}</td>
-                                            <td>{customer.phone || '—'}</td>
-                                            <td>{customer.email || '—'}</td>
-                                            <td>
+                                            <td className="td-name" style={{ fontWeight: 500 }}>{customer.name}</td>
+                                            <td className="td-phone" data-label="Telefon">{customer.phone || '—'}</td>
+                                            <td className="td-email" data-label="E-posta">{customer.email || '—'}</td>
+                                            <td className="td-role" data-label="Rol">
                                                 <span style={{
                                                     fontSize: '0.8rem',
                                                     padding: '0.15rem 0.5rem',
@@ -333,8 +467,8 @@ const AdminCustomers = () => {
                                                     {customer.role === 'admin' ? 'Admin' : 'Müşteri'}
                                                 </span>
                                             </td>
-                                            <td>{formatDate(customer.createdAt)}</td>
-                                            <td>
+                                            <td className="td-date" data-label="Kayıt Tarihi">{formatDate(customer.createdAt)}</td>
+                                            <td className="td-actions">
                                                 <button
                                                     className="btn btn-secondary btn-sm"
                                                     onClick={() => setSelectedCustomer(customer)}

@@ -34,6 +34,7 @@ import AdminDiscount from './pages/admin/AdminDiscount';
 import AdminVariations from './pages/admin/AdminVariations';
 import AdminShipping from './pages/admin/AdminShipping';
 import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminOptions from './pages/admin/AdminOptions';
 
 import './index.css';
 
@@ -74,6 +75,7 @@ function AppContent() {
             <Route path="variations" element={<AdminVariations />} />
             <Route path="shipping" element={<AdminShipping />} />
             <Route path="customers" element={<AdminCustomers />} />
+            <Route path="options" element={<AdminOptions />} />
           </Route>
 
           {/* 404 */}
