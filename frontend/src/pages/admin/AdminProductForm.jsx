@@ -26,7 +26,7 @@ const AdminProductForm = () => {
       name: '',
       description: '',
       basePrice: '',
-      vatRate: 20,
+      vatRate: 10,
       category: '',
       sku: '',
       sizes: [],
@@ -137,7 +137,7 @@ const AdminProductForm = () => {
          for (const option1 of opts1) {
             const o1Name = typeof option1 === 'string' ? option1 : option1.name;
             const o1Price = typeof option1 === 'object' && option1.extraPrice ? option1.extraPrice : 0;
-            
+
             const existing = existingSizes.find(s => s.name === o1Name);
             combos.push({
                name: o1Name,
@@ -154,10 +154,10 @@ const AdminProductForm = () => {
                const o2Name = typeof option2 === 'string' ? option2 : option2.name;
                const o1Price = typeof option1 === 'object' && option1.extraPrice ? option1.extraPrice : 0;
                const o2Price = typeof option2 === 'object' && option2.extraPrice ? option2.extraPrice : 0;
-               
+
                const comboName = `${o1Name} | ${o2Name}`;
                const defaultComboPrice = o1Price + o2Price;
-               
+
                const existing = existingSizes.find(s => s.name === comboName);
                combos.push({
                   name: comboName,
@@ -230,8 +230,8 @@ const AdminProductForm = () => {
          // Build sizes from variation options
          const sizesFromVariation = variationOptions
             .filter(opt => opt.enabled)
-            .map(opt => ({ 
-               name: opt.name, 
+            .map(opt => ({
+               name: opt.name,
                stock: 9999,
                extraPrice: parseFloat(opt.price) || 0
             }));
