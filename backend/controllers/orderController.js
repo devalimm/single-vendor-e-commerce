@@ -109,6 +109,14 @@ export const createGuestOrder = async (req, res) => {
          let lengthAdjustment = 0;
          let optionsTotal = 0;
 
+         // Add variation extra price
+         if (item.size) {
+            const sizeOption = product.sizes.find(s => s.name === item.size);
+            if (sizeOption && sizeOption.extraPrice) {
+               itemTotal += sizeOption.extraPrice;
+            }
+         }
+
          // Add length adjustment
          if (item.length) {
             const lengthOption = product.lengths.find(l => l.name === item.length);
@@ -228,6 +236,14 @@ export const createOrder = async (req, res) => {
          let itemTotal = product.basePrice;
          let lengthAdjustment = 0;
          let optionsTotal = 0;
+
+         // Add variation extra price
+         if (item.size) {
+            const sizeOption = product.sizes.find(s => s.name === item.size);
+            if (sizeOption && sizeOption.extraPrice) {
+               itemTotal += sizeOption.extraPrice;
+            }
+         }
 
          // Add length adjustment
          if (item.length) {
@@ -384,6 +400,17 @@ export const getAllOrders = async (req, res) => {
       // Filter by payment status
       if (req.query.paymentStatus) {
          query.paymentStatus = req.query.paymentStatus;
+      }
+      
+      // Search logic for pagination support
+      if (req.query.search) {
+         const searchRegex = new RegExp(req.query.search, 'i');
+         query.$or = [
+            { 'shippingAddress.fullName': searchRegex },
+            { 'shippingAddress.email': searchRegex },
+            { 'shippingAddress.phone': searchRegex },
+            { $expr: { $regexMatch: { input: { $toString: "$_id" }, regex: req.query.search, options: "i" } } }
+         ];
       }
 
       const orders = await Order.find(query)

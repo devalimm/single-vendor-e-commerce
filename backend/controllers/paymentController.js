@@ -114,6 +114,14 @@ export const initializeCheckoutForm = async (req, res) => {
             let lengthAdjustment = 0;
             let optionsTotal = 0;
 
+            // Add variation extra price
+            if (item.size) {
+                const sizeOption = product.sizes.find(s => s.name === item.size);
+                if (sizeOption && sizeOption.extraPrice) {
+                    itemTotal += sizeOption.extraPrice;
+                }
+            }
+
             if (item.length) {
                 const lengthOption = product.lengths.find(l => l.name === item.length);
                 if (lengthOption) {
