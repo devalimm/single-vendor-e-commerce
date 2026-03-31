@@ -126,6 +126,11 @@ const ProductDetail = () => {
 
       let price = product.basePrice;
 
+      // Add variation extra price
+      if (selectedSize && selectedSize.extraPrice) {
+         price += selectedSize.extraPrice;
+      }
+
       // Add length adjustment
       if (selectedLength?.priceAdjustment) {
          price += selectedLength.priceAdjustment;
@@ -348,7 +353,7 @@ const ProductDetail = () => {
                            </div>
                         )}
 
-                        {selectedSize && selectedSize.stock > 0 && (
+                        {selectedSize && selectedSize.stock > 0 && selectedSize.stock !== 9999 && (
                            <p className="stock-info">Stok: {selectedSize.stock} adet</p>
                         )}
                      </>
@@ -370,7 +375,7 @@ const ProductDetail = () => {
                               </button>
                            ))}
                         </div>
-                        {selectedSize && selectedSize.stock > 0 && (
+                        {selectedSize && selectedSize.stock > 0 && selectedSize.stock !== 9999 && (
                            <p className="stock-info">Stok: {selectedSize.stock} adet</p>
                         )}
                      </div>

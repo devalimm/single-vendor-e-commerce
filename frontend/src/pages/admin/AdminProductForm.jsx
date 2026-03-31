@@ -10,6 +10,7 @@ const AdminProductForm = () => {
 
    const [categories, setCategories] = useState([]);
    const [variations, setVariations] = useState([]);
+   const [availableOptions, setAvailableOptions] = useState([]);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState('');
    const [success, setSuccess] = useState('');
@@ -42,6 +43,7 @@ const AdminProductForm = () => {
    useEffect(() => {
       fetchCategories();
       fetchVariations();
+      fetchAvailableOptions();
       if (isEditMode) {
          fetchProduct();
       }
@@ -62,6 +64,15 @@ const AdminProductForm = () => {
          setVariations(response.data.data.filter(v => v.isActive));
       } catch (error) {
          console.error('Error fetching variations:', error);
+      }
+   };
+
+   const fetchAvailableOptions = async () => {
+      try {
+         const response = await api.get('/options');
+         setAvailableOptions(response.data.data.filter(o => o.isActive));
+      } catch (error) {
+         console.error('Error fetching options:', error);
       }
    };
 
@@ -123,24 +134,36 @@ const AdminProductForm = () => {
 
       if (opts2.length === 0) {
          // Single variation
-         for (const o1 of opts1) {
-            const existing = existingSizes.find(s => s.name === o1);
+         for (const option1 of opts1) {
+            const o1Name = typeof option1 === 'string' ? option1 : option1.name;
+            const o1Price = typeof option1 === 'object' && option1.extraPrice ? option1.extraPrice : 0;
+            
+            const existing = existingSizes.find(s => s.name === o1Name);
             combos.push({
-               name: o1,
-               enabled: existing ? true : false,
-               stock: existing ? existing.stock : 0
+               name: o1Name,
+               enabled: !!existing,
+               stock: 9999, // unlimited stock
+               price: existing && existing.extraPrice !== undefined ? existing.extraPrice : o1Price
             });
          }
       } else {
          // Dual variation — cartesian product
-         for (const o1 of opts1) {
-            for (const o2 of opts2) {
-               const comboName = `${o1} | ${o2}`;
+         for (const option1 of opts1) {
+            for (const option2 of opts2) {
+               const o1Name = typeof option1 === 'string' ? option1 : option1.name;
+               const o2Name = typeof option2 === 'string' ? option2 : option2.name;
+               const o1Price = typeof option1 === 'object' && option1.extraPrice ? option1.extraPrice : 0;
+               const o2Price = typeof option2 === 'object' && option2.extraPrice ? option2.extraPrice : 0;
+               
+               const comboName = `${o1Name} | ${o2Name}`;
+               const defaultComboPrice = o1Price + o2Price;
+               
                const existing = existingSizes.find(s => s.name === comboName);
                combos.push({
                   name: comboName,
-                  enabled: existing ? true : false,
-                  stock: existing ? existing.stock : 0
+                  enabled: !!existing,
+                  stock: 9999,
+                  price: existing && existing.extraPrice !== undefined ? existing.extraPrice : defaultComboPrice
                });
             }
          }
@@ -186,15 +209,12 @@ const AdminProductForm = () => {
    const toggleVariationOption = (index) => {
       const newOptions = [...variationOptions];
       newOptions[index].enabled = !newOptions[index].enabled;
-      if (!newOptions[index].enabled) {
-         newOptions[index].stock = 0;
-      }
       setVariationOptions(newOptions);
    };
 
-   const updateVariationStock = (index, value) => {
+   const updateVariationPrice = (index, value) => {
       const newOptions = [...variationOptions];
-      newOptions[index].stock = parseInt(value) || 0;
+      newOptions[index].price = parseFloat(value) || 0;
       setVariationOptions(newOptions);
    };
 
@@ -210,7 +230,11 @@ const AdminProductForm = () => {
          // Build sizes from variation options
          const sizesFromVariation = variationOptions
             .filter(opt => opt.enabled)
-            .map(opt => ({ name: opt.name, stock: parseInt(opt.stock) || 0 }));
+            .map(opt => ({ 
+               name: opt.name, 
+               stock: 9999,
+               extraPrice: parseFloat(opt.price) || 0
+            }));
 
          // Build selectedVariations names
          const selectedVariationNames = [];
@@ -227,7 +251,8 @@ const AdminProductForm = () => {
             selectedVariations: selectedVariationNames,
             sizes: sizesFromVariation.length > 0 ? sizesFromVariation : formData.sizes.map(s => ({
                name: s.name,
-               stock: parseInt(s.stock) || 0
+               stock: 9999,
+               extraPrice: parseFloat(s.extraPrice) || 0
             })),
             lengths: [],
             options: formData.options.map(o => ({
@@ -292,24 +317,19 @@ const AdminProductForm = () => {
 
 
    // Option management
-   const addOption = () => {
-      setFormData({
-         ...formData,
-         options: [...formData.options, { name: '', price: 0, description: '' }]
-      });
-   };
-
-   const updateOption = (index, field, value) => {
-      const newOptions = [...formData.options];
-      newOptions[index][field] = field === 'price' ? parseFloat(value) || 0 : value;
-      setFormData({ ...formData, options: newOptions });
-   };
-
-   const removeOption = (index) => {
-      setFormData({
-         ...formData,
-         options: formData.options.filter((_, i) => i !== index)
-      });
+   const toggleGlobalOption = (opt) => {
+      const exists = formData.options.find(o => o.name === opt.name);
+      if (exists) {
+         setFormData({
+            ...formData,
+            options: formData.options.filter(o => o.name !== opt.name)
+         });
+      } else {
+         setFormData({
+            ...formData,
+            options: [...formData.options, { name: opt.name, price: opt.price }]
+         });
+      }
    };
 
    if (loading && isEditMode) {
@@ -606,8 +626,7 @@ const AdminProductForm = () => {
                               <tr>
                                  <th style={{ width: '50px' }}></th>
                                  <th>Varyasyon</th>
-                                 <th style={{ width: '150px' }}>Fiyat</th>
-                                 <th style={{ width: '150px' }}>Stok</th>
+                                 <th style={{ width: '150px' }}>Ekstra Fiyat (₺)</th>
                               </tr>
                            </thead>
                            <tbody>
@@ -629,7 +648,7 @@ const AdminProductForm = () => {
                                                    onChange={(e) => toggleGroupCheckbox(items, e.target.checked)}
                                                 />
                                              </td>
-                                             <td colSpan="3">
+                                             <td colSpan="2">
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                                    <span className="variation-group-name">{groupName}</span>
                                                    <span className="variation-group-count">{items.length} kombinasyon</span>
@@ -656,19 +675,8 @@ const AdminProductForm = () => {
                                                    <input
                                                       type="number"
                                                       className="form-input"
-                                                      value={item.price || ''}
-                                                      placeholder="—"
-                                                      disabled
-                                                      style={{ opacity: 0.5 }}
-                                                   />
-                                                </td>
-                                                <td>
-                                                   <input
-                                                      type="number"
-                                                      className="form-input"
-                                                      value={item.stock === 0 ? '' : item.stock}
-                                                      onChange={(e) => updateVariationStock(item.originalIndex, e.target.value)}
-                                                      min="0"
+                                                      value={item.price === 0 ? '' : item.price}
+                                                      onChange={(e) => updateVariationPrice(item.originalIndex, e.target.value)}
                                                       placeholder="0"
                                                       disabled={!item.enabled}
                                                    />
@@ -697,19 +705,8 @@ const AdminProductForm = () => {
                                           <input
                                              type="number"
                                              className="form-input"
-                                             value=""
-                                             placeholder="—"
-                                             disabled
-                                             style={{ opacity: 0.5 }}
-                                          />
-                                       </td>
-                                       <td>
-                                          <input
-                                             type="number"
-                                             className="form-input"
-                                             value={opt.stock === 0 ? '' : opt.stock}
-                                             onChange={(e) => updateVariationStock(index, e.target.value)}
-                                             min="0"
+                                             value={opt.price === 0 ? '' : opt.price}
+                                             onChange={(e) => updateVariationPrice(index, e.target.value)}
                                              placeholder="0"
                                              disabled={!opt.enabled}
                                           />
@@ -725,53 +722,38 @@ const AdminProductForm = () => {
             </div>
 
 
-            {/* Options (Shopier style) */}
+            {/* Global Options */}
             <div className="card">
                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                  <h3>Opsiyonlar (Şal, Etek vb.)</h3>
-                  <button type="button" onClick={addOption} className="btn btn-secondary btn-sm">
-                     + Opsiyon Ekle
-                  </button>
+                  <h3>Ekstra Opsiyonlar (Kutu, Özel Dikiş vb.)</h3>
                </div>
 
-               {formData.options.length === 0 ? (
-                  <p className="text-muted">Henüz opsiyon eklenmemiş. Şal, etek gibi ek ürünler ekleyebilirsiniz.</p>
+               {availableOptions.length === 0 ? (
+                  <p className="text-muted">
+                     Henüz opsiyon tanımlanmamış.{' '}
+                     <a href="/admin/options" style={{ color: 'var(--color-primary)' }}>Opsiyon tanımla →</a>
+                  </p>
                ) : (
-                  <div className="variant-items-grid">
-                     {formData.options.map((option, index) => (
-                        <div key={index} className="variant-item-compact">
-                           <button
-                              type="button"
-                              onClick={() => removeOption(index)}
-                              className="variant-item-remove"
-                              title="Sil"
-                           >
-                              <X size={14} />
-                           </button>
-                           <div className="form-group">
-                              <label>Opsiyon Adı</label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                     {availableOptions.map(opt => {
+                        const isChecked = formData.options.some(o => o.name === opt.name);
+                        return (
+                           <label key={opt._id} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem', background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-sm)', cursor: 'pointer' }}>
                               <input
-                                 type="text"
-                                 className="form-input"
-                                 value={option.name}
-                                 onChange={(e) => updateOption(index, 'name', e.target.value)}
-                                 placeholder="Örn: Şal, Etek"
-                                 required
+                                 type="checkbox"
+                                 checked={isChecked}
+                                 onChange={() => toggleGlobalOption(opt)}
+                                 style={{ width: '18px', height: '18px', cursor: 'pointer' }}
                               />
-                           </div>
-                           <div className="form-group">
-                              <label>Fiyat (₺)</label>
-                              <input
-                                 type="number"
-                                 className="form-input"
-                                 value={option.price === 0 ? '' : option.price}
-                                 onChange={(e) => updateOption(index, 'price', e.target.value)}
-                                 min="0"
-                                 placeholder="Opsiyonel"
-                              />
-                           </div>
-                        </div>
-                     ))}
+                              <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                 <strong style={{ fontWeight: 'var(--font-weight-medium)' }}>{opt.name}</strong>
+                                 <span style={{ fontSize: '0.875rem', color: opt.price > 0 ? 'var(--color-primary)' : 'var(--color-text-muted)' }}>
+                                    {opt.price > 0 ? `+${opt.price} ₺` : 'Ücretsiz'}
+                                 </span>
+                              </div>
+                           </label>
+                        );
+                     })}
                   </div>
                )}
             </div>

@@ -8,8 +8,8 @@ const variationSchema = new mongoose.Schema({
         unique: true
     },
     options: [{
-        type: String,
-        trim: true
+        name: { type: String, required: true, trim: true },
+        extraPrice: { type: Number, default: 0, min: 0 }
     }],
     isActive: {
         type: Boolean,

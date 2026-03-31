@@ -10,6 +10,7 @@ const AdminVariations = () => {
     const [editingVariation, setEditingVariation] = useState(null);
     const [formData, setFormData] = useState({ name: '', options: [] });
     const [optionInput, setOptionInput] = useState('');
+    const [optionPriceInput, setOptionPriceInput] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [deleteModal, setDeleteModal] = useState({ isOpen: false, variationId: null, variationName: '' });
@@ -59,12 +60,22 @@ const AdminVariations = () => {
 
     const handleEdit = (variation) => {
         setEditingVariation(variation);
+        
+        // Normalize old string options to new object structure
+        const normalizedOptions = variation.options.map(opt => {
+            if (typeof opt === 'string') {
+                return { name: opt, extraPrice: 0 };
+            }
+            return opt;
+        });
+
         setFormData({
             name: variation.name,
-            options: [...variation.options]
+            options: normalizedOptions
         });
         setShowForm(true);
         setOptionInput('');
+        setOptionPriceInput('');
     };
 
     const handleDeleteClick = (variation) => {
@@ -90,6 +101,7 @@ const AdminVariations = () => {
         setEditingVariation(null);
         setFormData({ name: '', options: [] });
         setOptionInput('');
+        setOptionPriceInput('');
         setError('');
     };
 
@@ -97,12 +109,26 @@ const AdminVariations = () => {
     const addOption = () => {
         const trimmed = optionInput.trim();
         if (!trimmed) return;
-        if (formData.options.includes(trimmed)) {
+        
+        // Check if name already exists
+        const exists = formData.options.some(opt => {
+           const optName = typeof opt === 'string' ? opt : opt.name;
+           return optName.toLowerCase() === trimmed.toLowerCase();
+        });
+
+        if (exists) {
             setError('Bu seçenek zaten eklenmiş.');
             return;
         }
-        setFormData({ ...formData, options: [...formData.options, trimmed] });
+
+        const price = parseFloat(optionPriceInput) || 0;
+
+        setFormData({ 
+            ...formData, 
+            options: [...formData.options, { name: trimmed, extraPrice: price }] 
+        });
         setOptionInput('');
+        setOptionPriceInput('');
         setError('');
     };
 
@@ -173,8 +199,18 @@ const AdminVariations = () => {
                                     value={optionInput}
                                     onChange={(e) => setOptionInput(e.target.value)}
                                     onKeyDown={handleOptionKeyDown}
-                                    placeholder="Seçenek adı yazıp Enter'a basın (Örn: S, M, L)"
+                                    placeholder="Seçenek adı (Örn: S, 150 cm)"
+                                    style={{ flex: 2 }}
+                                />
+                                <input
+                                    type="number"
+                                    className="form-input"
+                                    value={optionPriceInput}
+                                    onChange={(e) => setOptionPriceInput(e.target.value)}
+                                    onKeyDown={handleOptionKeyDown}
+                                    placeholder="Ek Fiyat (₺)"
                                     style={{ flex: 1 }}
+                                    min="0"
                                 />
                                 <button
                                     type="button"
@@ -188,18 +224,23 @@ const AdminVariations = () => {
 
                             {formData.options.length > 0 && (
                                 <div className="variation-tags">
-                                    {formData.options.map((option, index) => (
-                                        <span key={index} className="variation-tag">
-                                            {option}
-                                            <button
-                                                type="button"
-                                                onClick={() => removeOption(index)}
-                                                className="variation-tag-remove"
-                                            >
-                                                <X size={14} />
-                                            </button>
-                                        </span>
-                                    ))}
+                                    {formData.options.map((option, index) => {
+                                        const optName = typeof option === 'string' ? option : option.name;
+                                        const optPrice = typeof option === 'object' && option.extraPrice ? option.extraPrice : 0;
+                                        
+                                        return (
+                                            <span key={index} className="variation-tag">
+                                                {optName} {optPrice > 0 ? `(+${optPrice}₺)` : ''}
+                                                <button
+                                                    type="button"
+                                                    onClick={() => removeOption(index)}
+                                                    className="variation-tag-remove"
+                                                >
+                                                    <X size={14} />
+                                                </button>
+                                            </span>
+                                        );
+                                    })}
                                 </div>
                             )}
 
@@ -247,9 +288,15 @@ const AdminVariations = () => {
                                     <td><strong>{variation.name}</strong></td>
                                     <td>
                                         <div className="variation-tags-sm">
-                                            {variation.options.map((opt, i) => (
-                                                <span key={i} className="variation-tag-sm">{opt}</span>
-                                            ))}
+                                            {variation.options.map((opt, i) => {
+                                                const optName = typeof opt === 'string' ? opt : opt.name;
+                                                const optPrice = typeof opt === 'object' && opt.extraPrice ? opt.extraPrice : 0;
+                                                return (
+                                                    <span key={i} className="variation-tag-sm">
+                                                        {optName} {optPrice > 0 ? `(+${optPrice}₺)` : ''}
+                                                    </span>
+                                                );
+                                            })}
                                         </div>
                                     </td>
                                     <td>{variation.options.length}</td>
