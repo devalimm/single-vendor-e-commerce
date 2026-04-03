@@ -18,6 +18,7 @@ import optionRoutes from './routes/options.js';
 import shippingRoutes from './routes/shipping.js';
 import customerRoutes from './routes/customers.js';
 import paymentRoutes from './routes/payment.js';
+import reportRoutes from './routes/reports.js';
 
 // Import rate limiters
 import { apiLimiter, authLimiter } from './middleware/rateLimiter.js';
@@ -95,6 +96,7 @@ app.use('/api/options', optionRoutes);
 app.use('/api/shipping-settings', shippingRoutes);
 app.use('/api/customers', customerRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
