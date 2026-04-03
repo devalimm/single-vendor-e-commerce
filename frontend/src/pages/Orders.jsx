@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Package, Clock, CheckCircle, Truck, XCircle, ChevronDown, ChevronUp } from 'lucide-react';
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+import api from '../utils/api';
 
 const Orders = () => {
    const [orders, setOrders] = useState([]);
@@ -16,8 +16,8 @@ const Orders = () => {
    const fetchOrders = async () => {
       try {
          setLoading(true);
-         const response = await fetch(`${VITE_API_URL}/orders/all`);
-         const data = await response.json();
+         const response = await api.get('/orders/my-orders');
+         const data = response.data;
 
          if (data.success) {
             setOrders(data.data);
@@ -145,7 +145,7 @@ const Orders = () => {
                                           {item.product?.name || item.name || 'Ürün'}
                                        </p>
                                        <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>
-                                          {item.size && `Beden: ${item.size}`} {item.length && `• Boy: ${item.length}`} • {item.quantity} adet
+                                          {item.size && item.size !== 'Standart' && `${item.size} • `}{item.quantity} adet
                                        </p>
                                     </div>
                                     <p style={{ fontWeight: 'var(--font-weight-semibold)' }}>

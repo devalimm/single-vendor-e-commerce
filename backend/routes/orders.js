@@ -18,7 +18,6 @@ const router = express.Router();
 // Public routes
 router.post('/guest', createGuestOrder);
 router.get('/track', trackOrders);
-router.get('/all', getAllOrders); // Public: list all orders
 
 // Admin routes - MUST come before /:id to prevent "admin" being matched as an ID
 router.get('/admin/all', protect, adminOnly, getAllOrders);

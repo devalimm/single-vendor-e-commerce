@@ -2,6 +2,7 @@ import Iyzipay from 'iyzipay';
 import crypto from 'crypto';
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
+import Variation from '../models/Variation.js';
 import ShippingSettings from '../models/ShippingSettings.js';
 import PendingOrder from '../models/PendingOrder.js';
 
@@ -111,22 +112,29 @@ export const initializeCheckoutForm = async (req, res) => {
 
             // Calculate item total
             let itemTotal = product.basePrice;
-            let lengthAdjustment = 0;
+            let variationExtraTotal = 0;
             let optionsTotal = 0;
 
-            // Add variation extra price
-            if (item.size) {
-                const sizeOption = product.sizes.find(s => s.name === item.size);
-                if (sizeOption && sizeOption.extraPrice) {
-                    itemTotal += sizeOption.extraPrice;
+            // Add variation extra prices from variationSelections
+            if (item.variationSelections && item.variationSelections.length > 0) {
+                for (const sel of item.variationSelections) {
+                    const variation = await Variation.findOne({ name: sel.variationName, isActive: true });
+                    if (variation) {
+                        const opt = variation.options.find(o => o.name === sel.optionName);
+                        if (opt && opt.extraPrice) {
+                            variationExtraTotal += opt.extraPrice;
+                            itemTotal += opt.extraPrice;
+                        }
+                    }
                 }
             }
 
-            if (item.length) {
-                const lengthOption = product.lengths.find(l => l.name === item.length);
-                if (lengthOption) {
-                    lengthAdjustment = lengthOption.priceAdjustment;
-                    itemTotal += lengthAdjustment;
+            // Legacy: support old size-based pricing for existing orders
+            if (!item.variationSelections && item.size) {
+                const sizeOption = product.sizes.find(s => s.name === item.size);
+                if (sizeOption && sizeOption.extraPrice) {
+                    variationExtraTotal += sizeOption.extraPrice;
+                    itemTotal += sizeOption.extraPrice;
                 }
             }
 
@@ -148,11 +156,11 @@ export const initializeCheckoutForm = async (req, res) => {
                 productName: product.name,
                 productImage: product.images[0] || '',
                 quantity: item.quantity,
-                size: item.size,
-                length: item.length,
+                variationSelections: item.variationSelections || [],
+                size: item.variationSelections?.map(s => `${s.variationName}: ${s.optionName}`).join(', ') || item.size || 'Standart',
                 selectedOptions: item.selectedOptions || [],
                 basePrice: product.basePrice,
-                lengthAdjustment,
+                variationExtraTotal,
                 optionsTotal,
                 itemTotal
             });
