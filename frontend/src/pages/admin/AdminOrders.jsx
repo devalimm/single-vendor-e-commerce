@@ -103,9 +103,9 @@ const AdminOrders = () => {
    };
 
    const handleCopy = (text, label) => {
-       navigator.clipboard.writeText(text)
-          .then(() => showToast(`${label} kopyalandı!`, 'success'))
-          .catch(() => showToast('Kopyalama başarısız', 'error'));
+      navigator.clipboard.writeText(text)
+         .then(() => showToast(`${label} kopyalandı!`, 'success'))
+         .catch(() => showToast('Kopyalama başarısız', 'error'));
    };
 
    const updateStatus = async (orderId, newStatus) => {
@@ -209,7 +209,7 @@ const AdminOrders = () => {
             url.searchParams.append('limit', 99999);
             if (filter !== 'all') url.searchParams.append('status', filter);
             if (searchQuery.trim()) url.searchParams.append('search', searchQuery.trim());
-            
+
             const response = await fetch(url.toString(), {
                headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -220,7 +220,7 @@ const AdminOrders = () => {
                showToast('Dışa aktarma başarısız oldu', 'error');
                return;
             }
-         } catch(error) {
+         } catch (error) {
             console.error('Export error:', error);
             showToast('Dışa aktarılırken hata oluştu', 'error');
             return;
@@ -575,10 +575,10 @@ const AdminOrders = () => {
                                        <p><strong>{order.shippingAddress?.fullName}</strong></p>
                                        <p>{order.shippingAddress?.email}</p>
                                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                           <p>{order.shippingAddress?.phone}</p>
-                                           <button onClick={() => handleCopy(order.shippingAddress?.phone, 'Telefon')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }} title="Kopyala">
-                                               <Copy size={14} />
-                                           </button>
+                                          <p>{order.shippingAddress?.phone}</p>
+                                          <button onClick={() => handleCopy(order.shippingAddress?.phone, 'Telefon')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }} title="Kopyala">
+                                             <Copy size={14} />
+                                          </button>
                                        </div>
                                        {order.shippingAddress?.tcKimlik && (
                                           <p style={{ color: 'var(--color-text-secondary)' }}>TC: {order.shippingAddress.tcKimlik}</p>
@@ -590,15 +590,15 @@ const AdminOrders = () => {
                                  <div>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                                        <h4 style={{ margin: 0, color: 'var(--color-primary)' }}>Teslimat Adresi</h4>
-                                       <button 
+                                       <button
                                           onClick={() => {
                                              const fullAddress = `${order.shippingAddress?.neighborhood || ''}, ${order.shippingAddress?.district || ''}\n${order.shippingAddress?.city || ''}\n${order.shippingAddress?.address || ''}`.replace(/[\n, ]+$/g, '').trim();
                                              handleCopy(fullAddress, 'Teslimat Adresi');
-                                          }} 
-                                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem' }} 
+                                          }}
+                                          style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-primary)', display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.8rem' }}
                                           title="Tüm Adresi Kopyala"
                                        >
-                                           <Copy size={14} /> Kopyala
+                                          <Copy size={14} /> Kopyala
                                        </button>
                                     </div>
                                     <div style={{ fontSize: '0.9rem', lineHeight: '1.6' }}>
@@ -720,55 +720,55 @@ const AdminOrders = () => {
                      </div>
                   );
                })}
-               
+
                {/* Pagination Component */}
                {pagination.totalPages > 1 && (
-                   <div className="pagination-bar" style={{ marginTop: '2rem' }}>
-                       <button
-                           className="btn btn-secondary btn-sm"
-                           disabled={!pagination.hasPrevPage}
-                           onClick={() => handlePageChange(pagination.currentPage - 1)}
-                       >
-                           <ChevronLeft size={16} /> Önceki
-                       </button>
+                  <div className="pagination-bar" style={{ marginTop: '2rem' }}>
+                     <button
+                        className="btn btn-secondary btn-sm"
+                        disabled={!pagination.hasPrevPage}
+                        onClick={() => handlePageChange(pagination.currentPage - 1)}
+                     >
+                        <ChevronLeft size={16} /> Önceki
+                     </button>
 
-                       <div className="pagination-pages">
-                           {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
-                               .filter(p => {
-                                   return p === 1 || p === pagination.totalPages ||
-                                       Math.abs(p - pagination.currentPage) <= 1;
-                               })
-                               .reduce((acc, p, i, arr) => {
-                                   if (i > 0 && p - arr[i - 1] > 1) {
-                                       acc.push('...');
-                                   }
-                                   acc.push(p);
-                                   return acc;
-                               }, [])
-                               .map((p, i) =>
-                                   p === '...' ? (
-                                       <span key={`dots-${i}`} className="pagination-dots">...</span>
-                                   ) : (
-                                       <button
-                                           key={p}
-                                           className={`pagination-btn ${p === pagination.currentPage ? 'active' : ''}`}
-                                           onClick={() => handlePageChange(p)}
-                                       >
-                                           {p}
-                                       </button>
-                                   )
-                               )
-                           }
-                       </div>
+                     <div className="pagination-pages">
+                        {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
+                           .filter(p => {
+                              return p === 1 || p === pagination.totalPages ||
+                                 Math.abs(p - pagination.currentPage) <= 1;
+                           })
+                           .reduce((acc, p, i, arr) => {
+                              if (i > 0 && p - arr[i - 1] > 1) {
+                                 acc.push('...');
+                              }
+                              acc.push(p);
+                              return acc;
+                           }, [])
+                           .map((p, i) =>
+                              p === '...' ? (
+                                 <span key={`dots-${i}`} className="pagination-dots">...</span>
+                              ) : (
+                                 <button
+                                    key={p}
+                                    className={`pagination-btn ${p === pagination.currentPage ? 'active' : ''}`}
+                                    onClick={() => handlePageChange(p)}
+                                 >
+                                    {p}
+                                 </button>
+                              )
+                           )
+                        }
+                     </div>
 
-                       <button
-                           className="btn btn-secondary btn-sm"
-                           disabled={!pagination.hasNextPage}
-                           onClick={() => handlePageChange(pagination.currentPage + 1)}
-                       >
-                           Sonraki <ChevronRight size={16} />
-                       </button>
-                   </div>
+                     <button
+                        className="btn btn-secondary btn-sm"
+                        disabled={!pagination.hasNextPage}
+                        onClick={() => handlePageChange(pagination.currentPage + 1)}
+                     >
+                        Sonraki <ChevronRight size={16} />
+                     </button>
+                  </div>
                )}
             </div>
          )}

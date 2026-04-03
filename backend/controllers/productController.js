@@ -107,6 +107,65 @@ export const getAllProducts = async (req, res) => {
    }
 };
 
+// @desc    Get all products for admin (includes inactive, with pagination)
+// @route   GET /api/products/admin/all
+// @access  Private/Admin
+export const getAdminProducts = async (req, res) => {
+   try {
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 12;
+      const skip = (page - 1) * limit;
+
+      const query = {};
+
+      if (req.query.search) {
+         // Find matching categories first for category search
+         const Category = (await import('../models/Category.js')).default;
+         const categories = await Category.find({ name: { $regex: req.query.search, $options: 'i' } });
+         const categoryIds = categories.map(c => c._id);
+
+         query.$or = [
+            { name: { $regex: req.query.search, $options: 'i' } },
+            { sku: { $regex: req.query.search, $options: 'i' } },
+            { category: { $in: categoryIds } }
+         ];
+      }
+
+      let sort = { _id: -1 };
+      if (req.query.sort === 'oldest') {
+         sort = { _id: 1 };
+      } else if (req.query.sort === 'price-asc') {
+         sort = { basePrice: 1 };
+      } else if (req.query.sort === 'price-desc') {
+         sort = { basePrice: -1 };
+      }
+
+      const products = await Product.find(query)
+         .populate('category', 'name slug')
+         .sort(sort)
+         .limit(limit)
+         .skip(skip);
+
+      const total = await Product.countDocuments(query);
+      const productsWithDiscount = await applyDiscountsToProducts(products);
+
+      res.json({
+         success: true,
+         count: productsWithDiscount.length,
+         total,
+         page,
+         pages: Math.ceil(total / limit),
+         data: productsWithDiscount
+      });
+   } catch (error) {
+      console.error('Get admin products error:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Admin ürünleri alınırken hata oluştu.'
+      });
+   }
+};
+
 // @desc    Get new products
 // @route   GET /api/products/new
 // @access  Public
