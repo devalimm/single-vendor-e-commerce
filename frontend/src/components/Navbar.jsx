@@ -12,7 +12,7 @@ const Navbar = () => {
    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
    // Hide cart on auth pages
-   const isAuthPage = ['/login', '/register', '/forgot-password', '/reset-password'].includes(location.pathname);
+   const isAuthPage = ['/login', '/register', '/forgot-password'].includes(location.pathname) || location.pathname.startsWith('/reset-password');
 
    const handleLogout = () => {
       clearCart(); // Clear cart before logout

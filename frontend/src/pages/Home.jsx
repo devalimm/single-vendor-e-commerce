@@ -4,6 +4,120 @@ import api from '../utils/api';
 import ProductCard from '../components/ProductCard';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
+// Helper function
+const getMaxSlide = (itemsLength, productsPerView) => Math.max(0, itemsLength - productsPerView);
+
+// Reusable slider component - Moved outside Home to prevent re-mounting and losing transitions
+const ProductSlider = ({ items, slide, setSlide, productsPerView }) => {
+   if (items.length === 0) return null;
+   const maxSlideVal = getMaxSlide(items.length, productsPerView);
+   const gap = 16; // 1rem = 16px
+
+   return (
+      <div style={{ position: 'relative' }}>
+         {items.length > productsPerView && (
+            <>
+               <button
+                  onClick={() => setSlide(prev => (prev <= 0 ? maxSlideVal : prev - 1))}
+                  style={{
+                     position: 'absolute',
+                     left: '-15px',
+                     top: '50%',
+                     transform: 'translateY(-50%)',
+                     zIndex: 10,
+                     background: 'white',
+                     border: '1px solid var(--color-border)',
+                     borderRadius: '50%',
+                     width: '36px',
+                     height: '36px',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     cursor: 'pointer',
+                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                  }}
+                  aria-label="Önceki"
+               >
+                  <ChevronLeft size={20} />
+               </button>
+               <button
+                  onClick={() => setSlide(prev => (prev >= maxSlideVal ? 0 : prev + 1))}
+                  style={{
+                     position: 'absolute',
+                     right: '-15px',
+                     top: '50%',
+                     transform: 'translateY(-50%)',
+                     zIndex: 10,
+                     background: 'white',
+                     border: '1px solid var(--color-border)',
+                     borderRadius: '50%',
+                     width: '36px',
+                     height: '36px',
+                     display: 'flex',
+                     alignItems: 'center',
+                     justifyContent: 'center',
+                     cursor: 'pointer',
+                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                  }}
+                  aria-label="Sonraki"
+               >
+                  <ChevronRight size={20} />
+               </button>
+            </>
+         )}
+
+         <div style={{ overflow: 'hidden', margin: '0 5px' }}>
+            <div
+               style={{
+                  display: 'flex',
+                  gap: `${gap}px`,
+                  transform: `translateX(calc(-${slide * (100 / productsPerView)}% - ${slide * gap / productsPerView}px))`,
+                  transition: 'transform 0.6s cubic-bezier(0.25, 0.1, 0.25, 1)'
+               }}
+            >
+               {items.map(product => (
+                  <div
+                     key={product._id}
+                     style={{
+                        flex: `0 0 calc(${100 / productsPerView}% - ${(productsPerView - 1) * gap / productsPerView}px)`,
+                        minWidth: `calc(${100 / productsPerView}% - ${(productsPerView - 1) * gap / productsPerView}px)`
+                     }}
+                  >
+                     <ProductCard product={product} />
+                  </div>
+               ))}
+            </div>
+         </div>
+
+         {items.length > productsPerView && (
+            <div style={{
+               display: 'flex',
+               justifyContent: 'center',
+               gap: '0.4rem',
+               marginTop: '1rem'
+            }}>
+               {Array.from({ length: maxSlideVal + 1 }).map((_, index) => (
+                  <button
+                     key={index}
+                     onClick={() => setSlide(index)}
+                     style={{
+                        width: slide === index ? '20px' : '8px',
+                        height: '8px',
+                        borderRadius: '4px',
+                        border: 'none',
+                        background: slide === index ? 'var(--color-primary)' : 'var(--color-border)',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                     }}
+                     aria-label={`Slide ${index + 1}`}
+                  />
+               ))}
+            </div>
+         )}
+      </div>
+   );
+};
+
 const Home = () => {
    const navigate = useNavigate();
    const [products, setProducts] = useState([]);
@@ -11,10 +125,10 @@ const Home = () => {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
    const [currentSlide, setCurrentSlide] = useState(0);
-   const sliderRef = useRef(null);
+   const [discountSlide, setDiscountSlide] = useState(0);
+   const [bestSellerSlide, setBestSellerSlide] = useState(0);
    const autoPlayRef = useRef(null);
 
-   // How many products to show per slide (responsive)
    const getProductsPerView = () => {
       if (typeof window !== 'undefined') {
          if (window.innerWidth < 640) return 2;
@@ -51,38 +165,25 @@ const Home = () => {
             setLoading(false);
          }
       };
-
       fetchData();
    }, []);
 
-   const maxSlide = Math.max(0, products.length - productsPerView);
+   // Derived product lists
+   const discountedProducts = products.filter(p => p.discount && p.discount.discountedPrice < p.basePrice);
+   const bestSellers = [...products].filter(p => p.salesCount > 0).sort((a, b) => b.salesCount - a.salesCount);
 
-   // Auto-play slider
+   // Auto-play slider for latest products
    useEffect(() => {
+      const max = getMaxSlide(products.length, productsPerView);
       if (products.length > productsPerView) {
          autoPlayRef.current = setInterval(() => {
-            setCurrentSlide(prev => (prev >= maxSlide ? 0 : prev + 1));
+            setCurrentSlide(prev => (prev >= max ? 0 : prev + 1));
          }, 3000);
       }
-
       return () => {
-         if (autoPlayRef.current) {
-            clearInterval(autoPlayRef.current);
-         }
+         if (autoPlayRef.current) clearInterval(autoPlayRef.current);
       };
-   }, [products.length, productsPerView, maxSlide]);
-
-   const nextSlide = () => {
-      setCurrentSlide(prev => (prev >= maxSlide ? 0 : prev + 1));
-   };
-
-   const prevSlide = () => {
-      setCurrentSlide(prev => (prev <= 0 ? maxSlide : prev - 1));
-   };
-
-   const goToSlide = (index) => {
-      setCurrentSlide(Math.min(Math.max(0, index), maxSlide));
-   };
+   }, [products.length, productsPerView]);
 
    const handleCategoryClick = (categoryId) => {
       if (categoryId) {
@@ -102,7 +203,7 @@ const Home = () => {
 
    return (
       <div>
-         {/* Categories Section - Centered */}
+         {/* Categories Section */}
          <section style={{
             background: 'var(--color-bg-secondary)',
             padding: '1rem 0',
@@ -159,7 +260,7 @@ const Home = () => {
             </div>
          </section>
 
-         {/* Latest Products Carousel */}
+         {/* Son Eklenen Ürünler */}
          {products.length > 0 && (
             <section className="section" style={{ paddingTop: '2rem', paddingBottom: '2rem' }}>
                <div className="container">
@@ -183,113 +284,80 @@ const Home = () => {
                         Tümünü Gör
                      </Link>
                   </div>
+                  <ProductSlider
+                     items={products}
+                     slide={currentSlide}
+                     setSlide={setCurrentSlide}
+                     productsPerView={productsPerView}
+                  />
+               </div>
+            </section>
+         )}
 
-                  {/* Slider Container */}
-                  <div style={{ position: 'relative' }}>
-                     {/* Navigation Arrows */}
-                     {products.length > productsPerView && (
-                        <>
-                           <button
-                              onClick={prevSlide}
-                              style={{
-                                 position: 'absolute',
-                                 left: '-15px',
-                                 top: '50%',
-                                 transform: 'translateY(-50%)',
-                                 zIndex: 10,
-                                 background: 'white',
-                                 border: '1px solid var(--color-border)',
-                                 borderRadius: '50%',
-                                 width: '36px',
-                                 height: '36px',
-                                 display: 'flex',
-                                 alignItems: 'center',
-                                 justifyContent: 'center',
-                                 cursor: 'pointer',
-                                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                              }}
-                              aria-label="Önceki"
-                           >
-                              <ChevronLeft size={20} />
-                           </button>
-                           <button
-                              onClick={nextSlide}
-                              style={{
-                                 position: 'absolute',
-                                 right: '-15px',
-                                 top: '50%',
-                                 transform: 'translateY(-50%)',
-                                 zIndex: 10,
-                                 background: 'white',
-                                 border: '1px solid var(--color-border)',
-                                 borderRadius: '50%',
-                                 width: '36px',
-                                 height: '36px',
-                                 display: 'flex',
-                                 alignItems: 'center',
-                                 justifyContent: 'center',
-                                 cursor: 'pointer',
-                                 boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
-                              }}
-                              aria-label="Sonraki"
-                           >
-                              <ChevronRight size={20} />
-                           </button>
-                        </>
-                     )}
-
-                     {/* Slider Track */}
-                     <div style={{ overflow: 'hidden', margin: '0 5px' }}>
-                        <div
-                           ref={sliderRef}
-                           style={{
-                              display: 'flex',
-                              gap: '1rem',
-                              transform: `translateX(calc(-${currentSlide * (100 / productsPerView)}% - ${currentSlide}rem))`,
-                              transition: 'transform 0.5s ease-in-out'
-                           }}
-                        >
-                           {products.map(product => (
-                              <div
-                                 key={product._id}
-                                 style={{
-                                    flex: `0 0 calc(${100 / productsPerView}% - ${(productsPerView - 1) / productsPerView}rem)`,
-                                    minWidth: `calc(${100 / productsPerView}% - ${(productsPerView - 1) / productsPerView}rem)`
-                                 }}
-                              >
-                                 <ProductCard product={product} />
-                              </div>
-                           ))}
-                        </div>
+         {/* İndirimli Ürünler */}
+         {discountedProducts.length > 0 && (
+            <section className="section" style={{ paddingTop: '0', paddingBottom: '2rem' }}>
+               <div className="container">
+                  <div className="section-header" style={{
+                     marginBottom: '1.5rem',
+                     display: 'flex',
+                     justifyContent: 'space-between',
+                     alignItems: 'center',
+                     flexWrap: 'wrap',
+                     gap: '1rem'
+                  }}>
+                     <div>
+                        <h2 className="section-title" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>
+                           İndirimli Ürünler
+                        </h2>
+                        <p className="section-subtitle" style={{ fontSize: '0.9rem' }}>
+                           {discountedProducts.length} üründe fırsat
+                        </p>
                      </div>
-
-                     {/* Dots Indicator */}
-                     {products.length > productsPerView && (
-                        <div style={{
-                           display: 'flex',
-                           justifyContent: 'center',
-                           gap: '0.4rem',
-                           marginTop: '1rem'
-                        }}>
-                           {Array.from({ length: maxSlide + 1 }).map((_, index) => (
-                              <button
-                                 key={index}
-                                 onClick={() => goToSlide(index)}
-                                 style={{
-                                    width: currentSlide === index ? '20px' : '8px',
-                                    height: '8px',
-                                    borderRadius: '4px',
-                                    border: 'none',
-                                    background: currentSlide === index ? 'var(--color-primary)' : 'var(--color-border)',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.3s ease'
-                                 }}
-                                 aria-label={`Slide ${index + 1}`}
-                              />
-                           ))}
-                        </div>
-                     )}
+                     <Link to="/products" className="btn btn-secondary" style={{ fontSize: '0.9rem', padding: '0.5rem 1rem' }}>
+                        Tümünü Gör
+                     </Link>
                   </div>
+                  <ProductSlider
+                     items={discountedProducts}
+                     slide={discountSlide}
+                     setSlide={setDiscountSlide}
+                     productsPerView={productsPerView}
+                  />
+               </div>
+            </section>
+         )}
+
+         {/* Çok Satanlar */}
+         {bestSellers.length > 0 && (
+            <section className="section" style={{ paddingTop: '0', paddingBottom: '2rem' }}>
+               <div className="container">
+                  <div className="section-header" style={{
+                     marginBottom: '1.5rem',
+                     display: 'flex',
+                     justifyContent: 'space-between',
+                     alignItems: 'center',
+                     flexWrap: 'wrap',
+                     gap: '1rem'
+                  }}>
+                     <div>
+                        <h2 className="section-title" style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>
+                           Çok Satanlar
+                        </h2>
+                        <p className="section-subtitle" style={{ fontSize: '0.9rem' }}>
+                           En popüler ürünler
+                        </p>
+                     </div>
+                     <Link to="/products" className="btn btn-secondary" style={{ fontSize: '0.9rem', padding: '0.5rem 1rem' }}>
+                        Tümünü Gör
+                     </Link>
+                  </div>
+                  <ProductSlider
+                     items={bestSellers}
+                     slide={bestSellerSlide}
+                     setSlide={setBestSellerSlide}
+                     productsPerView={productsPerView}
+                  />
                </div>
             </section>
          )}
