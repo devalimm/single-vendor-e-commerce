@@ -35,6 +35,7 @@ import AdminVariations from './pages/admin/AdminVariations';
 import AdminShipping from './pages/admin/AdminShipping';
 import AdminCustomers from './pages/admin/AdminCustomers';
 import AdminOptions from './pages/admin/AdminOptions';
+import AdminReports from './pages/admin/AdminReports';
 
 import './index.css';
 
@@ -76,6 +77,7 @@ function AppContent() {
             <Route path="shipping" element={<AdminShipping />} />
             <Route path="customers" element={<AdminCustomers />} />
             <Route path="options" element={<AdminOptions />} />
+            <Route path="reports" element={<AdminReports />} />
           </Route>
 
           {/* 404 */}
