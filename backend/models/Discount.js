@@ -67,7 +67,7 @@ const discountSchema = new mongoose.Schema({
     // Aktif/Pasif durumu
     isActive: {
         type: Boolean,
-        default: false
+        default: true
     }
 }, {
     timestamps: true

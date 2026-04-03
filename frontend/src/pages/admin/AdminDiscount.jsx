@@ -54,7 +54,7 @@ const defaultForm = () => ({
     value: '',
     startDate: getNowPlusHours(0),
     endDate: getNowPlusHours(24),
-    isActive: false
+    isActive: true
 });
 
 const AdminDiscount = () => {
