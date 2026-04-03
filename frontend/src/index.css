@@ -796,9 +796,31 @@ button {
 
 @media (max-width: 640px) {
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
-    /* was 160px */
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+  }
+
+  .product-info {
+    padding: var(--spacing-sm);
+  }
+
+  .product-name {
+    font-size: var(--font-size-sm);
+    margin-bottom: 2px;
+  }
+
+  .product-category {
+    font-size: 10px;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .product-price {
+    font-size: var(--font-size-base);
+  }
+
+  .product-price-original,
+  .product-price-discount {
+    font-size: var(--font-size-sm);
   }
 }
 

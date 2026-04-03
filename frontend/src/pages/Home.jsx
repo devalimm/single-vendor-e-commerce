@@ -17,8 +17,8 @@ const Home = () => {
    // How many products to show per slide (responsive)
    const getProductsPerView = () => {
       if (typeof window !== 'undefined') {
-         if (window.innerWidth < 640) return 1;
-         if (window.innerWidth < 1024) return 2;
+         if (window.innerWidth < 640) return 2;
+         if (window.innerWidth < 1024) return 3;
          return 4;
       }
       return 4;
@@ -245,7 +245,7 @@ const Home = () => {
                            style={{
                               display: 'flex',
                               gap: '1rem',
-                              transform: `translateX(-${currentSlide * (100 / productsPerView + 1)}%)`,
+                              transform: `translateX(calc(-${currentSlide * (100 / productsPerView)}% - ${currentSlide}rem))`,
                               transition: 'transform 0.5s ease-in-out'
                            }}
                         >
@@ -253,8 +253,8 @@ const Home = () => {
                               <div
                                  key={product._id}
                                  style={{
-                                    flex: `0 0 calc(${100 / productsPerView}% - 0.75rem)`,
-                                    minWidth: `calc(${100 / productsPerView}% - 0.75rem)`
+                                    flex: `0 0 calc(${100 / productsPerView}% - ${(productsPerView - 1) / productsPerView}rem)`,
+                                    minWidth: `calc(${100 / productsPerView}% - ${(productsPerView - 1) / productsPerView}rem)`
                                  }}
                               >
                                  <ProductCard product={product} />
