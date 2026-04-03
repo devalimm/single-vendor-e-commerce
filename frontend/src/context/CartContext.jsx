@@ -33,9 +33,11 @@ export const CartProvider = ({ children }) => {
    const calculateItemPrice = (item) => {
       let price = item.basePrice;
 
-      // Add length price adjustment
-      if (item.selectedLength?.priceAdjustment) {
-         price += item.selectedLength.priceAdjustment;
+      // Add variation extra prices
+      if (item.variationSelections?.length > 0) {
+         item.variationSelections.forEach(sel => {
+            price += sel.extraPrice || 0;
+         });
       }
 
       // Add options prices
@@ -63,14 +65,23 @@ export const CartProvider = ({ children }) => {
       return { items, totalItems, totalPrice };
    };
 
+   // Build a unique key for a cart item based on product + variation selections
+   const getItemKey = (productId, variationSelections) => {
+      const varKey = (variationSelections || [])
+         .map(s => `${s.variationName}:${s.optionName}`)
+         .sort()
+         .join('|');
+      return `${productId}__${varKey}`;
+   };
+
    const addToCart = (product, selections) => {
-      const { selectedSize, selectedLength, selectedOptions, quantity } = selections;
+      const { variationSelections, selectedOptions, quantity } = selections;
 
       setCart(prevCart => {
+         const newKey = getItemKey(product._id, variationSelections);
+
          const existingItemIndex = prevCart.items.findIndex(item =>
-            item.productId === product._id &&
-            item.selectedSize?.name === selectedSize?.name &&
-            item.selectedLength?.name === selectedLength?.name
+            getItemKey(item.productId, item.variationSelections) === newKey
          );
 
          let newItems;
@@ -78,7 +89,6 @@ export const CartProvider = ({ children }) => {
             // Update existing item quantity
             newItems = [...prevCart.items];
             newItems[existingItemIndex].quantity += quantity;
-            // Discount bilgisini de güncelle
             if (product.discount) {
                newItems[existingItemIndex].discount = product.discount;
             }
@@ -89,10 +99,9 @@ export const CartProvider = ({ children }) => {
                name: product.name,
                image: product.images?.[0] || null,
                basePrice: product.basePrice,
-               vatRate: product.vatRate || 20,
+               vatRate: product.vatRate || 10,
                discount: product.discount || null,
-               selectedSize,
-               selectedLength,
+               variationSelections: variationSelections || [],
                selectedOptions: selectedOptions || [],
                quantity
             };
@@ -103,25 +112,23 @@ export const CartProvider = ({ children }) => {
       });
    };
 
-   const removeFromCart = (productId, selectedSize, selectedLength) => {
+   const removeFromCart = (productId, variationSelections) => {
       setCart(prevCart => {
+         const keyToRemove = getItemKey(productId, variationSelections);
          const newItems = prevCart.items.filter(item =>
-            !(item.productId === productId &&
-               item.selectedSize?.name === selectedSize?.name &&
-               item.selectedLength?.name === selectedLength?.name)
+            getItemKey(item.productId, item.variationSelections) !== keyToRemove
          );
          return updateTotals(newItems);
       });
    };
 
-   const updateQuantity = (productId, selectedSize, selectedLength, newQuantity) => {
+   const updateQuantity = (productId, variationSelections, newQuantity) => {
       if (newQuantity < 1) return;
 
       setCart(prevCart => {
+         const keyToUpdate = getItemKey(productId, variationSelections);
          const newItems = prevCart.items.map(item => {
-            if (item.productId === productId &&
-               item.selectedSize?.name === selectedSize?.name &&
-               item.selectedLength?.name === selectedLength?.name) {
+            if (getItemKey(item.productId, item.variationSelections) === keyToUpdate) {
                return { ...item, quantity: newQuantity };
             }
             return item;

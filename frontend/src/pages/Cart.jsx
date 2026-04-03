@@ -30,8 +30,11 @@ const Cart = () => {
    const calculateItemBasePrice = (item) => {
       let price = item.basePrice;
 
-      if (item.selectedLength?.priceAdjustment) {
-         price += item.selectedLength.priceAdjustment;
+      // Add variation extra prices
+      if (item.variationSelections?.length > 0) {
+         item.variationSelections.forEach(sel => {
+            price += sel.extraPrice || 0;
+         });
       }
 
       if (item.selectedOptions?.length > 0) {
@@ -153,13 +156,8 @@ const Cart = () => {
                               <h3 style={{ marginBottom: '0.5rem' }}>{item.name}</h3>
 
                               <div style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)', marginBottom: '0.5rem' }}>
-                                 {item.selectedSize && (
-                                    <p>Beden: <strong>{item.selectedSize.name}</strong></p>
-                                 )}
-                                 {item.selectedLength && (
-                                    <p>Boy: <strong>{item.selectedLength.name}</strong>
-                                       {item.selectedLength.priceAdjustment > 0 && ` (+${item.selectedLength.priceAdjustment.toFixed(2)} ₺)`}
-                                    </p>
+                                 {item.variationSelections?.length > 0 && (
+                                    <p>{item.variationSelections.map(s => `${s.variationName}: ${s.optionName}${s.extraPrice > 0 ? ` (+${s.extraPrice}₺)` : ''}`).join(' • ')}</p>
                                  )}
                                  {item.selectedOptions?.length > 0 && (
                                     <p>Opsiyonlar: {item.selectedOptions.map(opt => `${opt.name} (+${opt.price.toFixed(2)} ₺)`).join(', ')}</p>
@@ -187,7 +185,7 @@ const Cart = () => {
                                  {/* Quantity Controls */}
                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                     <button
-                                       onClick={() => updateQuantity(item.productId, item.selectedSize, item.selectedLength, item.quantity - 1)}
+                                       onClick={() => updateQuantity(item.productId, item.variationSelections, item.quantity - 1)}
                                        className="btn-icon"
                                        disabled={item.quantity <= 1}
                                     >
@@ -197,7 +195,7 @@ const Cart = () => {
                                        {item.quantity}
                                     </span>
                                     <button
-                                       onClick={() => updateQuantity(item.productId, item.selectedSize, item.selectedLength, item.quantity + 1)}
+                                       onClick={() => updateQuantity(item.productId, item.variationSelections, item.quantity + 1)}
                                        className="btn-icon"
                                     >
                                        <Plus size={16} />
@@ -226,7 +224,7 @@ const Cart = () => {
                                        </p>
                                     </div>
                                     <button
-                                       onClick={() => removeFromCart(item.productId, item.selectedSize, item.selectedLength)}
+                                       onClick={() => removeFromCart(item.productId, item.variationSelections)}
                                        className="btn-icon btn-danger"
                                        title="Sil"
                                     >

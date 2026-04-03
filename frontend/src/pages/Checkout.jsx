@@ -145,8 +145,10 @@ const Checkout = () => {
 
    const calculateItemBasePrice = (item) => {
       let price = item.basePrice;
-      if (item.selectedLength?.priceAdjustment) {
-         price += item.selectedLength.priceAdjustment;
+      if (item.variationSelections?.length > 0) {
+         item.variationSelections.forEach(sel => {
+            price += sel.extraPrice || 0;
+         });
       }
       if (item.selectedOptions?.length > 0) {
          item.selectedOptions.forEach(option => {
@@ -181,8 +183,7 @@ const Checkout = () => {
          const items = cart.items.map(item => ({
             product: item.productId,
             quantity: item.quantity,
-            size: item.selectedSize?.name || 'Standart',
-            length: item.selectedLength?.name || null,
+            variationSelections: item.variationSelections || [],
             selectedOptions: item.selectedOptions || []
          }));
 
@@ -571,7 +572,7 @@ const Checkout = () => {
                                  <div style={{ flex: 1 }}>
                                     <p style={{ fontWeight: 'var(--font-weight-semibold)' }}>{item.name}</p>
                                     <p style={{ fontSize: '0.875rem', color: 'var(--color-text-secondary)' }}>
-                                       {item.selectedSize?.name} {item.selectedLength && `• ${item.selectedLength.name}`}
+                                       {item.variationSelections?.map(s => `${s.variationName}: ${s.optionName}`).join(' • ')}
                                     </p>
                                     {hasDiscount ? (
                                        <>
