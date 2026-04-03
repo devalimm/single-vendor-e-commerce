@@ -1,4 +1,5 @@
 import Product from '../models/Product.js';
+import Variation from '../models/Variation.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -277,9 +278,18 @@ export const getProduct = async (req, res) => {
       // İndirim bilgisi ekle
       const productWithDiscount = await applyDiscountToProduct(product);
 
+      // Varyasyon verilerini ekle (selectedVariations isimleri üzerinden)
+      let variationData = [];
+      if (productWithDiscount.selectedVariations && productWithDiscount.selectedVariations.length > 0) {
+         variationData = await Variation.find({
+            name: { $in: productWithDiscount.selectedVariations },
+            isActive: true
+         }).select('name options');
+      }
+
       res.json({
          success: true,
-         data: productWithDiscount
+         data: { ...productWithDiscount, variationData }
       });
    } catch (error) {
       console.error('Get product error:', error);
@@ -317,12 +327,16 @@ export const createProduct = async (req, res) => {
          });
       }
 
+      const { selectedVariations, vatRate } = req.body;
+
       const product = await Product.create({
          name,
          description: description || '',
          basePrice,
+         vatRate: vatRate || 20,
          category,
          sku: sku || '',
+         selectedVariations: selectedVariations || [],
          sizes: sizes || [],
          lengths: lengths || [],
          options: options || [],
@@ -380,12 +394,16 @@ export const updateProduct = async (req, res) => {
          isNew
       } = req.body;
 
+      const { selectedVariations, vatRate } = req.body;
+
       // Update fields
       if (name) product.name = name;
       if (description) product.description = description;
       if (basePrice !== undefined) product.basePrice = basePrice;
+      if (vatRate !== undefined) product.vatRate = vatRate;
       if (category) product.category = category;
       if (sku !== undefined) product.sku = sku;
+      if (selectedVariations !== undefined) product.selectedVariations = selectedVariations;
       if (sizes) product.sizes = sizes;
       if (lengths) product.lengths = lengths;
       if (options) product.options = options;
