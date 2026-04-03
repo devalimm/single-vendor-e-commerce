@@ -1,4 +1,5 @@
 import { validationResult } from 'express-validator';
+import crypto from 'crypto';
 import User from '../models/User.js';
 import { generateToken } from '../middleware/auth.js';
 
@@ -15,7 +16,7 @@ export const register = async (req, res) => {
          });
       }
 
-      const { name, phone, password } = req.body;
+      const { name, phone, email, password } = req.body;
 
       // Check if user already exists
       const userExists = await User.findOne({ phone });
@@ -26,10 +27,22 @@ export const register = async (req, res) => {
          });
       }
 
+      // Check if email is already in use
+      if (email) {
+         const emailExists = await User.findOne({ email: email.toLowerCase() });
+         if (emailExists) {
+            return res.status(400).json({
+               success: false,
+               message: 'Bu email adresi zaten kullanılıyor.'
+            });
+         }
+      }
+
       // Create user
       const user = await User.create({
          name,
          phone,
+         email,
          password
       });
 
@@ -265,7 +278,6 @@ export const resetPassword = async (req, res) => {
       }
 
       // Hash token from URL
-      const crypto = require('crypto');
       const resetPasswordToken = crypto
          .createHash('sha256')
          .update(req.params.token)

@@ -7,6 +7,7 @@ const Register = () => {
    const [formData, setFormData] = useState({
       name: '',
       phone: '',
+      email: '',
       password: '',
       confirmPassword: ''
    });
@@ -42,7 +43,7 @@ const Register = () => {
 
       setLoading(true);
 
-      const result = await register(formData.name, formData.phone, formData.password);
+      const result = await register(formData.name, formData.phone, formData.email, formData.password);
 
       if (result.success) {
          navigate('/');
@@ -93,6 +94,23 @@ const Register = () => {
                         placeholder="05XX XXX XX XX"
                         className="form-input"
                      />
+                  </div>
+
+                  <div className="form-group">
+                     <label htmlFor="email">Email Adresi</label>
+                     <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="ornek@email.com"
+                        className="form-input"
+                     />
+                     <small style={{ color: 'var(--color-text-secondary)', fontSize: '0.75rem', marginTop: '0.25rem', display: 'block' }}>
+                        Şifre sıfırlama işlemleri için gereklidir
+                     </small>
                   </div>
 
                   <div className="form-group">
