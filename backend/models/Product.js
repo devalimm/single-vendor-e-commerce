@@ -117,11 +117,11 @@ const productSchema = new mongoose.Schema({
    },
    tags: [String],
 
-   // Stock management
+   // Stock management (-1 means unlimited / not tracked via sizes)
    totalStock: {
       type: Number,
-      default: 0,
-      min: 0
+      default: -1,
+      min: -1
    }
 }, {
    timestamps: true,
@@ -146,10 +146,13 @@ productSchema.pre('save', function (next) {
    next();
 });
 
-// Calculate total stock from sizes
+// Calculate total stock from sizes (only if sizes exist)
 productSchema.pre('save', function (next) {
    if (this.sizes && this.sizes.length > 0) {
       this.totalStock = this.sizes.reduce((total, size) => total + (size.stock || 0), 0);
+   } else {
+      // No sizes = stock not tracked via combinations, mark as unlimited
+      this.totalStock = -1;
    }
    next();
 });
