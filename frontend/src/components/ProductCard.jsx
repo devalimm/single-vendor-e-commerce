@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
             {product.isFeatured && (
                <span className="product-badge badge-featured">Öne Çıkan</span>
             )}
-            {product.totalStock === 0 && (
+            {product.totalStock === 0 && product.sizes?.length > 0 && (
                <span className="product-badge badge-out-of-stock">Tükendi</span>
             )}
             {hasDiscount && (

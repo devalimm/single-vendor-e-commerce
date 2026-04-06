@@ -54,7 +54,12 @@ const AdminProductForm = () => {
    const fetchVariations = async () => {
       try {
          const response = await api.get('/variations');
-         setVariations(response.data.data.filter(v => v.isActive));
+         const activeVariations = response.data.data.filter(v => v.isActive);
+         setVariations(activeVariations);
+         // Default: select all variations for new products
+         if (!isEditMode && activeVariations.length > 0) {
+            setSelectedVariationIds(activeVariations.map(v => v._id));
+         }
       } catch (error) {
          console.error('Error fetching variations:', error);
       }
@@ -427,9 +432,9 @@ const AdminProductForm = () => {
                                  alignItems: 'flex-start',
                                  gap: '0.75rem',
                                  padding: '1rem',
-                                 // background: isSelected ? 'var(--color-primary-light, rgba(233, 30, 99, 0.05))' : 'var(--color-bg-secondary)',
-                                 borderRadius: 'var(--radius-sm)',
-                                 border: isSelected ? '2px solid var(--color-primary)' : '2px solid transparent',
+                                 background: isSelected ? 'rgba(16, 185, 129, 0.06)' : 'var(--color-bg-secondary, #f9fafb)',
+                                 borderRadius: '8px',
+                                 border: isSelected ? '2px solid #10b981' : '2px solid var(--color-border, #e5e7eb)',
                                  cursor: 'pointer',
                                  transition: 'all 0.2s ease'
                               }}
@@ -438,15 +443,15 @@ const AdminProductForm = () => {
                                  type="checkbox"
                                  checked={isSelected}
                                  onChange={() => toggleVariation(v._id)}
-                                 style={{ width: '18px', height: '18px', cursor: 'pointer', marginTop: '2px' }}
+                                 style={{ width: '18px', height: '18px', cursor: 'pointer', marginTop: '2px', accentColor: '#10b981' }}
                               />
                               <div>
-                                 <strong>{v.name}</strong>
+                                 <strong style={{ color: 'var(--color-text-primary)' }}>{v.name}</strong>
                                  <div style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginTop: '0.25rem' }}>
                                     {v.options.map((opt, i) => (
                                        <span key={i}>
                                           {opt.name}
-                                          {opt.extraPrice > 0 && <span style={{ color: 'var(--color-primary)' }}> (+{opt.extraPrice}₺)</span>}
+                                          {opt.extraPrice > 0 && <span style={{ color: '#10b981', fontWeight: 500 }}> (+{opt.extraPrice}₺)</span>}
                                           {i < v.options.length - 1 && ', '}
                                        </span>
                                     ))}

@@ -109,9 +109,7 @@ const Checkout = () => {
 
       if (stepNumber === 1) {
          if (!formData.fullName.trim()) newErrors.fullName = 'Ad Soyad gereklidir';
-         if (!formData.tcKimlik.trim()) {
-            newErrors.tcKimlik = 'TC Kimlik numarası gereklidir';
-         } else if (!/^\d{11}$/.test(formData.tcKimlik)) {
+         if (formData.tcKimlik.trim() && !/^\d{11}$/.test(formData.tcKimlik)) {
             newErrors.tcKimlik = 'TC Kimlik numarası 11 haneli olmalıdır';
          }
          if (!formData.email.trim()) {
@@ -372,7 +370,7 @@ const Checkout = () => {
                      </div>
 
                      <div className="form-group" style={{ marginBottom: '1.25rem' }}>
-                        <label htmlFor="tcKimlik">TC Kimlik Numarası *</label>
+                        <label htmlFor="tcKimlik">TC Kimlik Numarası <small style={{ color: 'var(--color-text-muted)', fontWeight: 'normal' }}>(Opsiyonel)</small></label>
                         <input
                            type="text"
                            id="tcKimlik"
