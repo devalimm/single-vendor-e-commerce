@@ -78,7 +78,7 @@ export const initializeCheckoutForm = async (req, res) => {
         }
 
         // Validate required shipping fields
-        const requiredFields = ['fullName', 'tcKimlik', 'email', 'phone', 'city', 'district', 'neighborhood', 'address'];
+        const requiredFields = ['fullName', 'email', 'phone', 'city', 'district', 'neighborhood', 'address'];
         for (const field of requiredFields) {
             if (!shippingAddress[field]) {
                 return res.status(400).json({
@@ -220,7 +220,7 @@ export const initializeCheckoutForm = async (req, res) => {
                 surname: lastName,
                 gsmNumber: shippingAddress.phone,
                 email: shippingAddress.email,
-                identityNumber: shippingAddress.tcKimlik,
+                identityNumber: shippingAddress.tcKimlik || '11111111111',
                 registrationAddress: `${shippingAddress.address}, ${shippingAddress.neighborhood}, ${shippingAddress.district}/${shippingAddress.city}`,
                 ip: req.ip || req.connection?.remoteAddress || '127.0.0.1',
                 city: shippingAddress.city,

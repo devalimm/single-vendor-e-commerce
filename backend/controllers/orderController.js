@@ -58,7 +58,7 @@ export const createGuestOrder = async (req, res) => {
       }
 
       // Validate required shipping fields
-      const requiredFields = ['fullName', 'tcKimlik', 'email', 'phone', 'city', 'district', 'neighborhood', 'address'];
+      const requiredFields = ['fullName', 'email', 'phone', 'city', 'district', 'neighborhood', 'address'];
       for (const field of requiredFields) {
          if (!shippingAddress[field]) {
             return res.status(400).json({
@@ -69,7 +69,7 @@ export const createGuestOrder = async (req, res) => {
       }
 
       // Validate TC Kimlik (11 digits)
-      if (!/^\d{11}$/.test(shippingAddress.tcKimlik)) {
+      if (shippingAddress.tcKimlik && !/^\d{11}$/.test(shippingAddress.tcKimlik)) {
          return res.status(400).json({
             success: false,
             message: 'TC Kimlik numarası 11 haneli olmalıdır.'
