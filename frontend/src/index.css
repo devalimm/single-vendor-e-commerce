@@ -3289,6 +3289,7 @@ button {
 }
 
 .main-image-container {
+  position: relative;
   width: 100%;
   max-height: 600px;
   overflow: hidden;
@@ -3514,5 +3515,95 @@ button {
   .thumbnail-btn {
     width: 56px;
     height: 75px;
+  }
+}
+
+/* Carousel Arrows */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  color: var(--color-text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  opacity: 0;
+}
+
+.main-image-container:hover .carousel-arrow {
+  opacity: 1;
+}
+
+.carousel-arrow:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.carousel-arrow-left {
+  left: 12px;
+}
+
+.carousel-arrow-right {
+  right: 12px;
+}
+
+/* Carousel Dots */
+.carousel-dots {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+
+.carousel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.carousel-dot.active {
+  background: white;
+  width: 24px;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-dot:hover {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+/* Mobile: always show arrows */
+@media (max-width: 768px) {
+  .carousel-arrow {
+    opacity: 1;
+    width: 36px;
+    height: 36px;
+  }
+
+  .carousel-arrow-left {
+    left: 8px;
+  }
+
+  .carousel-arrow-right {
+    right: 8px;
   }
 }

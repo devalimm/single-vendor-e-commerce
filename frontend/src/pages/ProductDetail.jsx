@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api, { getImageUrl } from '../utils/api';
-import { ShoppingCart, Home, ChevronRight } from 'lucide-react';
+import { ShoppingCart, Home, ChevronRight, ChevronLeft } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -182,11 +182,40 @@ const ProductDetail = () => {
                <div className="product-detail-images">
                   <div className="main-image-container">
                      {product.images && product.images.length > 0 ? (
-                        <img
-                           src={getImageUrl(product.images[selectedImage])}
-                           alt={product.name}
-                           className="main-product-image"
-                        />
+                        <>
+                           <img
+                              src={getImageUrl(product.images[selectedImage])}
+                              alt={product.name}
+                              className="main-product-image"
+                           />
+                           {product.images.length > 1 && (
+                              <>
+                                 <button
+                                    className="carousel-arrow carousel-arrow-left"
+                                    onClick={() => setSelectedImage(prev => prev === 0 ? product.images.length - 1 : prev - 1)}
+                                    aria-label="Önceki resim"
+                                 >
+                                    <ChevronLeft size={24} />
+                                 </button>
+                                 <button
+                                    className="carousel-arrow carousel-arrow-right"
+                                    onClick={() => setSelectedImage(prev => prev === product.images.length - 1 ? 0 : prev + 1)}
+                                    aria-label="Sonraki resim"
+                                 >
+                                    <ChevronRight size={24} />
+                                 </button>
+                                 <div className="carousel-dots">
+                                    {product.images.map((_, index) => (
+                                       <button
+                                          key={index}
+                                          className={`carousel-dot ${selectedImage === index ? 'active' : ''}`}
+                                          onClick={() => setSelectedImage(index)}
+                                       />
+                                    ))}
+                                 </div>
+                              </>
+                           )}
+                        </>
                      ) : (
                         <div className="no-image-placeholder">
                            <p>Resim Yok</p>
