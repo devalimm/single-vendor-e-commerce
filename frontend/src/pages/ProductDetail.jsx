@@ -8,20 +8,20 @@ import { useAuth } from '../context/AuthContext';
 
 const CustomDropdown = ({ placeholder, options, selected, onSelect, isMulti }) => {
    const [open, setOpen] = useState(false);
-   
+
    return (
-      <div 
-         className="custom-selector" 
-         tabIndex={0} 
-         onBlur={(e) => { 
-            if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); 
+      <div
+         className="custom-selector"
+         tabIndex={0}
+         onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);
          }}
          onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
       >
          <div className="custom-selector-header">
-            <span>
-               {isMulti 
-                  ? (selected.length > 0 ? `${selected.length} Seçildi` : placeholder) 
+            <span translate="no" className="notranslate">
+               {isMulti
+                  ? (selected.length > 0 ? `${selected.length} Seçildi` : placeholder)
                   : (selected?.name ? `${placeholder}: ${selected.name}` : placeholder)}
             </span>
             <ChevronDown size={18} className={`chevron-icon ${open ? 'open' : ''}`} />
@@ -31,8 +31,8 @@ const CustomDropdown = ({ placeholder, options, selected, onSelect, isMulti }) =
                {options.map(opt => {
                   const isSelected = isMulti ? selected.some(o => o.name === opt.name) : selected?.name === opt.name;
                   return (
-                     <div 
-                        key={opt.name} 
+                     <div
+                        key={opt.name}
                         className={`custom-selector-item ${isSelected ? 'active' : ''}`}
                         onClick={(e) => {
                            e.stopPropagation();
@@ -40,7 +40,7 @@ const CustomDropdown = ({ placeholder, options, selected, onSelect, isMulti }) =
                            if (!isMulti) setOpen(false);
                         }}
                      >
-                        <span>{opt.name}</span>
+                        <span translate="no" className="notranslate">{opt.name}</span>
                         {(opt.extraPrice > 0 || opt.price > 0) && (
                            <span className="price-badge">+{opt.extraPrice || opt.price} ₺</span>
                         )}
@@ -337,7 +337,7 @@ const ProductDetail = () => {
                      {product.options?.length > 0 && (
                         <div className="custom-selector full-width">
                            <CustomDropdown
-                              placeholder="Seçenekler"
+                              placeholder="Opsiyonlar"
                               options={product.options}
                               selected={selectedOptions}
                               onSelect={handleOptionToggle}
