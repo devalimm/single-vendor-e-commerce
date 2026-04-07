@@ -1,10 +1,57 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import api, { getImageUrl } from '../utils/api';
-import { ShoppingCart, Home, ChevronRight, ChevronLeft } from 'lucide-react';
+import { ShoppingCart, Home, ChevronRight, ChevronLeft, ChevronDown } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
+
+const CustomDropdown = ({ placeholder, options, selected, onSelect, isMulti }) => {
+   const [open, setOpen] = useState(false);
+   
+   return (
+      <div 
+         className="custom-selector" 
+         tabIndex={0} 
+         onBlur={(e) => { 
+            if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); 
+         }}
+         onClick={(e) => { e.stopPropagation(); setOpen(!open); }}
+      >
+         <div className="custom-selector-header">
+            <span>
+               {isMulti 
+                  ? (selected.length > 0 ? `${selected.length} Seçildi` : placeholder) 
+                  : (selected?.name ? `${placeholder}: ${selected.name}` : placeholder)}
+            </span>
+            <ChevronDown size={18} className={`chevron-icon ${open ? 'open' : ''}`} />
+         </div>
+         {open && (
+            <div className="custom-selector-menu">
+               {options.map(opt => {
+                  const isSelected = isMulti ? selected.some(o => o.name === opt.name) : selected?.name === opt.name;
+                  return (
+                     <div 
+                        key={opt.name} 
+                        className={`custom-selector-item ${isSelected ? 'active' : ''}`}
+                        onClick={(e) => {
+                           e.stopPropagation();
+                           onSelect(opt);
+                           if (!isMulti) setOpen(false);
+                        }}
+                     >
+                        <span>{opt.name}</span>
+                        {(opt.extraPrice > 0 || opt.price > 0) && (
+                           <span className="price-badge">+{opt.extraPrice || opt.price} ₺</span>
+                        )}
+                     </div>
+                  )
+               })}
+            </div>
+         )}
+      </div>
+   );
+};
 
 const ProductDetail = () => {
    const { id } = useParams();
@@ -271,70 +318,42 @@ const ProductDetail = () => {
                      <p className="product-description">{product.description}</p>
                   )}
 
-                  {/* Independent Variation Selectors */}
-                  {product.variationData && product.variationData.length > 0 && (
-                     product.variationData.map(variation => (
-                        <div className="variant-section" key={variation._id || variation.name}>
-                           <label className="variant-label">{variation.name} Seçin:</label>
-                           <div className="variant-options">
-                              {variation.options.map((opt) => {
-                                 const isSelected = varSelections[variation.name]?.name === opt.name;
-                                 return (
-                                    <button
-                                       key={opt.name}
-                                       className={`variant-btn ${isSelected ? 'active' : ''}`}
-                                       onClick={() => handleVariationSelect(variation.name, opt)}
-                                    >
-                                       {opt.name}
-                                       {opt.extraPrice > 0 && (
-                                          <span className="price-badge">+{opt.extraPrice} ₺</span>
-                                       )}
-                                    </button>
-                                 );
-                              })}
-                           </div>
-                        </div>
-                     ))
-                  )}
+                  {/* Independent Variation Selectors & Options */}
+                  <div className="selectors-grid">
+                     {product.variationData && product.variationData.length > 0 && (
+                        product.variationData.map(variation => (
+                           <CustomDropdown
+                              key={variation._id || variation.name}
+                              placeholder={variation.name}
+                              options={variation.options}
+                              selected={varSelections[variation.name] || null}
+                              onSelect={(opt) => handleVariationSelect(variation.name, opt)}
+                              isMulti={false}
+                           />
+                        ))
+                     )}
 
-                  {/* Options Selector */}
-                  {product.options?.length > 0 && (
-                     <div className="variant-section">
-                        <label className="variant-label">Seçenekler:</label>
-                        <div className="variant-options">
-                           {product.options.map((option) => (
-                              <button
-                                 key={option.name}
-                                 className={`variant-btn ${selectedOptions.find(o => o.name === option.name) ? 'active' : ''}`}
-                                 onClick={() => handleOptionToggle(option)}
-                              >
-                                 {option.name}
-                                 {option.price > 0 && (
-                                    <span className="price-badge">+{option.price.toFixed(2)} ₺</span>
-                                 )}
-                              </button>
-                           ))}
+                     {/* Options Selector */}
+                     {product.options?.length > 0 && (
+                        <div className="custom-selector full-width">
+                           <CustomDropdown
+                              placeholder="Seçenekler"
+                              options={product.options}
+                              selected={selectedOptions}
+                              onSelect={handleOptionToggle}
+                              isMulti={true}
+                           />
                         </div>
-                     </div>
-                  )}
+                     )}
+                  </div>
 
                   {/* Quantity Selector */}
-                  <div className="quantity-section">
-                     <label className="variant-label">Adet:</label>
-                     <div className="quantity-controls">
-                        <button
-                           className="quantity-btn"
-                           onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                        >
-                           -
-                        </button>
-                        <span className="quantity-display">{quantity}</span>
-                        <button
-                           className="quantity-btn"
-                           onClick={() => setQuantity(quantity + 1)}
-                        >
-                           +
-                        </button>
+                  <div className="quantity-styled-block">
+                     <span>Adet</span>
+                     <div className="quantity-spinner">
+                        <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>-</button>
+                        <span className="value">{quantity}</span>
+                        <button onClick={() => setQuantity(quantity + 1)}>+</button>
                      </div>
                   </div>
 

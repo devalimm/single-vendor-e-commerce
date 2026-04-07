@@ -52,7 +52,7 @@ const AdminLayout = () => {
          </div>
 
          {/* Mobil Overlay */}
-         <div 
+         <div
             className={`admin-sidebar-overlay ${isSidebarOpen ? 'active' : ''}`}
             onClick={() => setIsSidebarOpen(false)}
          />

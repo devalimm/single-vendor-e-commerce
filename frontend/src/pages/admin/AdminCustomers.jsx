@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../utils/api';
-import { Search, ChevronLeft, ChevronRight, User, Phone, Mail, MapPin, Calendar, Download, CheckSquare, Square, MinusSquare } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, User, Phone, Mail, MapPin, Calendar, Download, CheckSquare, Square, MinusSquare, Copy, Check } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 const responsiveStyles = `
@@ -137,6 +137,16 @@ const AdminCustomers = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [selectedCustomer, setSelectedCustomer] = useState(null);
+
+    // Copy feedback state
+    const [copiedId, setCopiedId] = useState(null);
+
+    const copyPhone = (phoneNumber, id) => {
+        if (!phoneNumber) return;
+        navigator.clipboard.writeText(phoneNumber);
+        setCopiedId(id);
+        setTimeout(() => setCopiedId(null), 1500);
+    };
 
     // Bulk selection state
     const [selectedIds, setSelectedIds] = useState(new Set());
@@ -330,7 +340,30 @@ const AdminCustomers = () => {
                                 <Phone size={16} />
                                 <div>
                                     <span className="customer-detail-label">Telefon</span>
-                                    <span className="customer-detail-value">{selectedCustomer.phone || '—'}</span>
+                                    <span className="customer-detail-value" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        {selectedCustomer.phone || '—'}
+                                        {selectedCustomer.phone && (
+                                            <button
+                                                onClick={() => copyPhone(selectedCustomer.phone, 'modal')}
+                                                title="Telefonu kopyala"
+                                                style={{
+                                                    background: copiedId === 'modal' ? 'var(--color-success, #10b981)' : 'var(--color-background)',
+                                                    border: '1px solid var(--color-border)',
+                                                    borderRadius: '6px',
+                                                    cursor: 'pointer',
+                                                    padding: '4px 8px',
+                                                    display: 'inline-flex',
+                                                    alignItems: 'center',
+                                                    gap: '4px',
+                                                    fontSize: '0.75rem',
+                                                    color: copiedId === 'modal' ? '#fff' : 'var(--color-text-secondary)',
+                                                    transition: 'all 0.2s'
+                                                }}
+                                            >
+                                                {copiedId === 'modal' ? <><Check size={12} /> Kopyalandı</> : <><Copy size={12} /> Kopyala</>}
+                                            </button>
+                                        )}
+                                    </span>
                                 </div>
                             </div>
 
@@ -453,7 +486,29 @@ const AdminCustomers = () => {
                                                 </button>
                                             </td>
                                             <td className="td-name" style={{ fontWeight: 500 }}>{customer.name}</td>
-                                            <td className="td-phone" data-label="Telefon">{customer.phone || '—'}</td>
+                                            <td className="td-phone" data-label="Telefon">
+                                                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem' }}>
+                                                    {customer.phone || '—'}
+                                                    {customer.phone && (
+                                                        <button
+                                                            onClick={(e) => { e.stopPropagation(); copyPhone(customer.phone, customer._id); }}
+                                                            title="Telefonu kopyala"
+                                                            style={{
+                                                                background: 'none',
+                                                                border: 'none',
+                                                                cursor: 'pointer',
+                                                                padding: '2px',
+                                                                display: 'inline-flex',
+                                                                alignItems: 'center',
+                                                                color: copiedId === customer._id ? 'var(--color-success, #10b981)' : 'var(--color-text-muted)',
+                                                                transition: 'color 0.2s'
+                                                            }}
+                                                        >
+                                                            {copiedId === customer._id ? <Check size={14} /> : <Copy size={14} />}
+                                                        </button>
+                                                    )}
+                                                </span>
+                                            </td>
                                             <td className="td-email" data-label="E-posta">{customer.email || '—'}</td>
                                             <td className="td-role" data-label="Rol">
                                                 <span style={{
