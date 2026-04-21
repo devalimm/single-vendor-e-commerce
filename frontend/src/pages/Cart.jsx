@@ -1,116 +1,21 @@
 import { Link } from 'react-router-dom';
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { useCart } from '../context/CartContext';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-
-const VITE_API_URL = import.meta.env.VITE_API_URL;
+import { calculateItemTotals, calculateCartTotals, calculateShippingCost } from '../utils/pricing';
+import { useShippingSettings } from '../hooks/useShippingSettings';
 import { getImageUrl } from '../utils/api';
 
 const Cart = () => {
    const { cart, removeFromCart, updateQuantity } = useCart();
+   const { settings: shippingSettings } = useShippingSettings();
 
-   // Fetch shipping settings from admin panel
-   const [shippingSettings, setShippingSettings] = useState(null);
-
-   useEffect(() => {
-      const fetchShippingSettings = async () => {
-         try {
-            const res = await fetch(`${VITE_API_URL}/shipping-settings`);
-            const data = await res.json();
-            if (data.success) {
-               setShippingSettings(data.data);
-            }
-         } catch (err) {
-            console.error('Kargo ayarları alınamadı:', err);
-         }
-      };
-      fetchShippingSettings();
-   }, []);
-
-   const calculateItemBasePrice = (item) => {
-      let price = item.basePrice;
-
-      // Add variation extra prices
-      if (item.variationSelections?.length > 0) {
-         item.variationSelections.forEach(sel => {
-            price += sel.extraPrice || 0;
-         });
-      }
-
-      if (item.selectedOptions?.length > 0) {
-         item.selectedOptions.forEach(option => {
-            price += option.price || 0;
-         });
-      }
-
-      return price;
-   };
-
-   const calculateItemFinalPrice = (item) => {
-      let price = calculateItemBasePrice(item);
-
-      if (item.discount) {
-         if (item.discount.type === 'percentage') {
-            price = price * (1 - item.discount.value / 100);
-         } else {
-            price = Math.max(0, price - item.discount.value);
-         }
-      }
-
-      return price;
-   };
-
-   // Calculate VAT breakdown
    const { subtotal, totalVat, grandTotal, totalDiscount } = useMemo(() => {
-      let subtotal = 0;
-      let totalVat = 0;
-      let totalDiscount = 0;
-
-      cart.items.forEach(item => {
-         const basePrice = calculateItemBasePrice(item);
-         const finalPrice = calculateItemFinalPrice(item);
-         const itemTotal = finalPrice * item.quantity;
-         const vatRate = item.vatRate || 20;
-
-         totalDiscount += (basePrice - finalPrice) * item.quantity;
-
-         // subtotal is price before VAT
-         const priceWithoutVat = itemTotal / (1 + vatRate / 100);
-         const vatAmount = itemTotal - priceWithoutVat;
-
-         subtotal += priceWithoutVat;
-         totalVat += vatAmount;
-      });
-
-      return {
-         subtotal,
-         totalVat,
-         grandTotal: subtotal + totalVat,
-         totalDiscount
-      };
+      return calculateCartTotals(cart.items);
    }, [cart.items]);
 
-   // Calculate shipping cost using admin settings (mirrors backend logic)
    const shippingCost = useMemo(() => {
-      if (!shippingSettings) return 0;
-      const fee = shippingSettings.standardShippingFee;
-      if (shippingSettings.freeShippingEnabled && grandTotal >= shippingSettings.freeShippingThreshold) {
-         return 0;
-      }
-      switch (shippingSettings.calculationMethod) {
-         case 'single':
-            return fee;
-         case 'sum_all':
-            return fee * cart.totalItems;
-         case 'first_plus':
-            return fee + (Math.max(0, cart.totalItems - 1) * (shippingSettings.perItemExtraFee || 0));
-         case 'threshold':
-            return grandTotal >= shippingSettings.freeShippingThreshold ? 0 : fee;
-         case 'delivery':
-            return fee;
-         default:
-            return fee;
-      }
+      return calculateShippingCost(shippingSettings, grandTotal, cart.totalItems);
    }, [shippingSettings, grandTotal, cart.totalItems]);
 
    if (cart.items.length === 0) {
@@ -133,25 +38,19 @@ const Cart = () => {
          <h1 style={{ marginBottom: '2rem' }}>Sepetim</h1>
 
          <div className="cart-layout">
-            {/* Cart Items */}
             <div>
                {cart.items.map((item, index) => {
-                  const basePrice = calculateItemBasePrice(item);
-                  const finalPrice = calculateItemFinalPrice(item);
-                  const hasDiscount = item.discount && finalPrice < basePrice;
-                  const itemTotal = finalPrice * item.quantity;
+                  const { basePrice, finalPrice, hasDiscount, itemTotal } = calculateItemTotals(item);
 
                   return (
                      <div key={index} className="card" style={{ marginBottom: '1rem', padding: '1.5rem' }}>
                         <div style={{ display: 'flex', gap: '1.5rem' }}>
-                           {/* Product Image */}
                            <img
                               src={item.image ? getImageUrl(item.image) : 'https://via.placeholder.com/100'}
                               alt={item.name}
                               style={{ width: '100px', height: '133px', objectFit: 'cover', borderRadius: 'var(--radius-md)' }}
                            />
 
-                           {/* Product Info */}
                            <div style={{ flex: 1 }}>
                               <h3 style={{ marginBottom: '0.5rem' }}>{item.name}</h3>
 
@@ -182,7 +81,6 @@ const Cart = () => {
                               )}
 
                               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                 {/* Quantity Controls */}
                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                     <button
                                        onClick={() => updateQuantity(item.productId, item.variationSelections, item.quantity - 1)}
@@ -202,7 +100,6 @@ const Cart = () => {
                                     </button>
                                  </div>
 
-                                 {/* Price & Remove */}
                                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                     <div style={{ textAlign: 'right' }}>
                                        {hasDiscount ? (
@@ -239,7 +136,6 @@ const Cart = () => {
                })}
             </div>
 
-            {/* Cart Summary */}
             <div className="card" style={{ padding: '1.5rem', position: 'sticky', top: '2rem' }}>
                <h3 style={{ marginBottom: '1rem' }}>Sipariş Özeti</h3>
 
