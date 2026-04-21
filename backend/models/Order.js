@@ -122,8 +122,9 @@ const orderSchema = new mongoose.Schema({
       default: 'pending'
    },
 
-   // Tracking
-   trackingNumber: String,
+// Tracking
+    trackingNumber: String,
+    courier: String,
 
    // iyzico payment tracking
    iyzicoPaymentId: String,

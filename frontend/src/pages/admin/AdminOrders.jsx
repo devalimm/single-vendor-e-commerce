@@ -26,9 +26,11 @@ const AdminOrders = () => {
    const [orders, setOrders] = useState([]);
    const [loading, setLoading] = useState(true);
    const [expandedOrder, setExpandedOrder] = useState(null);
-   const [filter, setFilter] = useState('all');
-   const [searchQuery, setSearchQuery] = useState('');
-   const [updatingOrder, setUpdatingOrder] = useState(null);
+const [filter, setFilter] = useState('all');
+const [searchQuery, setSearchQuery] = useState('');
+    const [trackingInput, setTrackingInput] = useState('');
+    const [courierInput, setCourierInput] = useState('');
+    const [updatingOrder, setUpdatingOrder] = useState(null);
 
    // Pagination state
    const [pagination, setPagination] = useState({
@@ -108,18 +110,25 @@ const AdminOrders = () => {
          .catch(() => showToast('Kopyalama başarısız', 'error'));
    };
 
-   const updateStatus = async (orderId, newStatus) => {
-      setUpdatingOrder(orderId);
-      try {
-         const token = localStorage.getItem('token');
-         const response = await fetch(`${VITE_API_URL}/orders/${orderId}/status`, {
-            method: 'PUT',
-            headers: {
-               'Content-Type': 'application/json',
-               'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({ status: newStatus })
-         });
+const updateStatus = async (orderId, newStatus, trackingNumber, courier) => {
+       setUpdatingOrder(orderId);
+       try {
+          const token = localStorage.getItem('token');
+          const body = { status: newStatus };
+          if (trackingNumber) {
+             body.trackingNumber = trackingNumber;
+          }
+          if (courier) {
+             body.courier = courier;
+          }
+          const response = await fetch(`${VITE_API_URL}/orders/${orderId}/status`, {
+             method: 'PUT',
+             headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+             },
+             body: JSON.stringify(body)
+          });
 
          const data = await response.json();
 
@@ -608,29 +617,82 @@ const AdminOrders = () => {
                                     </div>
                                  </div>
 
-                                 {/* Status Update */}
-                                 <div>
-                                    <h4 style={{ marginBottom: '0.75rem', color: 'var(--color-primary)' }}>Durum Güncelle</h4>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                                       {Object.entries(statusConfig).map(([key, config]) => (
-                                          <button
-                                             key={key}
-                                             onClick={() => updateStatus(order._id, key)}
-                                             disabled={order.status === key || updatingOrder === order._id}
-                                             className="btn btn-secondary"
-                                             style={{
-                                                fontSize: '0.75rem',
-                                                padding: '0.5rem 0.75rem',
-                                                opacity: order.status === key ? 0.5 : 1,
-                                                borderColor: order.status === key ? config.color : undefined,
-                                                color: order.status === key ? config.color : undefined
-                                             }}
-                                          >
-                                             {config.label}
-                                          </button>
-                                       ))}
-                                    </div>
-                                 </div>
+{/* Status Update */}
+                                   <div>
+                                      <h4 style={{ marginBottom: '0.75rem', color: 'var(--color-primary)' }}>Durum Güncelle</h4>
+                                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                                         {Object.entries(statusConfig).map(([key, config]) => (
+                                            <button
+                                               key={key}
+                                               onClick={() => updateStatus(order._id, key, trackingInput || order.trackingNumber, courierInput || order.courier)}
+                                               disabled={order.status === key || updatingOrder === order._id}
+                                               className="btn btn-secondary"
+                                               style={{
+                                                  fontSize: '0.75rem',
+                                                  padding: '0.5rem 0.75rem',
+                                                  opacity: order.status === key ? 0.5 : 1,
+                                                  borderColor: order.status === key ? config.color : undefined,
+                                                  color: order.status === key ? config.color : undefined
+                                               }}
+                                            >
+                                               {config.label}
+                                            </button>
+                                         ))}
+                                      </div>
+                                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                            <input
+                                               type="text"
+                                               value={courierInput}
+                                               onChange={(e) => setCourierInput(e.target.value)}
+                                               placeholder={order.courier || "Kargo firması (örn: Yurtiçi, Aras)"}
+                                               style={{
+                                                  flex: 1,
+                                                  padding: '0.5rem 0.75rem',
+                                                  border: '1px solid var(--color-border)',
+                                                  borderRadius: 'var(--radius)',
+                                                  fontSize: '0.875rem'
+                                               }}
+                                            />
+                                         </div>
+                                         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                            <input
+                                               type="text"
+                                               value={trackingInput}
+                                               onChange={(e) => setTrackingInput(e.target.value)}
+                                               placeholder={order.trackingNumber || "Kargo takip numarası"}
+                                               style={{
+                                                  flex: 1,
+                                                  padding: '0.5rem 0.75rem',
+                                                  border: '1px solid var(--color-border)',
+                                                  borderRadius: 'var(--radius)',
+                                                  fontSize: '0.875rem'
+                                               }}
+                                            />
+                                         </div>
+                                         {(courierInput || trackingInput) && (
+                                            <span style={{ fontSize: '0.75rem', color: 'var(--color-text-secondary)' }}>
+                                               "Kargoya Ver" butonuna bastığınızda bilgiler güncellenecek
+                                            </span>
+                                         )}
+                                      </div>
+                                      {(order.courier || order.trackingNumber) && (
+                                         <div style={{
+                                            marginTop: '0.75rem',
+                                            background: 'var(--color-bg-secondary)',
+                                            padding: '0.75rem 1rem',
+                                            borderRadius: 'var(--radius-md)',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.5rem'
+                                         }}>
+                                            <Truck size={16} style={{ color: 'var(--color-text-secondary)' }} />
+                                            <span style={{ fontSize: '0.875rem', fontWeight: 'var(--font-weight-medium)' }}>
+                                               Mevcut: {order.courier && `${order.courier} - `}{order.trackingNumber}
+                                            </span>
+                                         </div>
+                                      )}
+                                   </div>
                               </div>
 
                               {/* Order Items */}

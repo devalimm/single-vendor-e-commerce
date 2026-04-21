@@ -2,6 +2,7 @@ import Order from '../models/Order.js';
 import Product from '../models/Product.js';
 import Variation from '../models/Variation.js';
 import ShippingSettings from '../models/ShippingSettings.js';
+import { sendOrderConfirmation } from '../utils/emailService.js';
 
 // Helper: calculate shipping cost based on admin settings
 async function calculateShippingCost(subtotal, itemCount) {
@@ -167,21 +168,23 @@ export const createGuestOrder = async (req, res) => {
       const tax = 0;
       const total = subtotal + shippingCost + tax;
 
-      const order = await Order.create({
-         items: orderItems,
-         shippingAddress,
-         subtotal,
-         shippingCost,
-         tax,
-         total,
-         paymentMethod: paymentMethod || 'cash_on_delivery',
-         customerNote
-      });
+const order = await Order.create({
+          items: orderItems,
+          shippingAddress,
+          subtotal,
+          shippingCost,
+          tax,
+          total,
+          paymentMethod: paymentMethod || 'cash_on_delivery',
+          customerNote
+       });
 
-      res.status(201).json({
-         success: true,
-         data: order
-      });
+       sendOrderConfirmation(order).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
+
+       res.status(201).json({
+          success: true,
+          data: order
+       });
    } catch (error) {
       console.error('Create guest order error:', error);
       res.status(500).json({
@@ -316,14 +319,16 @@ export const createOrder = async (req, res) => {
          customerNote
       });
 
-      const populatedOrder = await Order.findById(order._id)
-         .populate('user', 'name email phone')
-         .populate('items.product', 'name slug');
+const populatedOrder = await Order.findById(order._id)
+          .populate('user', 'name email phone')
+          .populate('items.product', 'name slug');
 
-      res.status(201).json({
-         success: true,
-         data: populatedOrder
-      });
+       sendOrderConfirmation(populatedOrder).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
+
+       res.status(201).json({
+          success: true,
+          data: populatedOrder
+       });
    } catch (error) {
       console.error('Create order error:', error);
       res.status(500).json({
@@ -466,7 +471,7 @@ export const updateOrderStatus = async (req, res) => {
          });
       }
 
-      const { status, trackingNumber, adminNote } = req.body;
+      const { status, trackingNumber, courier, adminNote } = req.body;
 
       if (status) {
          order.status = status;
@@ -483,11 +488,15 @@ export const updateOrderStatus = async (req, res) => {
          }
       }
 
-      if (trackingNumber) {
-         order.trackingNumber = trackingNumber;
-      }
+if (trackingNumber) {
+          order.trackingNumber = trackingNumber;
+       }
 
-      if (adminNote !== undefined) {
+       if (courier) {
+          order.courier = courier;
+       }
+
+       if (adminNote !== undefined) {
          order.adminNote = adminNote;
       }
 
@@ -616,10 +625,37 @@ export const trackOrders = async (req, res) => {
 
       let query = {};
 
-      if (orderId) {
-         // Search by order ID
-         query._id = orderId;
-      } else if (email) {
+if (orderId) {
+           try {
+              const orderIdTrimmed = orderId.trim().toUpperCase();
+
+              // If it looks like a full ObjectId (24 hex chars), use findById directly
+              if (/^[0-9A-F]{24}$/i.test(orderIdTrimmed)) {
+                 const order = await Order.findById(orderIdTrimmed)
+                    .populate('items.product', 'name images');
+                 return res.json({ success: true, data: order ? [order] : [] });
+              }
+
+              // Otherwise, search by last 8 characters with a simple approach
+              // Get all orders and filter in memory (small dataset expected)
+              const allOrders = await Order.find()
+                 .populate('items.product', 'name images')
+                 .sort({ createdAt: -1 });
+
+              const filtered = allOrders.filter(order => {
+                 const orderIdStr = order._id.toString().toUpperCase();
+                 return orderIdStr.endsWith(orderIdTrimmed);
+              });
+
+              return res.json({ success: true, data: filtered });
+           } catch (e) {
+              console.error('Track orders error:', e);
+              return res.status(500).json({
+                 success: false,
+                 message: 'Sipariş sorgulanırken hata oluştu.'
+              });
+           }
+        } else if (email) {
          // Search by email in shippingAddress
          query['shippingAddress.email'] = email.toLowerCase();
       }
