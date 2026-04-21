@@ -19,6 +19,7 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
 import Orders from './pages/Orders';
+import OrderTracking from './pages/OrderTracking';
 import MesafeliSatisSozlesmesi from './pages/MesafeliSatisSozlesmesi';
 import KVKK from './pages/KVKK';
 import PaymentCallback from './pages/PaymentCallback';
@@ -59,7 +60,8 @@ function AppContent() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/order-success" element={<OrderSuccess />} />
-          <Route path="/orders" element={<Orders />} />
+          <Route path="/siparis-takip" element={<OrderTracking />} />
+          <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
           <Route path="/mesafeli-satis-sozlesmesi" element={<MesafeliSatisSozlesmesi />} />
           <Route path="/kvkk" element={<KVKK />} />
           <Route path="/payment-callback" element={<PaymentCallback />} />

@@ -152,17 +152,11 @@ const ProductDetail = () => {
       }));
    };
 
-   const handleAddToCart = () => {
-      if (!isAuthenticated) {
-         showToast('Sepete ürün eklemek için giriş yapmalısınız.', 'error');
-         navigate('/login');
-         return;
-      }
-
-      if (!allVariationsSelected()) {
-         showToast('Lütfen tüm varyasyonları seçin.', 'error');
-         return;
-      }
+const handleAddToCart = () => {
+       if (!allVariationsSelected()) {
+          showToast('Lütfen tüm varyasyonları seçin.', 'error');
+          return;
+       }
 
       // Build variationSelections array for cart
       const variationSelections = Object.entries(varSelections).map(([varName, sel]) => ({

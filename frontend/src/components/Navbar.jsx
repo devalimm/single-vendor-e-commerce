@@ -39,10 +39,11 @@ const Navbar = () => {
 
                {/* Desktop Navigation */}
                <div className="navbar-links desktop-only">
-                  <Link to="/" className="nav-link">Ana Sayfa</Link>
-                  <Link to="/products" className="nav-link">Ürünler</Link>
+<Link to="/" className="nav-link">Ana Sayfa</Link>
+                   <Link to="/products" className="nav-link">Ürünler</Link>
+                   <Link to="/siparis-takip" className="nav-link">Sipariş Takip</Link>
 
-                  {isAuthenticated && (
+                   {isAuthenticated && (
                      <Link to="/orders" className="nav-link" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <Package size={18} /> Siparişlerim
                      </Link>
@@ -118,14 +119,17 @@ const Navbar = () => {
             {/* Mobile Menu */}
             {mobileMenuOpen && (
                <div className="mobile-menu">
-                  <Link to="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                     Ana Sayfa
-                  </Link>
-                  <Link to="/products" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
-                     Ürünler
-                  </Link>
+<Link to="/" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                      Ana Sayfa
+                   </Link>
+                   <Link to="/products" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                      Ürünler
+                   </Link>
+                   <Link to="/siparis-takip" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>
+                      Sipariş Takip
+                   </Link>
 
-                  {isAuthenticated && (
+                   {isAuthenticated && (
                      <>
                         <Link to="/cart" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                            <ShoppingCart size={18} /> Sepet
