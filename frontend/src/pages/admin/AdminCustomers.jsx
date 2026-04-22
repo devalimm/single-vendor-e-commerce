@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import api from '../../utils/api';
-import { Search, ChevronLeft, ChevronRight, User, Phone, Mail, MapPin, Calendar, Download, CheckSquare, Square, MinusSquare, Copy, Check } from 'lucide-react';
+import { Search, ChevronLeft, ChevronRight, User, Phone, Mail, MapPin, Calendar, Download, CheckSquare, Square, MinusSquare, Copy, Check, ShoppingBag, Clock } from 'lucide-react';
 import * as XLSX from 'xlsx';
 
 const responsiveStyles = `
@@ -97,7 +97,7 @@ const responsiveStyles = `
         .modal-content {
              width: 95% !important;
              margin: 1rem auto !important;
-             padding: 1.5rem !important;
+             padding: 0 !important;
              max-height: 90vh;
              overflow-y: auto;
              max-width: 100% !important;
@@ -107,21 +107,25 @@ const responsiveStyles = `
              text-align: right;
         }
         .customer-detail-item {
-             flex-direction: column;
-             align-items: flex-start !important;
-             gap: 0.5rem;
-             padding: 0.75rem 0;
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
         }
         .customer-detail-item > div {
-             width: 100%;
-             display: flex;
-             justify-content: space-between;
-             align-items: center;
-             gap: 0.5rem;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
         }
     }
     .mobile-select-all { display: none; }
 `;
+
+const formatPrice = (price) => {
+    return `${(price || 0).toFixed(2)} ₺`;
+};
 
 const AdminCustomers = () => {
     const [customers, setCustomers] = useState([]);
@@ -137,8 +141,8 @@ const AdminCustomers = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [selectedCustomer, setSelectedCustomer] = useState(null);
+    const [detailLoading, setDetailLoading] = useState(false);
 
-    // Copy feedback state
     const [copiedId, setCopiedId] = useState(null);
 
     const copyPhone = (phoneNumber, id) => {
@@ -148,7 +152,6 @@ const AdminCustomers = () => {
         setTimeout(() => setCopiedId(null), 1500);
     };
 
-    // Bulk selection state
     const [selectedIds, setSelectedIds] = useState(new Set());
 
     const fetchCustomers = useCallback(async (page = 1) => {
@@ -160,7 +163,7 @@ const AdminCustomers = () => {
                 setCustomers(response.data.data.customers);
                 setPagination(response.data.data.pagination);
             }
-        } catch (err) {
+        } catch {
             setError('Müşteriler yüklenemedi.');
         } finally {
             setLoading(false);
@@ -181,7 +184,20 @@ const AdminCustomers = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Toggle single row selection
+    const openCustomerDetail = async (customer) => {
+        setDetailLoading(true);
+        try {
+            const response = await api.get(`/customers/${customer._id}`);
+            if (response.data.success) {
+                setSelectedCustomer(response.data.data);
+            }
+        } catch {
+            setSelectedCustomer(customer);
+        } finally {
+            setDetailLoading(false);
+        }
+    };
+
     const toggleSelect = (id) => {
         setSelectedIds(prev => {
             const next = new Set(prev);
@@ -191,7 +207,6 @@ const AdminCustomers = () => {
         });
     };
 
-    // Toggle select all on current page
     const toggleSelectAll = () => {
         if (selectedIds.size === customers.length) {
             setSelectedIds(new Set());
@@ -200,15 +215,12 @@ const AdminCustomers = () => {
         }
     };
 
-    // Export to Excel (.xlsx)
     const exportToExcel = async () => {
         let dataToExport;
 
         if (selectedIds.size > 0) {
-            // Export only selected on this page
             dataToExport = customers.filter(c => selectedIds.has(c._id));
         } else {
-            // Fetch ALL customers for full export
             try {
                 const response = await api.get(`/customers?page=1&limit=99999&search=${encodeURIComponent(search)}`);
                 if (response.data.success) {
@@ -217,7 +229,7 @@ const AdminCustomers = () => {
                     setError('Dışa aktarma başarısız.');
                     return;
                 }
-            } catch (err) {
+            } catch {
                 setError('Dışa aktarma sırasında hata oluştu.');
                 return;
             }
@@ -232,17 +244,16 @@ const AdminCustomers = () => {
             'Ad Soyad': c.name || '',
             'Telefon': c.phone || '',
             'E-posta': c.email || '',
-            'Rol': c.role === 'admin' ? 'Admin' : 'Müşteri',
-            'İl': c.address?.city || '',
-            'İlçe': c.address?.state || '',
-            'Adres': c.address?.street || '',
-            'Posta Kodu': c.address?.zipCode || '',
+            'Tip': c.type === 'guest' ? 'Misafir' : 'Kayıtlı',
+            'Sipariş Sayısı': c.orderCount || 0,
+            'Toplam Harcama': c.totalSpent ? c.totalSpent.toFixed(2) + ' ₺' : '0.00 ₺',
+            'İl': c.city || '',
+            'İlçe': c.district || '',
             'Kayıt Tarihi': new Date(c.createdAt).toLocaleString('tr-TR')
         }));
 
         const ws = XLSX.utils.json_to_sheet(rows);
 
-        // Auto-fit column widths
         const colWidths = Object.keys(rows[0]).map(key => {
             const maxLen = Math.max(
                 key.length,
@@ -280,6 +291,8 @@ const AdminCustomers = () => {
     const allSelected = customers.length > 0 && selectedIds.size === customers.length;
     const someSelected = selectedIds.size > 0 && selectedIds.size < customers.length;
 
+    const customerDetail = selectedCustomer;
+
     return (
         <div className="admin-page">
             <style>{responsiveStyles}</style>
@@ -313,11 +326,10 @@ const AdminCustomers = () => {
 
             {error && <div className="alert alert-error" style={{ marginBottom: '1rem' }}>{error}</div>}
 
-            {/* Customer Detail Modal */}
-            {selectedCustomer && (
+            {customerDetail && (
                 <div className="modal-overlay" onClick={() => setSelectedCustomer(null)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '600px', display: 'flex', flexDirection: 'column', padding: 0 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', paddingBottom: '1rem', borderBottom: '1px solid var(--color-border)', flexShrink: 0, position: 'sticky', top: 0, background: 'var(--color-surface)', zIndex: 1, borderRadius: '12px 12px 0 0' }}>
                             <h2 style={{ margin: 0 }}>Müşteri Detayı</h2>
                             <button
                                 onClick={() => setSelectedCustomer(null)}
@@ -327,13 +339,26 @@ const AdminCustomers = () => {
                             </button>
                         </div>
 
-                        <div className="customer-detail-grid">
+                        <div className="customer-detail-grid" style={{ padding: '1rem 1.5rem', overflowY: 'auto' }}>
                             <div className="customer-detail-item">
                                 <User size={16} />
                                 <div>
                                     <span className="customer-detail-label">Ad Soyad</span>
-                                    <span className="customer-detail-value">{selectedCustomer.name}</span>
+                                    <span className="customer-detail-value">{customerDetail.name}</span>
                                 </div>
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                                <span style={{
+                                    fontSize: '0.8rem',
+                                    padding: '0.15rem 0.5rem',
+                                    borderRadius: '9999px',
+                                    background: customerDetail.type === 'guest' ? 'var(--color-warning, #f59e0b)' : customerDetail.role === 'admin' ? 'var(--color-primary)' : 'var(--color-success, #10b981)',
+                                    color: '#fff',
+                                    fontWeight: 500
+                                }}>
+                                    {customerDetail.type === 'guest' ? 'Misafir' : customerDetail.role === 'admin' ? 'Admin' : 'Kayıtlı'}
+                                </span>
                             </div>
 
                             <div className="customer-detail-item">
@@ -341,10 +366,10 @@ const AdminCustomers = () => {
                                 <div>
                                     <span className="customer-detail-label">Telefon</span>
                                     <span className="customer-detail-value" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        {selectedCustomer.phone || '—'}
-                                        {selectedCustomer.phone && (
+                                        {customerDetail.phone || '—'}
+                                        {customerDetail.phone && (
                                             <button
-                                                onClick={() => copyPhone(selectedCustomer.phone, 'modal')}
+                                                onClick={() => copyPhone(customerDetail.phone, 'modal')}
                                                 title="Telefonu kopyala"
                                                 style={{
                                                     background: copiedId === 'modal' ? 'var(--color-success, #10b981)' : 'var(--color-background)',
@@ -367,47 +392,122 @@ const AdminCustomers = () => {
                                 </div>
                             </div>
 
-                            {selectedCustomer.email && (
+                            {customerDetail.email && (
                                 <div className="customer-detail-item">
                                     <Mail size={16} />
                                     <div>
                                         <span className="customer-detail-label">E-posta</span>
-                                        <span className="customer-detail-value">{selectedCustomer.email}</span>
+                                        <span className="customer-detail-value">{customerDetail.email}</span>
                                     </div>
                                 </div>
                             )}
 
-                            {selectedCustomer.address && (selectedCustomer.address.city || selectedCustomer.address.street) && (
+                            {(customerDetail.type === 'guest' ? (customerDetail.city || customerDetail.district || customerDetail.address) : (customerDetail.address && (customerDetail.address.city || customerDetail.address.street))) && (
                                 <div className="customer-detail-item">
                                     <MapPin size={16} />
                                     <div>
                                         <span className="customer-detail-label">Adres</span>
                                         <span className="customer-detail-value">
-                                            {[selectedCustomer.address.street, selectedCustomer.address.city, selectedCustomer.address.state, selectedCustomer.address.zipCode].filter(Boolean).join(', ')}
+                                            {customerDetail.type === 'guest'
+                                                ? [customerDetail.neighborhood, customerDetail.district, customerDetail.city].filter(Boolean).join(', ')
+                                                : [customerDetail.address?.street, customerDetail.address?.city, customerDetail.address?.state, customerDetail.address?.zipCode].filter(Boolean).join(', ')
+                                            }
                                         </span>
                                     </div>
                                 </div>
                             )}
 
                             <div className="customer-detail-item">
-                                <Calendar size={16} />
+                                <ShoppingBag size={16} />
                                 <div>
-                                    <span className="customer-detail-label">Kayıt Tarihi</span>
-                                    <span className="customer-detail-value">{formatDateTime(selectedCustomer.createdAt)}</span>
+                                    <span className="customer-detail-label">Sipariş Sayısı</span>
+                                    <span className="customer-detail-value">{customerDetail.orderCount || 0}</span>
                                 </div>
                             </div>
 
-                            <div className="customer-detail-item" style={{ borderBottom: 'none' }}>
-                                <span style={{ fontSize: '0.8rem', padding: '0.15rem 0.5rem', borderRadius: '9999px', background: selectedCustomer.role === 'admin' ? 'var(--color-primary)' : 'var(--color-background)', color: selectedCustomer.role === 'admin' ? '#fff' : 'var(--color-text-secondary)', fontWeight: 500 }}>
-                                    {selectedCustomer.role === 'admin' ? 'Admin' : 'Müşteri'}
-                                </span>
+                            <div className="customer-detail-item">
+                                <Calendar size={16} />
+                                <div>
+                                    <span className="customer-detail-label">Toplam Harcama</span>
+                                    <span className="customer-detail-value" style={{ fontWeight: 600 }}>{formatPrice(customerDetail.totalSpent)}</span>
+                                </div>
                             </div>
+
+                            <div className="customer-detail-item">
+                                <Calendar size={16} />
+                                <div>
+                                    <span className="customer-detail-label">
+                                        {customerDetail.type === 'guest' ? 'İlk Sipariş' : 'Kayıt Tarihi'}
+                                    </span>
+                                    <span className="customer-detail-value">
+                                        {customerDetail.type === 'guest' && customerDetail.firstOrderDate
+                                            ? formatDateTime(customerDetail.firstOrderDate)
+                                            : formatDateTime(customerDetail.createdAt)}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {customerDetail.lastOrderDate && (
+                                <div className="customer-detail-item">
+                                    <Clock size={16} />
+                                    <div>
+                                        <span className="customer-detail-label">Son Sipariş</span>
+                                        <span className="customer-detail-value">{formatDateTime(customerDetail.lastOrderDate)}</span>
+                                    </div>
+                                </div>
+                            )}
+
+                            {customerDetail.orders && customerDetail.orders.length > 0 && (
+                                <div style={{ borderTop: '1px solid var(--color-border)', marginTop: '0.5rem', paddingTop: '1rem' }}>
+                                    <h3 style={{ fontSize: '0.95rem', marginBottom: '0.75rem', color: 'var(--color-text)' }}>Son Siparişler</h3>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '300px', overflowY: 'auto' }}>
+                                        {customerDetail.orders.slice(0, 10).map(order => (
+                                            <div key={order._id} style={{
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                padding: '0.5rem 0.75rem',
+                                                background: 'var(--color-background)',
+                                                borderRadius: 'var(--radius-md)',
+                                                fontSize: '0.85rem'
+                                            }}>
+                                                <div>
+                                                    <span style={{ fontWeight: 500 }}>#{order._id.toString().slice(-8).toUpperCase()}</span>
+                                                    <span style={{ color: 'var(--color-text-secondary)', marginLeft: '0.5rem' }}>
+                                                        {order.items?.length || 0} ürün
+                                                    </span>
+                                                </div>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                                                    <span style={{ fontWeight: 500 }}>{formatPrice(order.total)}</span>
+                                                    <span style={{
+                                                        fontSize: '0.75rem',
+                                                        padding: '0.15rem 0.5rem',
+                                                        borderRadius: '9999px',
+                                                        background: order.status === 'delivered' ? 'var(--color-success, #10b981)' :
+                                                            order.status === 'cancelled' ? 'var(--color-error, #ef4444)' :
+                                                                order.status === 'shipped' ? 'var(--color-info, #3b82f6)' :
+                                                                    order.status === 'confirmed' ? 'var(--color-primary)' :
+                                                                        'var(--color-warning, #f59e0b)',
+                                                        color: '#fff'
+                                                    }}>
+                                                        {order.status === 'pending' ? 'Bekliyor' :
+                                                            order.status === 'confirmed' ? 'Onaylandı' :
+                                                                order.status === 'processing' ? 'Hazırlanıyor' :
+                                                                    order.status === 'shipped' ? 'Kargoda' :
+                                                                        order.status === 'delivered' ? 'Teslim Edildi' :
+                                                                            order.status === 'cancelled' ? 'İptal' : order.status}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
             )}
 
-            {/* Customers Table */}
             <div className="card" style={{ padding: 0, overflow: 'visible', background: 'transparent', boxShadow: 'none' }}>
                 {loading ? (
                     <div className="card" style={{ padding: '3rem', textAlign: 'center' }}>
@@ -455,8 +555,10 @@ const AdminCustomers = () => {
                                     <th>Ad Soyad</th>
                                     <th>Telefon</th>
                                     <th>E-posta</th>
-                                    <th>Rol</th>
-                                    <th>Kayıt Tarihi</th>
+                                    <th>Tip</th>
+                                    <th>Sipariş</th>
+                                    <th>Harcama</th>
+                                    <th>Tarih</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -510,23 +612,35 @@ const AdminCustomers = () => {
                                                 </span>
                                             </td>
                                             <td className="td-email" data-label="E-posta">{customer.email || '—'}</td>
-                                            <td className="td-role" data-label="Rol">
+                                            <td data-label="Tip">
                                                 <span style={{
-                                                    fontSize: '0.8rem',
+                                                    fontSize: '0.75rem',
                                                     padding: '0.15rem 0.5rem',
                                                     borderRadius: '9999px',
-                                                    background: customer.role === 'admin' ? 'var(--color-primary)' : 'var(--color-background)',
-                                                    color: customer.role === 'admin' ? '#fff' : 'var(--color-text-secondary)',
-                                                    fontWeight: 500
+                                                    background: customer.type === 'guest' ? 'var(--color-warning, #f59e0b)' : 'var(--color-success, #10b981)',
+                                                    color: '#fff',
+                                                    fontWeight: 500,
+                                                    whiteSpace: 'nowrap'
                                                 }}>
-                                                    {customer.role === 'admin' ? 'Admin' : 'Müşteri'}
+                                                    {customer.type === 'guest' ? 'Misafir' : 'Kayıtlı'}
                                                 </span>
                                             </td>
-                                            <td className="td-date" data-label="Kayıt Tarihi">{formatDate(customer.createdAt)}</td>
+                                            <td data-label="Sipariş" style={{ textAlign: 'center' }}>
+                                                {customer.orderCount || 0}
+                                            </td>
+                                            <td data-label="Harcama" style={{ whiteSpace: 'nowrap' }}>
+                                                {formatPrice(customer.totalSpent)}
+                                            </td>
+                                            <td data-label="Tarih" style={{ whiteSpace: 'nowrap' }}>
+                                                {customer.type === 'guest'
+                                                    ? formatDate(customer.firstOrderDate || customer.createdAt)
+                                                    : formatDate(customer.createdAt)}
+                                            </td>
                                             <td className="td-actions">
                                                 <button
                                                     className="btn btn-secondary btn-sm"
-                                                    onClick={() => setSelectedCustomer(customer)}
+                                                    onClick={() => openCustomerDetail(customer)}
+                                                    disabled={detailLoading}
                                                 >
                                                     Detay
                                                 </button>
@@ -540,7 +654,6 @@ const AdminCustomers = () => {
                 )}
             </div>
 
-            {/* Pagination */}
             {pagination.totalPages > 1 && (
                 <div className="pagination-bar">
                     <button
