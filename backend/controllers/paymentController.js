@@ -5,6 +5,7 @@ import Product from '../models/Product.js';
 import Variation from '../models/Variation.js';
 import ShippingSettings from '../models/ShippingSettings.js';
 import PendingOrder from '../models/PendingOrder.js';
+import { sendOrderConfirmation } from '../utils/emailService.js';
 
 // Lazy iyzipay initialization — only created when first needed
 let _iyzipay = null;
@@ -357,6 +358,8 @@ export const handleCallback = async (req, res) => {
                     await PendingOrder.deleteOne({ conversationId });
 
                     console.log('Order created successfully:', order._id);
+
+                    sendOrderConfirmation(order).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
 
                     return res.redirect(`${frontendUrl}/payment-callback?status=success&orderId=${order._id}`);
                 } catch (orderError) {

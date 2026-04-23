@@ -28,6 +28,7 @@
       "multer": "^2.0.2",
       "nodemailer": "^7.0.11",
       "redis": "^5.11.0",
+      "resend": "^6.12.2",
       "sharp": "^0.34.5"
    },
    "devDependencies": {

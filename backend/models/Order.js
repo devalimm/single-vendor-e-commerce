@@ -55,10 +55,10 @@ const orderSchema = new mongoose.Schema({
          type: String,
          required: true
       },
-      tcKimlik: {
-         type: String,
-         required: true
-      },
+tcKimlik: {
+          type: String,
+          required: false
+       },
       email: {
          type: String,
          required: true
