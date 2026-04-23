@@ -30,7 +30,6 @@ const PaymentCallback = () => {
         if (paramStatus === 'success' && orderId) {
             clearCart();
             setStatus('success');
-            // Redirect to order success after showing the message briefly
             setTimeout(() => {
                 navigate('/order-success', {
                     state: { orderId },

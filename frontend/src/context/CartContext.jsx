@@ -137,9 +137,10 @@ export const CartProvider = ({ children }) => {
       });
    };
 
-   const clearCart = () => {
-      setCart({ items: [], totalItems: 0, totalPrice: 0 });
-   };
+const clearCart = () => {
+       setCart({ items: [], totalItems: 0, totalPrice: 0 });
+       localStorage.removeItem('asiyeozel_cart');
+    };
 
    const value = {
       cart,
