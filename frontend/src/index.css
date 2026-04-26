@@ -3744,13 +3744,17 @@ button {
 }
 
 .related-product-image {
+  position: relative;
   width: 100%;
-  height: 200px;
-  background: var(--color-background);
+  padding-top: 120%;
   overflow: hidden;
+  background: var(--color-background);
 }
 
 .related-product-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -3806,7 +3810,7 @@ button {
   }
 
   .related-product-image {
-    height: 160px;
+    padding-top: 120%;
   }
 
   .related-product-info h3 {
