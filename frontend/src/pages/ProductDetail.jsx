@@ -58,11 +58,15 @@ const ProductDetail = () => {
    const navigate = useNavigate();
    const { showToast } = useToast();
    const { addToCart } = useCart();
+   const [touchStart, setTouchStart] = useState(null);
+   const [touchEnd, setTouchEnd] = useState(null);
+   const minSwipeDistance = 50;
    const { isAuthenticated } = useAuth();
 
    const [product, setProduct] = useState(null);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
+   const [relatedProducts, setRelatedProducts] = useState([]);
 
    // Selection state
    const [selectedImage, setSelectedImage] = useState(0);
@@ -82,6 +86,11 @@ const ProductDetail = () => {
          const response = await api.get(`/products/${id}`);
          const productData = response.data.data;
          setProduct(productData);
+
+         const relatedRes = await api.get(`/products/related/${id}?limit=4`);
+         if (relatedRes.data.success) {
+            setRelatedProducts(relatedRes.data.data);
+         }
       } catch (err) {
          console.error('Error fetching product:', err);
          setError('Ürün yüklenirken bir hata oluştu.');
@@ -224,11 +233,26 @@ const handleAddToCart = () => {
                   <div className="main-image-container">
                      {product.images && product.images.length > 0 ? (
                         <>
-                           <img
-                              src={getImageUrl(product.images[selectedImage])}
-                              alt={product.name}
-                              className="main-product-image"
-                           />
+<img
+                               src={getImageUrl(product.images[selectedImage])}
+                               alt={product.name}
+                               className="main-product-image"
+                               onTouchStart={(e) => {
+                                  setTouchEnd(null);
+                                  setTouchStart(e.targetTouches[0].clientX);
+                               }}
+                               onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+                               onTouchEnd={() => {
+                                  if (!touchStart || !touchEnd) return;
+                                  const distance = touchStart - touchEnd;
+                                  if (distance > minSwipeDistance) {
+                                     setSelectedImage(prev => prev === product.images.length - 1 ? 0 : prev + 1);
+                                  }
+                                  if (distance < -minSwipeDistance) {
+                                     setSelectedImage(prev => prev === 0 ? product.images.length - 1 : prev - 1);
+                                  }
+                               }}
+                            />
                            {product.images.length > 1 && (
                               <>
                                  <button
@@ -373,6 +397,35 @@ const handleAddToCart = () => {
                   )}
                </div>
             </div>
+
+            {relatedProducts.length > 0 && (
+               <div className="related-products-section">
+                  <h2 className="related-products-title">Bunları da beğenebilirsiniz</h2>
+                  <div className="related-products-grid">
+                     {relatedProducts.map(product => (
+                        <Link to={`/product/${product._id}`} key={product._id} className="related-product-card">
+                           <div className="related-product-image">
+                              {product.images && product.images[0] ? (
+                                 <img src={getImageUrl(product.images[0])} alt={product.name} />
+                              ) : (
+                                 <div className="no-image">Resim Yok</div>
+                              )}
+                           </div>
+                           <div className="related-product-info">
+                              <h3>{product.name}</h3>
+                              <span className="related-product-price">
+                                 {product.discount
+                                    ? product.discount.type === 'percentage'
+                                       ? `${(product.basePrice * (1 - product.discount.value / 100)).toFixed(2)} ₺`
+                                       : `${(product.basePrice - product.discount.value).toFixed(2)} ₺`
+                                    : `${product.basePrice.toFixed(2)} ₺`}
+                              </span>
+                           </div>
+                        </Link>
+                     ))}
+                  </div>
+               </div>
+            )}
          </div>
       </div>
    );

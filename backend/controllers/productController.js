@@ -626,3 +626,51 @@ export const deleteImage = async (req, res) => {
       });
    }
 };
+
+// @desc    Get related products by category (random)
+// @route   GET /api/products/related/:productId
+// @access  Public
+export const getRelatedProducts = async (req, res) => {
+   try {
+      const { productId } = req.params;
+      const limit = parseInt(req.query.limit) || 4;
+
+      const product = await Product.findById(productId);
+      if (!product) {
+         return res.status(404).json({
+            success: false,
+            message: 'Ürün bulunamadı.'
+         });
+      }
+
+      const relatedProducts = await Product.aggregate([
+         {
+            $match: {
+               _id: { $ne: product._id },
+               category: product.category,
+               isActive: true
+            }
+         },
+         { $sample: { size: limit } }
+      ]);
+
+      const populatedProducts = await Product.populate(relatedProducts, {
+         path: 'category',
+         select: 'name slug'
+      });
+
+      const productsWithDiscount = await applyDiscountsToProducts(populatedProducts);
+
+      res.json({
+         success: true,
+         count: productsWithDiscount.length,
+         data: productsWithDiscount
+      });
+   } catch (error) {
+      console.error('Get related products error:', error);
+      res.status(500).json({
+         success: false,
+         message: 'İlgili ürünler alınırken hata oluştu.'
+      });
+   }
+};

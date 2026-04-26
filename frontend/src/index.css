@@ -3594,6 +3594,15 @@ button {
 
   .main-product-image {
     max-height: 450px;
+    cursor: grab;
+  }
+
+  .main-product-image:active {
+    cursor: grabbing;
+  }
+
+  .carousel-arrow {
+    opacity: 1;
   }
 
   .product-detail-name {
@@ -3697,5 +3706,114 @@ button {
 
   .carousel-arrow-right {
     right: 8px;
+  }
+}
+
+/* Related Products Section */
+.related-products-section {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border-light, #eee);
+}
+
+.related-products-title {
+  font-family: var(--font-family-heading, inherit);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.related-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.related-product-card {
+  text-decoration: none;
+  color: inherit;
+  border-radius: var(--radius-lg, 12px);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.related-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.related-product-image {
+  width: 100%;
+  height: 200px;
+  background: var(--color-background);
+  overflow: hidden;
+}
+
+.related-product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.related-product-image .no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  background: var(--color-border-light);
+}
+
+.related-product-info {
+  padding: 1rem 0.5rem;
+}
+
+.related-product-info h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.related-product-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .related-products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .related-products-section {
+    margin-top: 3rem;
+  }
+
+  .related-products-title {
+    font-size: 1.25rem;
+  }
+
+  .related-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .related-product-image {
+    height: 160px;
+  }
+
+  .related-product-info h3 {
+    font-size: 0.85rem;
+  }
+
+  .related-product-price {
+    font-size: 1rem;
   }
 }
