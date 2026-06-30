@@ -11,6 +11,7 @@ import {
    uploadImages,
    deleteImage,
    getAdminProducts,
+   getAdminProduct,
    getRelatedProducts
 } from '../controllers/productController.js';
 import { protect } from '../middleware/auth.js';
@@ -29,6 +30,7 @@ router.get('/:id', getProduct);
 
 // Admin routes
 router.get('/admin/all', protect, adminOnly, getAdminProducts);
+router.get('/admin/:id', protect, adminOnly, getAdminProduct);
 router.post('/', protect, adminOnly, createProduct);
 router.put('/:id', protect, adminOnly, updateProduct);
 router.delete('/:id', protect, adminOnly, deleteProduct);

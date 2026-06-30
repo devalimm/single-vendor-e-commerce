@@ -315,12 +315,12 @@ export const getByCategory = async (req, res) => {
    }
 };
 
-// @desc    Get single product
+// @desc    Get single product (public, active only)
 // @route   GET /api/products/:id
 // @access  Public
 export const getProduct = async (req, res) => {
    try {
-      const product = await Product.findById(req.params.id)
+      const product = await Product.findOne({ _id: req.params.id, isActive: true })
          .populate('category', 'name slug description');
 
       if (!product) {
@@ -358,6 +358,47 @@ export const getProduct = async (req, res) => {
       });
    }
 };
+
+// @desc    Get single product for admin (includes inactive)
+// @route   GET /api/products/admin/:id
+// @access  Private/Admin
+export const getAdminProduct = async (req, res) => {
+   try {
+      const product = await Product.findById(req.params.id)
+         .populate('category', 'name slug description');
+
+      if (!product) {
+         return res.status(404).json({
+            success: false,
+            message: 'Ürün bulunamadı.'
+         });
+      }
+
+      // İndirim bilgisi ekle
+      const productWithDiscount = await applyDiscountToProduct(product);
+
+      // Varyasyon verilerini ekle (selectedVariations isimleri üzerinden)
+      let variationData = [];
+      if (productWithDiscount.selectedVariations && productWithDiscount.selectedVariations.length > 0) {
+         variationData = await Variation.find({
+            name: { $in: productWithDiscount.selectedVariations },
+            isActive: true
+         }).select('name options');
+      }
+
+      res.json({
+         success: true,
+         data: { ...productWithDiscount, variationData }
+      });
+   } catch (error) {
+      console.error('Get admin product error:', error);
+      res.status(500).json({
+         success: false,
+         message: 'Ürün alınırken hata oluştu.'
+      });
+   }
+};
+
 
 // @desc    Create product
 // @route   POST /api/products

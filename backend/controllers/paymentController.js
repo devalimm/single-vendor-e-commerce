@@ -1,11 +1,10 @@
 import Iyzipay from 'iyzipay';
 import crypto from 'crypto';
 import Order from '../models/Order.js';
-import Product from '../models/Product.js';
-import Variation from '../models/Variation.js';
 import ShippingSettings from '../models/ShippingSettings.js';
 import PendingOrder from '../models/PendingOrder.js';
 import { sendOrderConfirmation } from '../utils/emailService.js';
+import { validateAndCalculateItems, deductStock } from '../utils/orderHelper.js';
 
 // Lazy iyzipay initialization — only created when first needed
 let _iyzipay = null;
@@ -64,20 +63,6 @@ export const initializeCheckoutForm = async (req, res) => {
             customerNote
         } = req.body;
 
-        if (!items || items.length === 0) {
-            return res.status(400).json({
-                success: false,
-                message: 'Sipariş boş olamaz.'
-            });
-        }
-
-        if (!shippingAddress) {
-            return res.status(400).json({
-                success: false,
-                message: 'Teslimat bilgileri gereklidir.'
-            });
-        }
-
         // Validate required shipping fields
         const requiredFields = ['fullName', 'email', 'phone', 'city', 'district', 'neighborhood', 'address'];
         for (const field of requiredFields) {
@@ -89,92 +74,14 @@ export const initializeCheckoutForm = async (req, res) => {
             }
         }
 
-        // Calculate totals and validate products
-        let subtotal = 0;
-        const orderItems = [];
-        const basketItems = [];
+        // Validate items, calculate prices (with discounts), check stock
+        const { orderItems, basketItems: rawBasketItems, subtotal } = await validateAndCalculateItems(items);
 
-        for (const item of items) {
-            const product = await Product.findById(item.product);
-
-            if (!product) {
-                return res.status(404).json({
-                    success: false,
-                    message: `Ürün bulunamadı: ${item.product}`
-                });
-            }
-
-            if (!product.isActive) {
-                return res.status(400).json({
-                    success: false,
-                    message: `Ürün aktif değil: ${product.name}`
-                });
-            }
-
-            // Calculate item total
-            let itemTotal = product.basePrice;
-            let variationExtraTotal = 0;
-            let optionsTotal = 0;
-
-            // Add variation extra prices from variationSelections
-            if (item.variationSelections && item.variationSelections.length > 0) {
-                for (const sel of item.variationSelections) {
-                    const variation = await Variation.findOne({ name: sel.variationName, isActive: true });
-                    if (variation) {
-                        const opt = variation.options.find(o => o.name === sel.optionName);
-                        if (opt && opt.extraPrice) {
-                            variationExtraTotal += opt.extraPrice;
-                            itemTotal += opt.extraPrice;
-                        }
-                    }
-                }
-            }
-
-            // Legacy: support old size-based pricing for existing orders
-            if (!item.variationSelections && item.size) {
-                const sizeOption = product.sizes.find(s => s.name === item.size);
-                if (sizeOption && sizeOption.extraPrice) {
-                    variationExtraTotal += sizeOption.extraPrice;
-                    itemTotal += sizeOption.extraPrice;
-                }
-            }
-
-            if (item.selectedOptions && item.selectedOptions.length > 0) {
-                item.selectedOptions.forEach(selectedOpt => {
-                    const productOption = product.options.find(o => o.name === selectedOpt.name);
-                    if (productOption) {
-                        optionsTotal += productOption.price;
-                        itemTotal += productOption.price;
-                    }
-                });
-            }
-
-            itemTotal *= item.quantity;
-            subtotal += itemTotal;
-
-            orderItems.push({
-                product: product._id,
-                productName: product.name,
-                productImage: product.images[0] || '',
-                quantity: item.quantity,
-                variationSelections: item.variationSelections || [],
-                size: item.variationSelections?.map(s => `${s.variationName}: ${s.optionName}`).join(', ') || item.size || 'Standart',
-                selectedOptions: item.selectedOptions || [],
-                basePrice: product.basePrice,
-                variationExtraTotal,
-                optionsTotal,
-                itemTotal
-            });
-
-            // iyzico basket item
-            basketItems.push({
-                id: product._id.toString(),
-                name: product.name.substring(0, 50),
-                category1: 'Giyim',
-                itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
-                price: itemTotal.toFixed(2)
-            });
-        }
+        // Map basket items to iyzico format
+        const basketItems = rawBasketItems.map(bi => ({
+            ...bi,
+            itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL
+        }));
 
         // Calculate shipping
         const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
@@ -290,6 +197,13 @@ export const initializeCheckoutForm = async (req, res) => {
             });
         });
     } catch (error) {
+        // Handle validation errors from orderHelper
+        if (error.status) {
+            return res.status(error.status).json({
+                success: false,
+                message: error.message
+            });
+        }
         console.error('Initialize checkout form error:', error);
         res.status(500).json({
             success: false,
@@ -327,12 +241,32 @@ export const handleCallback = async (req, res) => {
             const conversationId = result.conversationId || result.basketId;
 
             if (result.status === 'success' && result.paymentStatus === 'SUCCESS') {
-                // Payment successful - find pending order from MongoDB
-                const pendingOrder = await PendingOrder.findOne({ conversationId });
+                // Payment successful — atomically claim the pending order to prevent duplicates
+                // findOneAndDelete ensures only ONE concurrent callback can claim this order
+                const pendingOrder = await PendingOrder.findOneAndDelete({ conversationId });
 
                 if (!pendingOrder) {
+                    // Either already processed (idempotent) or never existed
+                    // Check if an order was already created for this payment
+                    const existingOrder = await Order.findOne({ iyzicoConversationId: conversationId });
+                    if (existingOrder) {
+                        console.log('Duplicate callback detected, order already exists:', existingOrder._id);
+                        return res.redirect(`${frontendUrl}/payment-callback?status=success&orderId=${existingOrder._id}`);
+                    }
                     console.error('Pending order not found for conversationId:', conversationId);
                     return res.redirect(`${frontendUrl}/payment-callback?status=error&message=${encodeURIComponent('Sipariş bilgisi bulunamadı. Lütfen bizimle iletişime geçin.')}`);
+                }
+
+                // Strict validation: Verify paidPrice matches total, currency is TRY, and paymentId is unique
+                if (Math.abs(Number(result.paidPrice) - pendingOrder.total) >= 0.01 || result.currency !== 'TRY') {
+                    console.error(`Payment validation failed for conversationId: ${conversationId}. Paid: ${result.paidPrice}, Expected: ${pendingOrder.total}, Currency: ${result.currency}`);
+                    return res.redirect(`${frontendUrl}/payment-callback?status=error&message=${encodeURIComponent('Ödeme tutarı veya para birimi doğrulanamadı. Lütfen bizimle iletişime geçin.')}`);
+                }
+
+                const existingPaymentOrder = await Order.findOne({ iyzicoPaymentId: result.paymentId });
+                if (existingPaymentOrder) {
+                    console.log('Duplicate payment detected via existing iyzicoPaymentId:', existingPaymentOrder._id);
+                    return res.redirect(`${frontendUrl}/payment-callback?status=success&orderId=${existingPaymentOrder._id}`);
                 }
 
                 try {
@@ -354,15 +288,23 @@ export const handleCallback = async (req, res) => {
                         iyzicoToken: token
                     });
 
-                    // Clean up pending order
-                    await PendingOrder.deleteOne({ conversationId });
-
                     console.log('Order created successfully:', order._id);
+
+                    // Deduct stock after successful order creation
+                    await deductStock(order.items);
 
                     sendOrderConfirmation(order).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
 
                     return res.redirect(`${frontendUrl}/payment-callback?status=success&orderId=${order._id}`);
                 } catch (orderError) {
+                    // If Order.create fails due to unique index on iyzicoPaymentId, it's a duplicate
+                    if (orderError.code === 11000 && orderError.keyPattern?.iyzicoPaymentId) {
+                        const existingOrder = await Order.findOne({ iyzicoPaymentId: result.paymentId });
+                        if (existingOrder) {
+                            console.log('Duplicate payment detected via unique index:', existingOrder._id);
+                            return res.redirect(`${frontendUrl}/payment-callback?status=success&orderId=${existingOrder._id}`);
+                        }
+                    }
                     console.error('Order creation error after payment:', orderError);
                     return res.redirect(`${frontendUrl}/payment-callback?status=error&message=${encodeURIComponent('Sipariş kaydedilemedi, lütfen bizimle iletişime geçin')}`);
                 }
