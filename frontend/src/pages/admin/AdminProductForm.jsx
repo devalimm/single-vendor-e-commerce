@@ -93,7 +93,7 @@ const AdminProductForm = () => {
    const fetchProduct = async () => {
       try {
          setLoading(true);
-         const response = await api.get(`/products/${id}`);
+         const response = await api.get(`/products/admin/${id}`);
          const product = response.data.data;
 
          setFormData({

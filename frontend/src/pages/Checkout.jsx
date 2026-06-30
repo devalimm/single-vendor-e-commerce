@@ -5,7 +5,7 @@ import { useToast } from '../context/ToastContext';
 import { ShoppingBag, User, MapPin, FileText, CreditCard, Loader, ChevronRight, ArrowLeft } from 'lucide-react';
 import cities from '../data/cities.json';
 import allDistricts from '../data/districts.json';
-import { getImageUrl } from '../utils/api';
+import api, { getImageUrl } from '../utils/api';
 import { calculateItemTotals, calculateCartTotals, calculateShippingCost } from '../utils/pricing';
 import { useShippingSettings } from '../hooks/useShippingSettings';
 import { useCheckoutForm } from '../hooks/useCheckoutForm';
@@ -89,14 +89,8 @@ const handleSubmit = async () => {
             },
             customerNote: formData.customerNote || null
          };
-
-         const response = await fetch(`${VITE_API_URL}/payment/initialize`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(paymentData)
-         });
-
-         const data = await response.json();
+         const response = await api.post('/payment/initialize', paymentData);
+         const data = response.data;
 
 if (data.success) {
              setCheckoutFormContent(data.data.checkoutFormContent);
