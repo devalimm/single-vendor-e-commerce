@@ -231,7 +231,9 @@ export const getOrder = async (req, res) => {
       }
 
       // Check if user owns this order or is admin
-      if (order.user._id.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+      // order.user is null for guest orders — guard before dereference
+      const isOwner = order.user && order.user._id.toString() === req.user._id.toString();
+      if (!isOwner && req.user.role !== 'admin') {
          return res.status(403).json({
             success: false,
             message: 'Bu siparişe erişim yetkiniz yok.'

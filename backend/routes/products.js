@@ -26,11 +26,15 @@ router.get('/bestselling', getBestSelling);
 router.get('/category/:categoryId', getByCategory);
 router.get('/related/:productId', getRelatedProducts);
 router.get('/', getAllProducts);
-router.get('/:id', getProduct);
 
-// Admin routes
+// Admin routes — MUST come before /:id to prevent "admin" being matched as a product ID
 router.get('/admin/all', protect, adminOnly, getAdminProducts);
 router.get('/admin/:id', protect, adminOnly, getAdminProduct);
+
+// Public single product — comes AFTER all static admin routes
+router.get('/:id', getProduct);
+
+// Admin mutate routes
 router.post('/', protect, adminOnly, createProduct);
 router.put('/:id', protect, adminOnly, updateProduct);
 router.delete('/:id', protect, adminOnly, deleteProduct);
