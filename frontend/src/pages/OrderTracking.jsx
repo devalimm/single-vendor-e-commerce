@@ -3,9 +3,8 @@ import { Search, Package, Clock, CheckCircle, Truck, XCircle, AlertCircle, Chevr
 import api from '../utils/api';
 
 const OrderTracking = () => {
-   const [searchType, setSearchType] = useState('email');
-   const [searchValue, setSearchValue] = useState('');
    const [orderId, setOrderId] = useState('');
+   const [email, setEmail] = useState('');
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState('');
    const [orders, setOrders] = useState([]);
@@ -17,29 +16,21 @@ const OrderTracking = () => {
       setOrders([]);
       setExpandedOrder(null);
 
-      if (searchType === 'email' && !searchValue.trim()) {
-         setError('Lütfen e-posta adresinizi girin.');
-         return;
-      }
-      if (searchType === 'phone' && !searchValue.trim()) {
-         setError('Lütfen telefon numaranızı girin.');
-         return;
-      }
-      if (searchType === 'orderId' && !orderId.trim()) {
+      if (!orderId.trim()) {
          setError('Lütfen sipariş numaranızı girin.');
+         return;
+      }
+      if (!email.trim()) {
+         setError('Lütfen e-posta adresinizi girin.');
          return;
       }
 
       setLoading(true);
       try {
-         let params = {};
-         if (searchType === 'email') {
-            params.email = searchValue.trim();
-         } else if (searchType === 'phone') {
-            params.phone = searchValue.trim();
-         } else {
-            params.orderId = orderId.trim();
-         }
+         const params = {
+            orderId: orderId.trim(),
+            email: email.trim()
+         };
 
          const response = await api.get('/orders/track', { params });
          const data = response.data;
@@ -87,91 +78,48 @@ const OrderTracking = () => {
       <div className="container" style={{ padding: '2rem 0', maxWidth: '700px' }}>
          <h1 style={{ marginBottom: '0.5rem' }}>Sipariş Takibi</h1>
          <p style={{ color: 'var(--color-text-secondary)', marginBottom: '2rem' }}>
-            Sipariş numaranız veya e-posta/telefon bilgilerinizle siparişlerinizi takip edin.
+            Sipariş numaranız ve e-posta adresinizle siparişinizi takip edin.
          </p>
 
          <div className="card" style={{ padding: '1.5rem', marginBottom: '1.5rem' }}>
             <form onSubmit={handleSearch}>
-               <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1rem' }}>
-                  <button
-                     type="button"
-                     onClick={() => setSearchType('email')}
-                     style={{
-                        padding: '0.5rem 1rem',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: 'var(--radius)',
-                        background: searchType === 'email' ? 'var(--color-primary)' : 'white',
-                        color: searchType === 'email' ? 'white' : 'var(--color-text)',
-                        cursor: 'pointer',
-                        fontWeight: searchType === 'email' ? '600' : '400'
-                     }}
-                  >
-                     E-posta
-                  </button>
-                  <button
-                     type="button"
-                     onClick={() => setSearchType('phone')}
-                     style={{
-                        padding: '0.5rem 1rem',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: 'var(--radius)',
-                        background: searchType === 'phone' ? 'var(--color-primary)' : 'white',
-                        color: searchType === 'phone' ? 'white' : 'var(--color-text)',
-                        cursor: 'pointer',
-                        fontWeight: searchType === 'phone' ? '600' : '400'
-                     }}
-                  >
-                     Telefon
-                  </button>
-                  <button
-                     type="button"
-                     onClick={() => setSearchType('orderId')}
-                     style={{
-                        padding: '0.5rem 1rem',
-                        border: '1px solid var(--color-border)',
-                        borderRadius: 'var(--radius)',
-                        background: searchType === 'orderId' ? 'var(--color-primary)' : 'white',
-                        color: searchType === 'orderId' ? 'white' : 'var(--color-text)',
-                        cursor: 'pointer',
-                        fontWeight: searchType === 'orderId' ? '600' : '400'
-                     }}
-                  >
-                     Sipariş No
-                  </button>
-               </div>
-
-               {searchType === 'orderId' ? (
-                  <div style={{ display: 'flex', gap: '0.75rem' }}>
-                     <input
-                        type="text"
-                        value={orderId}
-                        onChange={(e) => setOrderId(e.target.value)}
-                        placeholder="Sipariş numaranızı girin"
-                        style={{
-                           flex: 1,
-                           padding: '0.75rem 1rem',
-                           border: '1px solid var(--color-border)',
-                           borderRadius: 'var(--radius)',
-                           fontSize: '1rem'
-                        }}
-                     />
-                  </div>
-               ) : (
+               <div style={{ marginBottom: '1rem' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', fontSize: '0.9rem' }}>
+                     Sipariş Numarası
+                  </label>
                   <input
-                     type={searchType === 'email' ? 'email' : 'tel'}
-                     value={searchValue}
-                     onChange={(e) => setSearchValue(e.target.value)}
-                     placeholder={searchType === 'email' ? 'E-posta adresinizi girin' : 'Telefon numaranızı girin'}
+                     type="text"
+                     value={orderId}
+                     onChange={(e) => setOrderId(e.target.value)}
+                     placeholder="Sipariş numaranızı girin (ör: A1B2C3D4)"
                      style={{
                         width: '100%',
                         padding: '0.75rem 1rem',
                         border: '1px solid var(--color-border)',
                         borderRadius: 'var(--radius)',
-                        fontSize: '1rem',
-                        marginBottom: '0'
+                        fontSize: '1rem'
                      }}
                   />
-               )}
+               </div>
+
+               <div style={{ marginBottom: '0' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500', fontSize: '0.9rem' }}>
+                     E-posta Adresi
+                  </label>
+                  <input
+                     type="email"
+                     value={email}
+                     onChange={(e) => setEmail(e.target.value)}
+                     placeholder="Siparişte kullandığınız e-posta adresi"
+                     style={{
+                        width: '100%',
+                        padding: '0.75rem 1rem',
+                        border: '1px solid var(--color-border)',
+                        borderRadius: 'var(--radius)',
+                        fontSize: '1rem'
+                     }}
+                  />
+               </div>
 
                <button
                   type="submit"
@@ -191,7 +139,7 @@ const OrderTracking = () => {
                   ) : (
                      <>
                         <Search size={18} />
-                        Siparişleri Bul
+                        Siparişi Bul
                      </>
                   )}
                </button>
@@ -312,58 +260,61 @@ const OrderTracking = () => {
                                  </div>
                               </div>
 
-<div style={{ marginTop: '1.5rem' }}>
-                                  <h4 style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>Teslimat Adresi</h4>
-                                  <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                                     {order.shippingAddress?.fullName}<br />
-                                     {order.shippingAddress?.phone}<br />
-                                     {order.shippingAddress?.address}<br />
-                                     {order.shippingAddress?.neighborhood}, {order.shippingAddress?.district}/{order.shippingAddress?.city}
-                                  </p>
-                               </div>
+                              {/* PII-minimal: only masked name and city/district shown */}
+                              {order.shippingAddress && (
+                                 <div style={{ marginTop: '1.5rem' }}>
+                                    <h4 style={{ marginBottom: '0.5rem', fontSize: '0.95rem' }}>Teslimat Bilgisi</h4>
+                                    <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.9rem', lineHeight: '1.5' }}>
+                                       {order.shippingAddress.fullName}<br />
+                                       {order.shippingAddress.district && order.shippingAddress.city
+                                          ? `${order.shippingAddress.district}/${order.shippingAddress.city}`
+                                          : order.shippingAddress.city || ''}
+                                    </p>
+                                 </div>
+                              )}
 
-{order.trackingNumber && (
-                                   <div style={{ marginTop: '1.5rem' }}>
-                                      <h4 style={{ marginBottom: '0.5rem', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                         <Truck size={18} /> Kargo Bilgileri
-                                      </h4>
-                                      <div style={{
-                                         background: 'var(--color-bg-secondary)',
-                                         padding: '1rem',
-                                         borderRadius: 'var(--radius-md)',
-                                         display: 'flex',
-                                         alignItems: 'center',
-                                         justifyContent: 'space-between',
-                                         gap: '1rem',
-                                         flexWrap: 'wrap'
-                                      }}>
-                                         <div>
-                                            {order.courier && (
-                                               <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '0.25rem' }}>
-                                                  Kargo Firması: <strong>{order.courier}</strong>
-                                               </p>
-                                            )}
-                                            <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>Takip Numarası</p>
-                                            <p style={{ fontWeight: 'var(--font-weight-bold)', fontSize: '1.1rem', letterSpacing: '0.5px' }}>
-                                               {order.trackingNumber}
-                                            </p>
-                                         </div>
-                                         <button
-                                            onClick={(e) => {
-                                               e.stopPropagation();
-                                               navigator.clipboard.writeText(order.trackingNumber);
-                                            }}
-                                            className="btn btn-secondary btn-sm"
-                                            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
-                                         >
-                                            <Copy size={14} /> Kopyala
-                                         </button>
-                                     </div>
-                                     <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
-                                        Kargonuzu takip etmek için yukarıdaki numarayı kargo firmasının sitesinde sorgulayabilirsiniz.
-                                     </p>
-                                  </div>
-                               )}
+                              {order.trackingNumber && (
+                                 <div style={{ marginTop: '1.5rem' }}>
+                                    <h4 style={{ marginBottom: '0.5rem', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                       <Truck size={18} /> Kargo Bilgileri
+                                    </h4>
+                                    <div style={{
+                                       background: 'var(--color-bg-secondary)',
+                                       padding: '1rem',
+                                       borderRadius: 'var(--radius-md)',
+                                       display: 'flex',
+                                       alignItems: 'center',
+                                       justifyContent: 'space-between',
+                                       gap: '1rem',
+                                       flexWrap: 'wrap'
+                                    }}>
+                                       <div>
+                                          {order.courier && (
+                                             <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)', marginBottom: '0.25rem' }}>
+                                                Kargo Firması: <strong>{order.courier}</strong>
+                                             </p>
+                                          )}
+                                          <p style={{ fontSize: '0.85rem', color: 'var(--color-text-secondary)' }}>Takip Numarası</p>
+                                          <p style={{ fontWeight: 'var(--font-weight-bold)', fontSize: '1.1rem', letterSpacing: '0.5px' }}>
+                                             {order.trackingNumber}
+                                          </p>
+                                       </div>
+                                       <button
+                                          onClick={(e) => {
+                                             e.stopPropagation();
+                                             navigator.clipboard.writeText(order.trackingNumber);
+                                          }}
+                                          className="btn btn-secondary btn-sm"
+                                          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+                                       >
+                                          <Copy size={14} /> Kopyala
+                                       </button>
+                                    </div>
+                                    <p style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--color-text-secondary)' }}>
+                                       Kargonuzu takip etmek için yukarıdaki numarayı kargo firmasının sitesinde sorgulayabilirsiniz.
+                                    </p>
+                                 </div>
+                              )}
                            </div>
                         )}
                      </div>

@@ -1,8 +1,7 @@
 import Order from '../models/Order.js';
-import Product from '../models/Product.js';
-import Variation from '../models/Variation.js';
 import ShippingSettings from '../models/ShippingSettings.js';
 import { sendOrderConfirmation } from '../utils/emailService.js';
+import { validateAndCalculateItems, deductStock } from '../utils/orderHelper.js';
 
 // Helper: calculate shipping cost based on admin settings
 async function calculateShippingCost(subtotal, itemCount) {
@@ -44,13 +43,6 @@ export const createGuestOrder = async (req, res) => {
          customerNote
       } = req.body;
 
-      if (!items || items.length === 0) {
-         return res.status(400).json({
-            success: false,
-            message: 'Sipariş boş olamaz.'
-         });
-      }
-
       if (!shippingAddress) {
          return res.status(400).json({
             success: false,
@@ -85,107 +77,42 @@ export const createGuestOrder = async (req, res) => {
          });
       }
 
-      // Calculate totals and validate products
-      let subtotal = 0;
-      const orderItems = [];
-
-      for (const item of items) {
-         const product = await Product.findById(item.product);
-
-         if (!product) {
-            return res.status(404).json({
-               success: false,
-               message: `Ürün bulunamadı: ${item.product}`
-            });
-         }
-
-         if (!product.isActive) {
-            return res.status(400).json({
-               success: false,
-               message: `Ürün aktif değil: ${product.name}`
-            });
-         }
-
-         // Calculate item total
-         let itemTotal = product.basePrice;
-         let variationExtraTotal = 0;
-         let optionsTotal = 0;
-
-         // Add variation extra prices from variationSelections
-         if (item.variationSelections && item.variationSelections.length > 0) {
-            for (const sel of item.variationSelections) {
-               const variation = await Variation.findOne({ name: sel.variationName, isActive: true });
-               if (variation) {
-                  const opt = variation.options.find(o => o.name === sel.optionName);
-                  if (opt && opt.extraPrice) {
-                     variationExtraTotal += opt.extraPrice;
-                     itemTotal += opt.extraPrice;
-                  }
-               }
-            }
-         }
-
-         // Legacy: support old size-based pricing
-         if (!item.variationSelections && item.size) {
-            const sizeOption = product.sizes.find(s => s.name === item.size);
-            if (sizeOption && sizeOption.extraPrice) {
-               variationExtraTotal += sizeOption.extraPrice;
-               itemTotal += sizeOption.extraPrice;
-            }
-         }
-
-         // Add options
-         if (item.selectedOptions && item.selectedOptions.length > 0) {
-            item.selectedOptions.forEach(selectedOpt => {
-               const productOption = product.options.find(o => o.name === selectedOpt.name);
-               if (productOption) {
-                  optionsTotal += productOption.price;
-                  itemTotal += productOption.price;
-               }
-            });
-         }
-
-         itemTotal *= item.quantity;
-         subtotal += itemTotal;
-
-         orderItems.push({
-            product: product._id,
-            productName: product.name,
-            productImage: product.images[0] || '',
-            quantity: item.quantity,
-            variationSelections: item.variationSelections || [],
-            size: item.variationSelections?.map(s => `${s.variationName}: ${s.optionName}`).join(', ') || item.size || 'Standart',
-            selectedOptions: item.selectedOptions || [],
-            basePrice: product.basePrice,
-            variationExtraTotal,
-            optionsTotal,
-            itemTotal
-         });
-      }
+      // Validate items, calculate prices (with discounts), check stock
+      const { orderItems, subtotal } = await validateAndCalculateItems(items);
 
       // Calculate shipping from admin settings
       const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
       const tax = 0;
       const total = subtotal + shippingCost + tax;
 
-const order = await Order.create({
-          items: orderItems,
-          shippingAddress,
-          subtotal,
-          shippingCost,
-          tax,
-          total,
-          paymentMethod: paymentMethod || 'cash_on_delivery',
-          customerNote
-       });
+      const order = await Order.create({
+         items: orderItems,
+         shippingAddress,
+         subtotal,
+         shippingCost,
+         tax,
+         total,
+         paymentMethod: paymentMethod || 'cash_on_delivery',
+         customerNote
+      });
 
-       sendOrderConfirmation(order).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
+      // Deduct stock after successful order creation
+      await deductStock(orderItems);
 
-       res.status(201).json({
-          success: true,
-          data: order
-       });
+      sendOrderConfirmation(order).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
+
+      res.status(201).json({
+         success: true,
+         data: order
+      });
    } catch (error) {
+      // Handle validation errors from orderHelper
+      if (error.status) {
+         return res.status(error.status).json({
+            success: false,
+            message: error.message
+         });
+      }
       console.error('Create guest order error:', error);
       res.status(500).json({
          success: false,
@@ -207,13 +134,6 @@ export const createOrder = async (req, res) => {
          customerNote
       } = req.body;
 
-      if (!items || items.length === 0) {
-         return res.status(400).json({
-            success: false,
-            message: 'Sipariş boş olamaz.'
-         });
-      }
-
       if (!shippingAddress) {
          return res.status(400).json({
             success: false,
@@ -221,90 +141,12 @@ export const createOrder = async (req, res) => {
          });
       }
 
-      // Calculate totals and validate products
-      let subtotal = 0;
-      const orderItems = [];
-
-      for (const item of items) {
-         const product = await Product.findById(item.product);
-
-         if (!product) {
-            return res.status(404).json({
-               success: false,
-               message: `Ürün bulunamadı: ${item.product}`
-            });
-         }
-
-         if (!product.isActive) {
-            return res.status(400).json({
-               success: false,
-               message: `Ürün aktif değil: ${product.name}`
-            });
-         }
-
-         // Calculate item total
-         let itemTotal = product.basePrice;
-         let variationExtraTotal = 0;
-         let optionsTotal = 0;
-
-         // Add variation extra prices from variationSelections
-         if (item.variationSelections && item.variationSelections.length > 0) {
-            for (const sel of item.variationSelections) {
-               const variation = await Variation.findOne({ name: sel.variationName, isActive: true });
-               if (variation) {
-                  const opt = variation.options.find(o => o.name === sel.optionName);
-                  if (opt && opt.extraPrice) {
-                     variationExtraTotal += opt.extraPrice;
-                     itemTotal += opt.extraPrice;
-                  }
-               }
-            }
-         }
-
-         // Legacy support
-         if (!item.variationSelections && item.size) {
-            const sizeOption = product.sizes.find(s => s.name === item.size);
-            if (sizeOption && sizeOption.extraPrice) {
-               variationExtraTotal += sizeOption.extraPrice;
-               itemTotal += sizeOption.extraPrice;
-            }
-         }
-
-         // Add options
-         if (item.selectedOptions && item.selectedOptions.length > 0) {
-            item.selectedOptions.forEach(selectedOpt => {
-               const productOption = product.options.find(o => o.name === selectedOpt.name);
-               if (productOption) {
-                  optionsTotal += productOption.price;
-                  itemTotal += productOption.price;
-               }
-            });
-         }
-
-         itemTotal *= item.quantity;
-         subtotal += itemTotal;
-
-         orderItems.push({
-            product: product._id,
-            productName: product.name,
-            productImage: product.images[0] || '',
-            quantity: item.quantity,
-            variationSelections: item.variationSelections || [],
-            size: item.variationSelections?.map(s => `${s.variationName}: ${s.optionName}`).join(', ') || item.size || 'Standart',
-            selectedOptions: item.selectedOptions || [],
-            basePrice: product.basePrice,
-            variationExtraTotal,
-            optionsTotal,
-            itemTotal
-         });
-      }
+      // Validate items, calculate prices (with discounts), check stock
+      const { orderItems, subtotal } = await validateAndCalculateItems(items);
 
       // Calculate shipping from admin settings
       const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
-
-      // Calculate tax (KDV - you can customize this)
       const tax = 0;
-
       const total = subtotal + shippingCost + tax;
 
       const order = await Order.create({
@@ -319,17 +161,27 @@ export const createOrder = async (req, res) => {
          customerNote
       });
 
-const populatedOrder = await Order.findById(order._id)
-          .populate('user', 'name email phone')
-          .populate('items.product', 'name slug');
+      // Deduct stock after successful order creation
+      await deductStock(orderItems);
 
-       sendOrderConfirmation(populatedOrder).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
+      const populatedOrder = await Order.findById(order._id)
+         .populate('user', 'name email phone')
+         .populate('items.product', 'name slug');
 
-       res.status(201).json({
-          success: true,
-          data: populatedOrder
-       });
+      sendOrderConfirmation(populatedOrder).catch(err => console.error('Sipariş emaili gönderilemedi:', err));
+
+      res.status(201).json({
+         success: true,
+         data: populatedOrder
+      });
    } catch (error) {
+      // Handle validation errors from orderHelper
+      if (error.status) {
+         return res.status(error.status).json({
+            success: false,
+            message: error.message
+         });
+      }
       console.error('Create order error:', error);
       res.status(500).json({
          success: false,
@@ -488,15 +340,15 @@ export const updateOrderStatus = async (req, res) => {
          }
       }
 
-if (trackingNumber) {
-          order.trackingNumber = trackingNumber;
-       }
+      if (trackingNumber) {
+         order.trackingNumber = trackingNumber;
+      }
 
-       if (courier) {
-          order.courier = courier;
-       }
+      if (courier) {
+         order.courier = courier;
+      }
 
-       if (adminNote !== undefined) {
+      if (adminNote !== undefined) {
          order.adminNote = adminNote;
       }
 
@@ -609,64 +461,101 @@ export const updatePaymentStatus = async (req, res) => {
    }
 };
 
-// @desc    Track orders by email or orderId (public)
+// @desc    Track order by orderId + email verification (public)
 // @route   GET /api/orders/track
 // @access  Public
 export const trackOrders = async (req, res) => {
    try {
       const { email, orderId } = req.query;
 
-      if (!email && !orderId) {
+      // Require BOTH orderId and email to prevent IDOR / PII leakage
+      if (!orderId || !email) {
          return res.status(400).json({
             success: false,
-            message: 'E-posta veya sipariş numarası gereklidir.'
+            message: 'Sipariş numarası ve e-posta adresi birlikte gereklidir.'
          });
       }
 
-      let query = {};
+      const emailNormalized = email.trim().toLowerCase();
+      const orderIdTrimmed = orderId.trim();
 
-if (orderId) {
-           try {
-              const orderIdTrimmed = orderId.trim().toUpperCase();
-
-              // If it looks like a full ObjectId (24 hex chars), use findById directly
-              if (/^[0-9A-F]{24}$/i.test(orderIdTrimmed)) {
-                 const order = await Order.findById(orderIdTrimmed)
-                    .populate('items.product', 'name images');
-                 return res.json({ success: true, data: order ? [order] : [] });
-              }
-
-              // Otherwise, search by last 8 characters with a simple approach
-              // Get all orders and filter in memory (small dataset expected)
-              const allOrders = await Order.find()
-                 .populate('items.product', 'name images')
-                 .sort({ createdAt: -1 });
-
-              const filtered = allOrders.filter(order => {
-                 const orderIdStr = order._id.toString().toUpperCase();
-                 return orderIdStr.endsWith(orderIdTrimmed);
-              });
-
-              return res.json({ success: true, data: filtered });
-           } catch (e) {
-              console.error('Track orders error:', e);
-              return res.status(500).json({
-                 success: false,
-                 message: 'Sipariş sorgulanırken hata oluştu.'
-              });
-           }
-        } else if (email) {
-         // Search by email in shippingAddress
-         query['shippingAddress.email'] = email.toLowerCase();
+      if (!orderIdTrimmed || !emailNormalized) {
+         return res.status(400).json({
+            success: false,
+            message: 'Geçerli sipariş numarası ve e-posta adresi giriniz.'
+         });
       }
 
-      const orders = await Order.find(query)
-         .populate('items.product', 'name images')
-         .sort({ createdAt: -1 });
+      let order = null;
+
+      // Full ObjectId (24 hex chars) — direct lookup with email verification
+      if (/^[0-9a-f]{24}$/i.test(orderIdTrimmed)) {
+         order = await Order.findOne({
+            _id: orderIdTrimmed,
+            'shippingAddress.email': emailNormalized
+         }).populate('items.product', 'name images');
+      } else if (/^[0-9a-f]{6,16}$/i.test(orderIdTrimmed)) {
+         // Short order number (last N chars of ObjectId) — use $regex on _id
+         // Only allow 6-16 hex characters to prevent overly broad matches
+         order = await Order.findOne({
+            'shippingAddress.email': emailNormalized,
+            $expr: {
+               $regexMatch: {
+                  input: { $toString: '$_id' },
+                  regex: `${orderIdTrimmed}$`,
+                  options: 'i'
+               }
+            }
+         }).populate('items.product', 'name images');
+      } else {
+         return res.status(400).json({
+            success: false,
+            message: 'Geçersiz sipariş numarası formatı.'
+         });
+      }
+
+      if (!order) {
+         return res.json({ success: true, data: [] });
+      }
+
+      // Return PII-minimal response — no full address, phone, email, tcKimlik
+      const maskedOrder = {
+         _id: order._id,
+         status: order.status,
+         paymentStatus: order.paymentStatus,
+         items: order.items.map(item => ({
+            productName: item.productName,
+            productImage: item.productImage,
+            quantity: item.quantity,
+            size: item.size,
+            selectedOptions: item.selectedOptions,
+            basePrice: item.basePrice,
+            variationExtraTotal: item.variationExtraTotal,
+            optionsTotal: item.optionsTotal,
+            itemTotal: item.itemTotal,
+            product: item.product
+         })),
+         subtotal: order.subtotal,
+         shippingCost: order.shippingCost,
+         tax: order.tax,
+         total: order.total,
+         trackingNumber: order.trackingNumber || null,
+         courier: order.courier || null,
+         createdAt: order.createdAt,
+         confirmedAt: order.confirmedAt,
+         shippedAt: order.shippedAt,
+         deliveredAt: order.deliveredAt,
+         // Masked PII — only city/district visible, name masked
+         shippingAddress: {
+            fullName: maskName(order.shippingAddress.fullName),
+            city: order.shippingAddress.city,
+            district: order.shippingAddress.district
+         }
+      };
 
       res.json({
          success: true,
-         data: orders
+         data: [maskedOrder]
       });
    } catch (error) {
       console.error('Track orders error:', error);
@@ -676,3 +565,12 @@ if (orderId) {
       });
    }
 };
+
+// Helper: mask a full name for PII-minimal display ("Ali Yılmaz" → "A** Y*****")
+function maskName(name) {
+   if (!name) return '';
+   return name.split(' ').map(part => {
+      if (part.length <= 1) return part;
+      return part[0] + '*'.repeat(part.length - 1);
+   }).join(' ');
+}
