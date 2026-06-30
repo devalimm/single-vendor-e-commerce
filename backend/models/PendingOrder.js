@@ -15,16 +15,26 @@ const pendingOrderSchema = new mongoose.Schema({
         },
         productName: String,
         productImage: String,
-        quantity: Number,
+        quantity: {
+            type: Number,
+            required: true,
+            min: 1
+        },
         size: String,
         length: String,
+        variationSelections: [{
+            variationName: String,
+            optionName: String
+        }],
         selectedOptions: [{
             name: String,
             price: Number
         }],
         basePrice: Number,
+        variationExtraTotal: Number,
         lengthAdjustment: Number,
         optionsTotal: Number,
+        discountApplied: mongoose.Schema.Types.Mixed,
         itemTotal: Number
     }],
     shippingAddress: {

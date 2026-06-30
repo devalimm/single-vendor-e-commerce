@@ -27,6 +27,10 @@ const orderSchema = new mongoose.Schema({
       length: {
          type: String
       },
+      variationSelections: [{
+         variationName: String,
+         optionName: String
+      }],
       selectedOptions: [{
          name: String,
          price: Number
@@ -34,6 +38,10 @@ const orderSchema = new mongoose.Schema({
       basePrice: {
          type: Number,
          required: true
+      },
+      variationExtraTotal: {
+         type: Number,
+         default: 0
       },
       lengthAdjustment: {
          type: Number,
@@ -43,6 +51,7 @@ const orderSchema = new mongoose.Schema({
          type: Number,
          default: 0
       },
+      discountApplied: mongoose.Schema.Types.Mixed,
       itemTotal: {
          type: Number,
          required: true
@@ -55,10 +64,10 @@ const orderSchema = new mongoose.Schema({
          type: String,
          required: true
       },
-tcKimlik: {
-          type: String,
-          required: false
-       },
+      tcKimlik: {
+         type: String,
+         required: false
+      },
       email: {
          type: String,
          required: true
@@ -122,12 +131,16 @@ tcKimlik: {
       default: 'pending'
    },
 
-// Tracking
-    trackingNumber: String,
-    courier: String,
+   // Tracking
+   trackingNumber: String,
+   courier: String,
 
    // iyzico payment tracking
-   iyzicoPaymentId: String,
+   iyzicoPaymentId: {
+      type: String,
+      unique: true,
+      sparse: true // allow null/undefined, but enforce uniqueness when present
+   },
    iyzicoConversationId: String,
    iyzicoToken: String,
 
