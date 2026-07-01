@@ -1,22 +1,32 @@
 import { Link } from 'react-router-dom';
 import { useMemo } from 'react';
 import { useCart } from '../context/CartContext';
-import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
-import { calculateItemTotals, calculateCartTotals, calculateShippingCost } from '../utils/pricing';
+import { Trash2, Plus, Minus, ShoppingBag, Tag } from 'lucide-react';
+import { calculateItemTotals, calculateCartTotals, calculateShippingCost, calculateCartCampaignDiscount } from '../utils/pricing';
 import { useShippingSettings } from '../hooks/useShippingSettings';
+import { useCampaigns } from '../hooks/useCampaigns';
 import { getImageUrl } from '../utils/api';
 
 const Cart = () => {
    const { cart, removeFromCart, updateQuantity } = useCart();
    const { settings: shippingSettings } = useShippingSettings();
+   const { campaigns } = useCampaigns();
 
    const { subtotal, totalVat, grandTotal, totalDiscount } = useMemo(() => {
       return calculateCartTotals(cart.items);
    }, [cart.items]);
 
+   // Kampanya indirimi ayrı hesaplanır (backend ile aynı formül)
+   const { campaignDiscounts, totalCampaignDiscount } = useMemo(() => {
+      return calculateCartCampaignDiscount(cart.items, campaigns);
+   }, [cart.items, campaigns]);
+
+   // Kampanya sonrası nihai toplam
+   const grandTotalAfterCampaign = Math.max(0, grandTotal - totalCampaignDiscount);
+
    const shippingCost = useMemo(() => {
-      return calculateShippingCost(shippingSettings, grandTotal, cart.totalItems);
-   }, [shippingSettings, grandTotal, cart.totalItems]);
+      return calculateShippingCost(shippingSettings, grandTotalAfterCampaign, cart.totalItems);
+   }, [shippingSettings, grandTotalAfterCampaign, cart.totalItems]);
 
    if (cart.items.length === 0) {
       return (
@@ -139,6 +149,27 @@ const Cart = () => {
             <div className="card" style={{ padding: '1.5rem', position: 'sticky', top: '2rem' }}>
                <h3 style={{ marginBottom: '1rem' }}>Sipariş Özeti</h3>
 
+               {/* Aktif kampanya bilgi bandı */}
+               {campaignDiscounts.length > 0 && (
+                  <div style={{
+                     display: 'flex',
+                     alignItems: 'center',
+                     gap: '0.5rem',
+                     background: 'linear-gradient(135deg, #fff0f0, #fff8f0)',
+                     border: '1px solid #fecaca',
+                     borderRadius: 'var(--radius-md)',
+                     padding: '0.6rem 0.75rem',
+                     marginBottom: '1rem',
+                     fontSize: '0.8rem',
+                     color: '#c53030'
+                  }}>
+                     <Tag size={14} />
+                     <span>
+                        <strong>{campaignDiscounts[0].buyQty} Al {campaignDiscounts[0].payQty} Öde</strong> kampanyası uygulandı!
+                     </span>
+                  </div>
+               )}
+
                <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: '1rem', marginBottom: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                      <span>Ürün Sayısı:</span>
@@ -150,8 +181,14 @@ const Cart = () => {
                   </div>
                   {totalDiscount > 0 && (
                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-danger)' }}>
-                        <span>İndirim:</span>
+                        <span>Ürün İndirimi:</span>
                         <span>-{totalDiscount.toFixed(2)} ₺</span>
+                     </div>
+                  )}
+                  {totalCampaignDiscount > 0 && (
+                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-danger)' }}>
+                        <span>🎁 Kampanya İndirimi:</span>
+                        <span>-{totalCampaignDiscount.toFixed(2)} ₺</span>
                      </div>
                   )}
                   <div style={{ display: 'flex', justifyContent: 'space-between', color: 'var(--color-text-secondary)' }}>
@@ -168,10 +205,10 @@ const Cart = () => {
 
                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: 'var(--font-weight-bold)', marginBottom: '1.5rem' }}>
                   <span>Toplam:</span>
-                  <span style={{ color: 'var(--color-primary)' }}>{(grandTotal + shippingCost).toFixed(2)} ₺</span>
+                  <span style={{ color: 'var(--color-primary)' }}>{(grandTotalAfterCampaign + shippingCost).toFixed(2)} ₺</span>
                </div>
 
-               {shippingSettings && shippingSettings.freeShippingEnabled && grandTotal < shippingSettings.freeShippingThreshold && (
+               {shippingSettings && shippingSettings.freeShippingEnabled && grandTotalAfterCampaign < shippingSettings.freeShippingThreshold && (
                   <div style={{
                      padding: '0.75rem',
                      background: 'var(--color-bg-secondary)',

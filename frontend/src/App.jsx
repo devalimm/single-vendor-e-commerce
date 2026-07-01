@@ -32,6 +32,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminProductForm from './pages/admin/AdminProductForm';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminDiscount from './pages/admin/AdminDiscount';
+import AdminCampaigns from './pages/admin/AdminCampaigns';
 import AdminVariations from './pages/admin/AdminVariations';
 import AdminShipping from './pages/admin/AdminShipping';
 import AdminCustomers from './pages/admin/AdminCustomers';
@@ -75,6 +76,7 @@ function AppContent() {
             <Route path="products/edit/:id" element={<AdminProductForm />} />
             <Route path="orders" element={<AdminOrders />} />
             <Route path="discounts" element={<AdminDiscount />} />
+            <Route path="campaigns" element={<AdminCampaigns />} />
             <Route path="variations" element={<AdminVariations />} />
             <Route path="shipping" element={<AdminShipping />} />
             <Route path="customers" element={<AdminCustomers />} />

@@ -2,13 +2,14 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
-import { ShoppingBag, User, MapPin, FileText, CreditCard, Loader, ChevronRight, ArrowLeft } from 'lucide-react';
+import { ShoppingBag, User, MapPin, FileText, CreditCard, Loader, ChevronRight, ArrowLeft, Tag } from 'lucide-react';
 import cities from '../data/cities.json';
 import allDistricts from '../data/districts.json';
 import api, { getImageUrl } from '../utils/api';
-import { calculateItemTotals, calculateCartTotals, calculateShippingCost } from '../utils/pricing';
+import { calculateItemTotals, calculateCartTotals, calculateShippingCost, calculateCartCampaignDiscount } from '../utils/pricing';
 import { useShippingSettings } from '../hooks/useShippingSettings';
 import { useCheckoutForm } from '../hooks/useCheckoutForm';
+import { useCampaigns } from '../hooks/useCampaigns';
 
 const VITE_API_URL = import.meta.env.VITE_API_URL;
 
@@ -21,6 +22,7 @@ const Checkout = () => {
    const [paymentLoading, setPaymentLoading] = useState(false);
 
    const { settings: shippingSettings } = useShippingSettings();
+   const { campaigns } = useCampaigns();
 const {
        formData,
        errors,
@@ -110,11 +112,17 @@ if (data.success) {
       return calculateCartTotals(cart.items);
    }, [cart.items]);
 
-   const shippingCost = useMemo(() => {
-      return calculateShippingCost(shippingSettings, grandTotal, cart.totalItems);
-   }, [shippingSettings, grandTotal, cart.totalItems]);
+   const { campaignDiscounts, totalCampaignDiscount } = useMemo(() => {
+      return calculateCartCampaignDiscount(cart.items, campaigns);
+   }, [cart.items, campaigns]);
 
-   const finalTotal = grandTotal + shippingCost;
+   const grandTotalAfterCampaign = Math.max(0, grandTotal - totalCampaignDiscount);
+
+   const shippingCost = useMemo(() => {
+      return calculateShippingCost(shippingSettings, grandTotalAfterCampaign, cart.totalItems);
+   }, [shippingSettings, grandTotalAfterCampaign, cart.totalItems]);
+
+   const finalTotal = grandTotalAfterCampaign + shippingCost;
 
    if (cart.items.length === 0) {
       return (
@@ -427,6 +435,26 @@ if (data.success) {
             <div className="card" style={{ padding: '1.5rem', position: 'sticky', top: '2rem', height: 'fit-content' }}>
                <h3 style={{ marginBottom: '1rem' }}>Sipariş Toplamı</h3>
 
+               {campaignDiscounts.length > 0 && (
+                  <div style={{
+                     display: 'flex',
+                     alignItems: 'center',
+                     gap: '0.5rem',
+                     background: 'linear-gradient(135deg, #fff0f0, #fff8f0)',
+                     border: '1px solid #fecaca',
+                     borderRadius: 'var(--radius-md)',
+                     padding: '0.6rem 0.75rem',
+                     marginBottom: '1rem',
+                     fontSize: '0.8rem',
+                     color: '#c53030'
+                  }}>
+                     <Tag size={14} />
+                     <span>
+                        <strong>{campaignDiscounts[0].buyQty} Al {campaignDiscounts[0].payQty} Öde</strong> kampanyası uygulandı!
+                     </span>
+                  </div>
+               )}
+
                <div style={{ borderBottom: '1px solid var(--color-border)', paddingBottom: '1rem', marginBottom: '1rem' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
                      <span>Ürün Sayısı:</span>
@@ -438,8 +466,14 @@ if (data.success) {
                   </div>
                   {totalDiscount > 0 && (
                      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-danger)' }}>
-                        <span>İndirim:</span>
+                        <span>Ürün İndirimi:</span>
                         <span>-{totalDiscount.toFixed(2)} ₺</span>
+                     </div>
+                  )}
+                  {totalCampaignDiscount > 0 && (
+                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-danger)' }}>
+                        <span>Kampanya İndirimi:</span>
+                        <span>-{totalCampaignDiscount.toFixed(2)} ₺</span>
                      </div>
                   )}
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem', color: 'var(--color-text-secondary)' }}>
@@ -459,12 +493,12 @@ if (data.success) {
                   <span style={{ color: 'var(--color-primary)' }}>{finalTotal.toFixed(2)} ₺</span>
                </div>
 
-               {shippingSettings && shippingSettings.freeShippingEnabled && grandTotal < shippingSettings.freeShippingThreshold && (
+               {shippingSettings && shippingSettings.freeShippingEnabled && grandTotalAfterCampaign < shippingSettings.freeShippingThreshold && (
                   <div style={{ marginTop: '1rem', padding: '0.75rem', background: 'var(--color-bg-secondary)', borderRadius: 'var(--radius-md)', fontSize: '0.875rem', textAlign: 'center' }}>
                      {shippingSettings.freeShippingThreshold.toFixed(0)} ₺ üzeri siparişlerde <strong>ücretsiz kargo!</strong>
                      <br />
                      <span style={{ color: 'var(--color-text-secondary)' }}>
-                        {(shippingSettings.freeShippingThreshold - grandTotal).toFixed(2)} ₺ daha ekleyin
+                        {(shippingSettings.freeShippingThreshold - grandTotalAfterCampaign).toFixed(2)} ₺ daha ekleyin
                      </span>
                   </div>
                )}

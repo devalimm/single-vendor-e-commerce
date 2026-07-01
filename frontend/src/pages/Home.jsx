@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import ProductSlider from '../components/ProductSlider';
+import { useCampaigns } from '../hooks/useCampaigns';
 
 const Home = () => {
    const navigate = useNavigate();
@@ -10,6 +11,7 @@ const Home = () => {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState('');
    const autoPlayRef = useRef(null);
+   const { campaigns } = useCampaigns();
 
    useEffect(() => {
       const fetchData = async () => {
@@ -111,7 +113,7 @@ const Home = () => {
                         Tümünü Gör
                      </Link>
                   </div>
-                  <ProductSlider items={products} />
+                  <ProductSlider items={products} activeCampaigns={campaigns} />
                </div>
             </section>
          )}
@@ -133,7 +135,7 @@ const Home = () => {
                         Tümünü Gör
                      </Link>
                   </div>
-                  <ProductSlider items={discountedProducts} />
+                  <ProductSlider items={discountedProducts} activeCampaigns={campaigns} />
                </div>
             </section>
          )}
@@ -155,7 +157,7 @@ const Home = () => {
                         Tümünü Gör
                      </Link>
                   </div>
-                  <ProductSlider items={bestSellers} />
+                  <ProductSlider items={bestSellers} activeCampaigns={campaigns} />
                </div>
             </section>
          )}

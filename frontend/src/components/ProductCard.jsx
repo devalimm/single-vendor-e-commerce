@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { getImageUrl } from '../utils/api';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, activeCampaigns = [] }) => {
    // Create a simple SVG placeholder
    const placeholderImage = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"%3E%3Crect fill="%23f0f0f0" width="300" height="400"/%3E%3Ctext fill="%23999" font-family="Arial" font-size="18" x="50%25" y="50%25" text-anchor="middle" dominant-baseline="middle"%3EResim Yok%3C/text%3E%3C/svg%3E';
 
@@ -10,6 +10,25 @@ const ProductCard = ({ product }) => {
       : placeholderImage;
 
    const hasDiscount = product.discount && product.discount.discountedPrice < product.basePrice;
+
+   // Bu ürüne uygulanabilecek aktif bir kampanya var mı?
+   const productId = product._id?.toString();
+   const categoryId = product.category?._id?.toString() || product.category?.toString();
+
+   const appliedCampaign = activeCampaigns.find(campaign => {
+      if (campaign.conditionScope === 'all_products') return true;
+      if (campaign.conditionScope === 'specific_category' && categoryId) {
+         return (campaign.targetCategories || []).some(
+            cat => (cat._id || cat).toString() === categoryId
+         );
+      }
+      if (campaign.conditionScope === 'specific_products') {
+         return (campaign.targetProducts || []).some(
+            prod => (prod._id || prod).toString() === productId
+         );
+      }
+      return false;
+   });
 
    return (
       <Link to={`/products/${product._id}`} className="product-card">
@@ -34,6 +53,11 @@ const ProductCard = ({ product }) => {
             {hasDiscount && (
                <span className="product-badge badge-discount">
                   %{product.discount.discountPercentage} İndirim
+               </span>
+            )}
+            {appliedCampaign && !hasDiscount && (
+               <span className="product-badge badge-campaign">
+                  {appliedCampaign.buyQty} Al {appliedCampaign.payQty} Öde
                </span>
             )}
          </div>
@@ -64,3 +88,4 @@ const ProductCard = ({ product }) => {
 };
 
 export default ProductCard;
+

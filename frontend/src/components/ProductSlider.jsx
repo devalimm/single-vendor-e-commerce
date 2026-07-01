@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 
 const getMaxSlide = (itemsLength, productsPerView) => Math.max(0, itemsLength - productsPerView);
 
-const ProductSlider = ({ items, initialSlide = 0 }) => {
+const ProductSlider = ({ items, initialSlide = 0, activeCampaigns = [] }) => {
    const [slide, setSlide] = useState(initialSlide);
    const [productsPerView, setProductsPerView] = useState(4);
 
@@ -75,7 +75,7 @@ const ProductSlider = ({ items, initialSlide = 0 }) => {
                         minWidth: `calc(${100 / productsPerView}% - ${(productsPerView - 1) * gap / productsPerView}px)`
                      }}
                   >
-                     <ProductCard product={product} />
+                     <ProductCard product={product} activeCampaigns={activeCampaigns} />
                   </div>
                ))}
             </div>
