@@ -111,6 +111,12 @@ const orderSchema = new mongoose.Schema({
       type: Number,
       required: true
    },
+   // Uygulanan kampanyalar (X al Y öde vb.)
+   campaignDiscounts: [{
+      campaignId: mongoose.Schema.Types.ObjectId,
+      campaignName: String,
+      discountAmount: Number
+   }],
 
    // Payment information
    paymentMethod: {

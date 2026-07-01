@@ -52,6 +52,45 @@ async function calculateShippingCost(subtotal, itemCount) {
     }
 }
 
+function roundMoney(value) {
+    return Math.round(value * 100) / 100;
+}
+
+function applyCampaignDiscountToBasketItems(basketItems, campaignDiscount) {
+    const discount = roundMoney(Number(campaignDiscount) || 0);
+    if (discount <= 0 || basketItems.length === 0) {
+        return basketItems;
+    }
+
+    const rawTotal = roundMoney(
+        basketItems.reduce((sum, item) => sum + Number(item.price || 0), 0)
+    );
+    const targetTotal = roundMoney(rawTotal - discount);
+
+    if (rawTotal <= 0 || targetTotal <= 0) {
+        return basketItems;
+    }
+
+    let runningTotal = 0;
+
+    return basketItems.map((item, index) => {
+        const rawPrice = Number(item.price || 0);
+        let adjustedPrice;
+
+        if (index === basketItems.length - 1) {
+            adjustedPrice = roundMoney(targetTotal - runningTotal);
+        } else {
+            adjustedPrice = roundMoney(rawPrice - (discount * (rawPrice / rawTotal)));
+            runningTotal = roundMoney(runningTotal + adjustedPrice);
+        }
+
+        return {
+            ...item,
+            price: adjustedPrice.toFixed(2)
+        };
+    });
+}
+
 // @desc    Initialize iyzico checkout form
 // @route   POST /api/payment/initialize
 // @access  Public
@@ -75,18 +114,22 @@ export const initializeCheckoutForm = async (req, res) => {
         }
 
         // Validate items, calculate prices (with discounts), check stock
-        const { orderItems, basketItems: rawBasketItems, subtotal } = await validateAndCalculateItems(items);
+        const { orderItems, basketItems: rawBasketItems, subtotal, campaignDiscounts, totalCampaignDiscount } = await validateAndCalculateItems(items);
 
-        // Map basket items to iyzico format
-        const basketItems = rawBasketItems.map(bi => ({
-            ...bi,
-            itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL
-        }));
+        // Kampanya indirimi subtotal'dan düşülür
+        const subtotalAfterCampaign = Math.max(0, subtotal - totalCampaignDiscount);
+
+        // Iyzico expects basketItems total to match price/paidPrice.
+        const basketItems = applyCampaignDiscountToBasketItems(rawBasketItems, totalCampaignDiscount)
+            .map(bi => ({
+                ...bi,
+                itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL
+            }));
 
         // Calculate shipping
-        const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
+        const shippingCost = await calculateShippingCost(subtotalAfterCampaign, orderItems.length);
         const tax = 0;
-        const total = subtotal + shippingCost + tax;
+        const total = subtotalAfterCampaign + shippingCost + tax;
 
         // Add shipping as a basket item if > 0
         if (shippingCost > 0) {
@@ -157,12 +200,13 @@ export const initializeCheckoutForm = async (req, res) => {
             conversationId,
             orderItems,
             shippingAddress,
-            subtotal,
+            subtotal: subtotalAfterCampaign,
             shippingCost,
             tax,
             total,
             customerNote,
-            userId: req.user?._id || null
+            userId: req.user?._id || null,
+            campaignDiscounts: campaignDiscounts || []
         });
 
         // Initialize checkout form
@@ -285,7 +329,8 @@ export const handleCallback = async (req, res) => {
                         customerNote: pendingOrder.customerNote,
                         iyzicoPaymentId: result.paymentId,
                         iyzicoConversationId: conversationId,
-                        iyzicoToken: token
+                        iyzicoToken: token,
+                        campaignDiscounts: pendingOrder.campaignDiscounts || []
                     });
 
                     console.log('Order created successfully:', order._id);

@@ -78,22 +78,26 @@ export const createGuestOrder = async (req, res) => {
       }
 
       // Validate items, calculate prices (with discounts), check stock
-      const { orderItems, subtotal } = await validateAndCalculateItems(items);
+      const { orderItems, subtotal, campaignDiscounts, totalCampaignDiscount } = await validateAndCalculateItems(items);
+
+      // Kampanya indirimi subtotal'dan düşülür
+      const subtotalAfterCampaign = Math.max(0, subtotal - totalCampaignDiscount);
 
       // Calculate shipping from admin settings
-      const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
+      const shippingCost = await calculateShippingCost(subtotalAfterCampaign, orderItems.length);
       const tax = 0;
-      const total = subtotal + shippingCost + tax;
+      const total = subtotalAfterCampaign + shippingCost + tax;
 
       const order = await Order.create({
          items: orderItems,
          shippingAddress,
-         subtotal,
+         subtotal: subtotalAfterCampaign,
          shippingCost,
          tax,
          total,
          paymentMethod: paymentMethod || 'cash_on_delivery',
-         customerNote
+         customerNote,
+         campaignDiscounts: campaignDiscounts || []
       });
 
       // Deduct stock after successful order creation
@@ -142,23 +146,27 @@ export const createOrder = async (req, res) => {
       }
 
       // Validate items, calculate prices (with discounts), check stock
-      const { orderItems, subtotal } = await validateAndCalculateItems(items);
+      const { orderItems, subtotal, campaignDiscounts, totalCampaignDiscount } = await validateAndCalculateItems(items);
+
+      // Kampanya indirimi subtotal'dan düşülür
+      const subtotalAfterCampaign = Math.max(0, subtotal - totalCampaignDiscount);
 
       // Calculate shipping from admin settings
-      const shippingCost = await calculateShippingCost(subtotal, orderItems.length);
+      const shippingCost = await calculateShippingCost(subtotalAfterCampaign, orderItems.length);
       const tax = 0;
-      const total = subtotal + shippingCost + tax;
+      const total = subtotalAfterCampaign + shippingCost + tax;
 
       const order = await Order.create({
          user: req.user._id,
          items: orderItems,
          shippingAddress,
-         subtotal,
+         subtotal: subtotalAfterCampaign,
          shippingCost,
          tax,
          total,
          paymentMethod: paymentMethod || 'cash_on_delivery',
-         customerNote
+         customerNote,
+         campaignDiscounts: campaignDiscounts || []
       });
 
       // Deduct stock after successful order creation

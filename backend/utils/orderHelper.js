@@ -1,6 +1,7 @@
 import Product from '../models/Product.js';
 import Variation from '../models/Variation.js';
 import { getActiveDiscounts } from './discountHelper.js';
+import { getActiveCampaigns, applyCampaignsToCart } from './campaignHelper.js';
 
 const MAX_QTY = 50;
 
@@ -89,11 +90,14 @@ export async function validateAndCalculateItems(items) {
       throw { status: 400, message: 'Sipariş boş olamaz.' };
    }
 
-   // Aktif indirimleri bir kez çek
+   // Aktif indirimleri ve kampanyaları bir kez çek
    const activeDiscounts = await getActiveDiscounts();
+   const activeCampaigns = await getActiveCampaigns();
 
    const orderItems = [];
    const basketItems = [];
+   // campaignHelper için ihtiyaç duyulan zenginleştirilmiş item listesi
+   const enrichedItems = [];
    let subtotal = 0;
 
    for (const item of items) {
@@ -209,6 +213,15 @@ export async function validateAndCalculateItems(items) {
          itemTotal
       });
 
+      // campaignHelper için zenginleştirilmiş item kaydı
+      enrichedItems.push({
+         product,
+         productName: product.name,
+         quantity: qty,
+         finalUnitPrice,
+         basePrice: product.basePrice
+      });
+
       // iyzico basket item (always needed, ignored for non-iyzico orders)
       basketItems.push({
          id: product._id.toString(),
@@ -219,7 +232,10 @@ export async function validateAndCalculateItems(items) {
       });
    }
 
-   return { orderItems, basketItems, subtotal };
+   // Kampanya indirimini hesapla (X al Y öde vb.)
+   const { campaignDiscounts, totalCampaignDiscount } = applyCampaignsToCart(enrichedItems, activeCampaigns);
+
+   return { orderItems, basketItems, subtotal, campaignDiscounts, totalCampaignDiscount };
 }
 
 /**

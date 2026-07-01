@@ -1,6 +1,6 @@
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { LayoutDashboard, Folder, ShoppingBag, Package, Home, LogOut, Percent, Layers, Truck, Users, Menu, X, BarChart3 } from 'lucide-react';
+import { LayoutDashboard, Folder, ShoppingBag, Package, Home, LogOut, Percent, Layers, Truck, Users, Menu, X, BarChart3, Tag } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const AdminLayout = () => {
@@ -27,6 +27,7 @@ const AdminLayout = () => {
       { path: '/admin/options', label: 'Opsiyonlar', icon: Package }, // Used Package for options and moved Box for Orders? Wait, let's keep it simple.
       { path: '/admin/orders', label: 'Siparişler', icon: Package },
       { path: '/admin/discounts', label: 'İndirimler', icon: Percent },
+      { path: '/admin/campaigns', label: 'Kampanyalar', icon: Tag },
       { path: '/admin/shipping', label: 'Kargo Ayarları', icon: Truck },
       { path: '/admin/customers', label: 'Müşteriler', icon: Users },
       { path: '/admin/reports', label: 'Raporlar', icon: BarChart3 },

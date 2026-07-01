@@ -52,6 +52,12 @@ const pendingOrderSchema = new mongoose.Schema({
     tax: Number,
     total: Number,
     customerNote: String,
+    // Uygulanan kampanya indirimleri (iyzico callback'te Order'a taşınır)
+    campaignDiscounts: [{
+        campaignId: mongoose.Schema.Types.ObjectId,
+        campaignName: String,
+        discountAmount: Number
+    }],
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
