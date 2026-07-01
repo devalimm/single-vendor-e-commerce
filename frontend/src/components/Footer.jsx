@@ -51,7 +51,7 @@ const Footer = () => {
                         </Link>
                      </li>
                      <li style={{ marginBottom: '0.5rem' }}>
-                        <Link to="/orders" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.9rem' }}>
+                        <Link to="/siparis-takip" style={{ color: 'var(--color-text-secondary)', textDecoration: 'none', fontSize: '0.9rem' }}>
                            Sipariş Takibi
                         </Link>
                      </li>
