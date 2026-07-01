@@ -746,6 +746,16 @@ button {
   color: white;
 }
 
+.badge-discount {
+  background: #e53e3e;
+  color: white;
+}
+
+.badge-campaign {
+  background: linear-gradient(135deg, #7c3aed, #a855f7);
+  color: white;
+}
+
 .product-info {
   padding: var(--spacing-md);
 }
@@ -771,7 +781,7 @@ button {
 .product-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 }
 
 .product-price {
@@ -818,9 +828,12 @@ button {
     font-size: var(--font-size-base);
   }
 
-  .product-price-original,
+  .product-price-original {
+    font-size: 0.7rem;
+  }
+
   .product-price-discount {
-    font-size: var(--font-size-sm);
+    font-size: var(--font-size-base);
   }
 }
 
@@ -2264,21 +2277,24 @@ button {
 /* Product Card — fiyat grubu */
 .product-price-group {
   display: flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
 }
 
 .product-price-original {
-  font-size: 0.85rem;
+  font-size: 0.78rem;
   color: var(--color-text-muted);
   text-decoration: line-through;
+  opacity: 0.7;
+  line-height: 1.2;
 }
 
 .product-price-discount {
-  font-size: 1.05rem;
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-bold);
   color: #e53e3e;
+  line-height: 1.2;
 }
 
 /* Product Detail — büyük fiyat alanı */
